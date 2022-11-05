@@ -10,7 +10,7 @@ public class main {
         try{
             Class.forName("com.mysql.cj.jdbc.Driver");
             String url = "jdbc:mysql://localhost/twitter";
-            String user = "root", passwd = "@@@@@@@";
+            String user = "root", passwd = "dong1084@";
             con = DriverManager.getConnection(url, user, passwd);
         }catch (ClassNotFoundException e){
             e.printStackTrace();
