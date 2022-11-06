@@ -14,6 +14,7 @@ import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.sql.Connection;
 
 import javax.swing.JTextField;
 import javax.swing.JTextPane;
@@ -97,15 +98,25 @@ public class Login extends JFrame {
 		contentPane.add(PasswordText);
 		
 		JButton LoginBtn = new JButton("Login");
-		LoginBtn.setBounds(37, 306, 97, 38);
+		LoginBtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String id = IDInput.getText();
+				String pw = PWInput.getText();
+				
+				Connection con = SQLMethods.GetCon();
+				SQLMethods.Login(con,id,pw);
+			}
+		});
+		LoginBtn.setBounds(51, 306, 97, 38);
 		contentPane.add(LoginBtn);
 		
 		JButton RegisterBtn = new JButton("Sign in");
 		RegisterBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				new Signin();
 			}
 		});
-		RegisterBtn.setBounds(146, 306, 97, 38);
+		RegisterBtn.setBounds(160, 306, 97, 38);
 		contentPane.add(RegisterBtn);
 		
 		setVisible(true);
