@@ -105,9 +105,10 @@ public class SQLMethods {
 
         return - 1;
     }
-    public static void WritePost(Connection connection, String user_id)
+    
+    
+    public static void WritePost(Connection connection, String user_id, String content, String[] imgs)
     {
-        Scanner keyboard = new Scanner(System.in);
         String post_id;
         Statement stmt = null;
         ResultSet rs = null;
@@ -125,8 +126,6 @@ public class SQLMethods {
 
             post_id = user_id + counts;
 
-            System.out.println("Enter a content:");
-            String content = keyboard.nextLine();
 
             Date date = new Date();
             java.sql.Date sqlDate = new java.sql.Date(date.getTime());
@@ -134,15 +133,15 @@ public class SQLMethods {
             q1 = "insert into posts values(\"" + post_id + "\", \"" + content + "\", \"" + user_id + "\", Date(\"" +sqlDate+"\"));";
             stmt.executeUpdate(q1);
 
-            System.out.println("Do you input images(Y/N)?");
-            String input = keyboard.nextLine();
+            int imgCount = imgs.length;
 
-            if(input.compareTo("Y") == 0)
+            if(imgCount > 0)
             {
                 int cnt = 0;
                 while(true){
-                    System.out.println("Enter a image directory(0 : exit):");
-                    String imDir = keyboard.nextLine();
+                	if(cnt == imgCount)
+                		break;
+                    String imDir = imgs[cnt];
 
                     if(imDir.compareTo("0") == 0)
                         break;
@@ -156,15 +155,16 @@ public class SQLMethods {
             e.printStackTrace();
         }
     }
-    public static void Follow(Connection connection, String user_id)
+    
+    // return 0 : unfollow
+    // return 1 : follow
+    // return 2 : cannot found
+    // return -1 : error
+    public static int Follow(Connection connection, String user_id, String follow_id)
     {
-        Scanner keyboard = new Scanner(System.in);
         Statement stmt = null;
         ResultSet rs = null;
-
-        System.out.println("Enter a id who you want follow: ");
-        String follow_id = keyboard.nextLine();
-
+        
         String q1 = "select user_id from user where user_id = \"" + follow_id + "\";";
 
         try {
@@ -177,26 +177,27 @@ public class SQLMethods {
                 ResultSet rs2 = stmt.executeQuery(q2);
                 if(rs2.next())
                 {
-                   // delete from follow where user_id = "jungsh0228" and follower_id = "abcd";
                     String q4 = "delete from follow where user_id = \"" + follow_id + "\" and follower_id = \""+user_id+"\";";
                     stmt.executeUpdate(q4);
-                    System.out.println("Already following. Unfollow " + follow_id);
+                    return 0;
                 }
                 else{
                 String q3 = "insert into follow values(\"" + follow_id + "\", \"" + user_id + "\");";
                 stmt.executeUpdate(q3);
+                return 1;
                 }
             }
-            else{
-                System.out.println("User cannot found.");
-            }
+                return 2;
+            
         }
         catch (SQLException e){
             e.printStackTrace();
         }
-
+        
+        return -1;
 
     }
+    
     public static void Followers(Connection connection, String user_id)
     {
         Statement stmt = null;
