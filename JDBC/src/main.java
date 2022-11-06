@@ -21,7 +21,10 @@ public class main {
 
         Scanner keyboard = new Scanner(System.in);
         String login_id = null;
-
+        
+        new Login();
+        
+  /*
         while(true){
             System.out.println("[0: Exit,  1: Search users, 2: log in,  3:Sign in,  4:write post,  5:follow,  6: followers]");
             System.out.println("[7: like,  8: likers  9:comment  10: comments  11: comment like  12: comment likers]");
@@ -98,6 +101,7 @@ public class main {
                 CommentLikers(str);
             }
         }
+     */
 
         try {
             if(con != null && !con.isClosed())
