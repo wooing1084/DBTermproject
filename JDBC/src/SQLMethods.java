@@ -3,7 +3,9 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Scanner;
 
 public class SQLMethods {	
@@ -27,6 +29,30 @@ public class SQLMethods {
         }
 		return connection;
 	}
+
+    public static ResultSet ExecuteQuery(Connection con, String q1){
+        ResultSet result = null;
+        try{
+            Statement stmt = con.createStatement();
+            result = stmt.executeQuery(q1);
+            return result;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    return result;
+    }
+
+    public static int ExecuteUpdate(Connection con, String q1){
+        int result = 0;
+        try{
+            Statement stmt = con.createStatement();
+            result = stmt.executeUpdate(q1);
+            return result;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
 	
 	public static String SearchUser(Connection connection){
         Statement stmt = null;
@@ -54,6 +80,8 @@ public class SQLMethods {
 
         return "";
     }
+	
+	// return 0 : 
     public static String Login(Connection con, String id, String pwd) {
         Statement stmt = null;
         ResultSet rs = null;
@@ -78,8 +106,8 @@ public class SQLMethods {
         return "";
     }
     
-    // return 0 : Sign in Success
-    // return 1 : ID already exists
+    // return 1 : Sign in Success
+    // return 0 : ID already exists
     // return -1 : error
     public static int Signin(Connection connection, String id, String pwd, String name) {
         Statement stmt = null;
@@ -93,11 +121,11 @@ public class SQLMethods {
                 rs = stmt.executeQuery(q1);
 
                 if(rs.next())
-                    return 1;
+                    return 0;
 
                 q1 = "insert into user values(\"" + id + "\", \"" + pwd + "\", \"" + name+ "\", \"\");";
                 stmt.executeUpdate(q1);
-                return 0;
+                return 1;
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -198,31 +226,31 @@ public class SQLMethods {
 
     }
     
-    public static void Followers(Connection connection, String user_id)
+    public static List<String> Followers(Connection connection, String user_id)
     {
         Statement stmt = null;
         String q1 = "select follower_id from follow where user_id = \"" + user_id + "\";";
+        
+        List<String> result = new ArrayList<String >();
 
         try {
             stmt = connection.createStatement();
             ResultSet rs = stmt.executeQuery(q1);
-
-            System.out.println("Followers");
             while (rs.next())
-            {
-                System.out.println(rs.getString(1));
-            }
+                result.add(rs.getString(1));
         }
         catch (SQLException e){
             e.printStackTrace();
         }
-    }
-    public static void Like(Connection connection, String user_id)
-    {
-        System.out.println("Enter a post_id what you like:");
-        Scanner input = new Scanner(System.in);
-        String post_id = input.nextLine();
 
+        return result;
+    }
+
+    //return 0 unlike
+    //return 1 like
+    //return -1 error
+    public static int Like(Connection connection, String user_id, String post_id)
+    {
         Statement stmt =null;
         ResultSet rs = null;
 
@@ -234,7 +262,7 @@ public class SQLMethods {
             if(!rs.next())
             {
                 System.out.println("Enter a wrong post id!");
-                return;
+                return -1;
             }
 
             q1 = "select * from post_like where liker_id = \"" + user_id + "\" and posts_post_id = \""  + post_id + "\";";
@@ -244,43 +272,47 @@ public class SQLMethods {
                 System.out.println("Already liked. Unlike.");
                 String q2 = "delete from post_like where liker_id = \"" + user_id +"\" and posts_post_id = \"" + post_id + "\";";
                 stmt.executeUpdate(q2);
+                return 0;
             }
             else{
                 String q2 = "insert into post_like values(\""+post_id + "\", \"" + user_id + "\");";
                 stmt.executeUpdate(q2);
+                return 1;
             }
         }catch (SQLException e){
             e.printStackTrace();
+            return -1;
         }
     }
-    public static void Likers(Connection connection, String post_id)
+    public static List<String> Likers(Connection connection, String post_id)
     {
         Statement stmt = null;
         String q1 = "select liker_id from post_like where posts_post_id = \"" + post_id + "\";";
+
+        List<String> result = new ArrayList<String>();
 
         try {
             stmt = connection.createStatement();
             ResultSet rs = stmt.executeQuery(q1);
 
-            System.out.println("Likers");
             while (rs.next())
-            {
-                System.out.println(rs.getString(1));
-            }
+               result.add(rs.getString(1));
         }
         catch (SQLException e){
             e.printStackTrace();
         }
+
+        return result;
     }
-    public static void WriteComment(Connection connection, String user_id)
+
+    //return 0 cannot write comment
+    //return 1 success write
+    //return -1 error
+    public static int WriteComment(Connection connection, String user_id, String post_id, String content)
     {
-        Scanner keyboard = new Scanner(System.in);
-        String post_id;
         Statement stmt = null;
         ResultSet rs = null;
 
-        System.out.println("Enter a post id");
-        post_id = keyboard.nextLine();
 
         try{
             stmt = connection.createStatement();
@@ -291,7 +323,7 @@ public class SQLMethods {
             if(!rs.next())
             {
                 System.out.println("Enter wrong post id!");
-                return;
+                return 0;
             }
 
             q1 = "select count(user_id) from comment where post_id = \"" + post_id + "\";";
@@ -305,21 +337,28 @@ public class SQLMethods {
             }
 
             System.out.println("Enter a content:");
-            String content = keyboard.nextLine();
 
             Date date = new Date();
             java.sql.Date sqlDate = new java.sql.Date(date.getTime());
 
             q1 = "insert into comment values(\"" + comment_id + "\", \"" + content + "\", \"" + user_id + "\", \"" + post_id + "\", Date(\"" +sqlDate+"\"));";
             stmt.executeUpdate(q1);
+
+            return 1;
         }catch (SQLException e){
             e.printStackTrace();
+
+            return -1;
         }
     }
-    public static void Comments(Connection connection, String post_id)
+
+    //
+    public static List<Comment> Comments(Connection connection, String post_id)
     {
         Statement stmt = null;
         String q1 = "select * from comment where post_id = \"" + post_id + "\";";
+
+        List<Comment> result = new ArrayList<Comment>();
 
         try {
             stmt = connection.createStatement();
@@ -335,12 +374,14 @@ public class SQLMethods {
         catch (SQLException e){
             e.printStackTrace();
         }
-    }
-    public static void CommentLike(Connection connection, String user_id){
-        System.out.println("Enter a Comment what you like:");
-        Scanner input = new Scanner(System.in);
-        String comment_id = input.nextLine();
 
+        return result;
+    }
+
+    //return 0 unlike
+    //return 1 like
+    //return -1 error
+    public static int CommentLike(Connection connection, String user_id, String comment_id){
         Statement stmt =null;
         ResultSet rs = null;
 
@@ -350,46 +391,47 @@ public class SQLMethods {
             rs = stmt.executeQuery(q1);
 
             if(!rs.next())
-            {
-                System.out.println("Enter a wrong comment id!");
-                return;
-            }
+                return -1;
+
 
             q1 = "select * from comment_like where userr_id = \"" + user_id + "\";";
             rs = stmt.executeQuery(q1);
             if(rs.next())
             {
-                System.out.println("Already liked. Unlike.");
                 String q2 = "delete from comment_like where userr_id = \"" + user_id +"\" and comment_id = \"" + comment_id + "\";";
                 stmt.executeUpdate(q2);
+                return 0;
             }
             else{
                 String q2 = "insert into comment_like values(\""+comment_id + "\", \"" + user_id + "\");";
                 stmt.executeUpdate(q2);
+                return 1;
             }
         }catch (SQLException e){
             e.printStackTrace();
+            return -1;
         }
 
     }
-    public static void CommentLikers(Connection connection, String comment_id)
+    public static List<String> CommentLikers(Connection connection, String comment_id)
     {
         Statement stmt = null;
         String q1 = "select userr_id from comment_like where comment_id = \"" + comment_id + "\";";
-
+        List<String> result = new ArrayList<String>();
         try {
             stmt = connection.createStatement();
             ResultSet rs = stmt.executeQuery(q1);
 
-            System.out.println("Likers");
             while (rs.next())
             {
-                System.out.println(rs.getString(1));
+               result.add(rs.getString(1));
             }
         }
         catch (SQLException e){
             e.printStackTrace();
         }
+
+        return result;
     }
 
 }

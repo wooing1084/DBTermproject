@@ -74,14 +74,16 @@ public class Signin extends JFrame {
 				Connection con = SQLMethods.GetCon();
 				int result = SQLMethods.Signin(con,id,pw,name);
 				
-				if(result == 1)
+				if(result == 0)
 				{
 					new CustomDialog("Dialog", "ID is already exists!");
 				}
-				else {
+				else if(result == 1){
 					new CustomDialog("Dialog", "Sign in Success!");
 					dispose();					
 				}
+				else
+					new CustomDialog("Dialog", "Error!");
 				
 			}
 		});

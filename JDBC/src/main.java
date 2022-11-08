@@ -1,30 +1,22 @@
 import java.sql.*;
 import java.util.Date;
+import java.util.List;
 import java.util.Scanner;
 
 public class main {
     static Connection con =  null;
     public static void main(String[] args)
     {
-        con =  null;
-        try{
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            String url = "jdbc:mysql://localhost/twitter";
-            String user = "root", passwd = "dong1084@";
-            con = DriverManager.getConnection(url, user, passwd);
-        }catch (ClassNotFoundException e){
-            e.printStackTrace();
-        }
-        catch (SQLException e){
-            e.printStackTrace();
-        }
-
+        con = SQLMethods.GetCon();
         Scanner keyboard = new Scanner(System.in);
         String login_id = null;
         
         new Login();
-        
-        
+
+        List<String> followers = SQLMethods.Likers(con, "1234");
+        System.out.println(followers);
+
+
   /*	JDBC과거 사용 예제(참고용)
         while(true){
             System.out.println("[0: Exit,  1: Search users, 2: log in,  3:Sign in,  4:write post,  5:follow,  6: followers]");
