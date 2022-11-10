@@ -28,13 +28,11 @@ public class Login extends JFrame {
 		contentPane.setBackground(new Color(120, 186, 239));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		
-
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
 		ImageIcon logoImage = null;
 		ImageIcon logoText = null;
-
 
 		logoImage = ImageManager.GetImage("src/assets/logo.png", 100, 100);
 		logoText = ImageManager.GetImage("src/assets/logoText.png", 259, 38);
@@ -75,7 +73,11 @@ public class Login extends JFrame {
 				String pw = PWInput.getText();
 				
 				Connection con = SQLMethods.GetCon();
-				SQLMethods.Login(con,id,pw);
+				ClientInformation.Logined_id = SQLMethods.Login(con,id,pw);
+				
+				new MainFeed();
+				dispose();
+				
 			}
 		});
 		LoginBtn.setBounds(51, 306, 97, 38);
@@ -91,6 +93,5 @@ public class Login extends JFrame {
 		contentPane.add(RegisterBtn);
 		
 		setVisible(true);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 }
