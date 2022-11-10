@@ -34,8 +34,10 @@ public class Login extends JFrame {
 		ImageIcon logoImage = null;
 		ImageIcon logoText = null;
 
-		logoImage = ImageManager.GetImage("src/assets/logo.png", 100, 100);
-		logoText = ImageManager.GetImage("src/assets/logoText.png", 259, 38);
+		
+		logoImage = ImageManager.GetImageUsingFileSystem("src/assets/logo.png", 100, 100);
+	
+		logoText = ImageManager.GetImageUsingFileSystem("src/assets/logoText.png", 259, 38);
 		
 		JLabel Logo = new JLabel(logoImage);
 		Logo.setBackground(new Color(133, 251, 254));
