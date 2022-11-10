@@ -27,8 +27,6 @@ public class Login extends JFrame {
 		contentPane = new JPanel();
 		contentPane.setBackground(new Color(120, 186, 239));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-
-		System.out.println("테스트입니다.");
 		
 
 		setContentPane(contentPane);
