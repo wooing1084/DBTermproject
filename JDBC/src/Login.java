@@ -1,24 +1,12 @@
-import java.awt.EventQueue;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import java.awt.Color;
-import javax.swing.JScrollPane;
-import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
-import java.awt.FlowLayout;
-import java.awt.Image;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
 import java.sql.Connection;
-
 import javax.swing.JTextField;
-import javax.swing.JTextPane;
-import javax.swing.Icon;
 import java.awt.Font;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -46,27 +34,10 @@ public class Login extends JFrame {
 		
 		ImageIcon logoImage = null;
 		ImageIcon logoText = null;
-		
-		try {
-			BufferedImage img = ImageIO.read(this.getClass().getResource("assets/logo.png"));
-			
-			//logotext 읽기 오류
-			BufferedImage img2 = ImageIO.read(this.getClass().getResource("assets/logo.png"));
-			
-			logoImage = new ImageIcon(img);
-			logoText = new ImageIcon(img2);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		Image temp = logoImage.getImage();
-		Image changeTemp = temp.getScaledInstance(100,100, Image.SCALE_SMOOTH);
-		logoImage = new ImageIcon(changeTemp);
-		
-		temp = logoText.getImage();
-		changeTemp = temp.getScaledInstance(259,38, Image.SCALE_SMOOTH);
-		logoText = new ImageIcon(changeTemp);
+
+
+		logoImage = ImageManager.GetImage("src/assets/logo.png", 100, 100);
+		logoText = ImageManager.GetImage("src/assets/logoText.png", 259, 38);
 		
 		JLabel Logo = new JLabel(logoImage);
 		Logo.setBackground(new Color(133, 251, 254));

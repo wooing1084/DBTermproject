@@ -265,12 +265,12 @@ public class SQLMethods {
                 return -1;
             }
 
-            q1 = "select * from post_like where liker_id = \"" + user_id + "\" and posts_post_id = \""  + post_id + "\";";
+            q1 = "select * from post_like where liker_id = \"" + user_id + "\" and post_id = \""  + post_id + "\";";
             rs = stmt.executeQuery(q1);
             if(rs.next())
             {
                 System.out.println("Already liked. Unlike.");
-                String q2 = "delete from post_like where liker_id = \"" + user_id +"\" and posts_post_id = \"" + post_id + "\";";
+                String q2 = "delete from post_like where liker_id = \"" + user_id +"\" and post_id = \"" + post_id + "\";";
                 stmt.executeUpdate(q2);
                 return 0;
             }
@@ -287,7 +287,7 @@ public class SQLMethods {
     public static List<String> Likers(Connection connection, String post_id)
     {
         Statement stmt = null;
-        String q1 = "select liker_id from post_like where posts_post_id = \"" + post_id + "\";";
+        String q1 = "select liker_id from post_like where post_id = \"" + post_id + "\";";
 
         List<String> result = new ArrayList<String>();
 
@@ -322,7 +322,6 @@ public class SQLMethods {
 
             if(!rs.next())
             {
-                System.out.println("Enter wrong post id!");
                 return 0;
             }
 
@@ -335,8 +334,6 @@ public class SQLMethods {
                 cnt++;
                 comment_id = post_id+ "C" + cnt;
             }
-
-            System.out.println("Enter a content:");
 
             Date date = new Date();
             java.sql.Date sqlDate = new java.sql.Date(date.getTime());
@@ -394,11 +391,11 @@ public class SQLMethods {
                 return -1;
 
 
-            q1 = "select * from comment_like where userr_id = \"" + user_id + "\";";
+            q1 = "select * from comment_like where user_id = \"" + user_id + "\";";
             rs = stmt.executeQuery(q1);
             if(rs.next())
             {
-                String q2 = "delete from comment_like where userr_id = \"" + user_id +"\" and comment_id = \"" + comment_id + "\";";
+                String q2 = "delete from comment_like where user_id = \"" + user_id +"\" and comment_id = \"" + comment_id + "\";";
                 stmt.executeUpdate(q2);
                 return 0;
             }
@@ -416,7 +413,7 @@ public class SQLMethods {
     public static List<String> CommentLikers(Connection connection, String comment_id)
     {
         Statement stmt = null;
-        String q1 = "select userr_id from comment_like where comment_id = \"" + comment_id + "\";";
+        String q1 = "select user_id from comment_like where comment_id = \"" + comment_id + "\";";
         List<String> result = new ArrayList<String>();
         try {
             stmt = connection.createStatement();
