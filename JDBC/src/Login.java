@@ -75,8 +75,13 @@ public class Login extends JFrame {
 				String pw = PWInput.getText();
 				
 				Connection con = SQLMethods.GetCon();
-				ClientInformation.Logined_id = SQLMethods.Login(con,id,pw);
+				String result = SQLMethods.Login(con,id,pw);
 				
+				if(result == "")
+					return;
+				
+				ClientInformation.Logined_id = result;
+				 
 				new MainFeed();
 				dispose();
 				

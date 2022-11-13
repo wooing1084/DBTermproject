@@ -18,7 +18,12 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.JTextPane;
 import java.awt.FlowLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.io.Serializable;
+import javax.swing.JButton;
 
 @SuppressWarnings("serial")
 public class PostPanel extends JPanel{
@@ -35,6 +40,7 @@ public class PostPanel extends JPanel{
 		
 		panel = new JPanel();
 		panel.setBounds(0, 0, 464, 200);
+		panel.setBackground(new Color(255, 255, 255));
 		panel.setLayout(null);
 		add(panel);
 		
@@ -62,6 +68,17 @@ public class PostPanel extends JPanel{
 		scroll.setBounds(12, 65, 428, 100);
 		panel.add(scroll);
 		
+		JButton moreBtn = new JButton("more");
+		moreBtn.setBounds(12, 167, 97, 23);
+		moreBtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				
+			}
+		});
+		
+		panel.add(moreBtn);
+		
 		JTextPane text = new JTextPane();
 		text.setText(post.content);
 		scroll.setViewportView(text);
@@ -71,8 +88,8 @@ public class PostPanel extends JPanel{
 	 * @wbp.parser.constructor
 	 */
 	public PostPanel(Post post, List<String> imgs) {
-		setBounds(0, 0, 464, 300);
-		setPreferredSize(new Dimension(464,300));
+		setBounds(0, 0, 464, 320);
+		setPreferredSize(new Dimension(464,320));
 		setBorder(new LineBorder(new Color(0, 0, 0), 2));
 		setBackground(new Color(255, 255, 255));		
 		setLayout(null);
@@ -80,8 +97,9 @@ public class PostPanel extends JPanel{
 		user = new User(post.user_id);
 		
 		panel = new JPanel();
+		panel.setBackground(new Color(255, 255, 255));
 		panel.setBorder(new LineBorder(new Color(0, 0, 0)));
-		panel.setBounds(0, 0, 464, 300);
+		panel.setBounds(0, 0, 464, 320);
 		panel.setLayout(null);
 		add(panel);
 		
@@ -118,9 +136,21 @@ public class PostPanel extends JPanel{
 		panel.add(imageScroll);
 
 		JPanel images = new JPanel();
+		images.setBackground(new Color(255, 255, 255));
 		images.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 		imageScroll.add(images);
 		imageScroll.setViewportView(images);
+		
+		JButton moreBtn = new JButton("more");
+		moreBtn.setBounds(12, 290, 97, 23);
+		moreBtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				
+			}
+		});
+		
+		panel.add(moreBtn);
 		
 		for(int i =0;i<imgs.size(); i++) {
 			ImageIcon img = ImageManager.GetImageUsingURL(imgs.get(i), 100,100);
