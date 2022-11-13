@@ -9,9 +9,9 @@ public class main {
     public static void main(String[] args)
     {
         con = SQLMethods.GetCon();        
-        //new Login();
+        new Login();
   
-       new MainFeed();
+        //new MainFeed();
        
 
         try {

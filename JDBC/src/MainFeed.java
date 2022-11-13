@@ -22,6 +22,8 @@ import java.awt.GridLayout;
 import java.awt.GridBagLayout;
 import javax.swing.BoxLayout;
 import javax.swing.SpringLayout;
+import javax.swing.JLayeredPane;
+import java.awt.Component;
 
 public class MainFeed extends JFrame {
 
@@ -31,25 +33,25 @@ public class MainFeed extends JFrame {
 	 */
 	public MainFeed() {
 		setBackground(new Color(255, 255, 255));
-		setBounds(100, 100, 480, 801);
+		setBounds(100, 100, 480, 800);
 		setTitle("Twitter");
 		
 		contentPane = new JPanel();
 		contentPane.setBackground(new Color(255, 255, 255));
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
 		setContentPane(contentPane);
-		contentPane.setLayout(null);
+		contentPane.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 0));
 		
 		JPanel appbar = new JPanel();
 		appbar.setBackground(new Color(255, 255, 255));
-		appbar.setBounds(0, 0, 464, 60);
+		appbar.setPreferredSize(new Dimension(464,65));
 		appbar.setLayout(null);
 		contentPane.add(appbar);
 		
 		ImageIcon logo = ImageManager.GetImageUsingFileSystem("src/assets/logo.png", 50,50);
 		
 		JLabel Logo = new JLabel(logo);
+		//Logo.setPreferredSize(new Dimension(50,50));
 		Logo.setBounds(200, 5, 50, 50);
 		appbar.add(Logo);
 		
@@ -63,71 +65,53 @@ public class MainFeed extends JFrame {
 		SearchBtn.setBounds(402, 5, 50, 50);
 		appbar.add(SearchBtn);
 		
+			
 		
-//		JScrollPane imageScroll = new JScrollPane();
-//		imageScroll.setBounds(12, 175, 428, 115);
-//		panel.add(imageScroll);
-//
-//		JPanel images = new JPanel();
-//		images.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
-//		imageScroll.add(images);
-//		imageScroll.setViewportView(images);
-//		
-//		for(int i =0;i<imgs.size(); i++) {
-//			ImageIcon img = ImageManager.GetImageUsingURL(imgs.get(i), 100,100);
-//			JLabel imgLabel = new JLabel(img);
-//			imgLabel.setSize(100,100);
-//			images.add(imgLabel);
-//			
-//		}
+		//-------------
 		
-
+		JLayeredPane layeredPane = new JLayeredPane();
+		layeredPane.setPreferredSize(new Dimension(464, 695));
+		contentPane.add(layeredPane);
 		
-		//메인페이지에서 Scrollpane에 post를 모아놓은 pane을 넣는다.
-		//scrollpane을 contentPane에 add한다.
-		//- 이 방식ㅇ ㅣ지금 안되는 상황
-		//예상 이유로는 posts 패널에서 flow레이아웃으로 해놓고
-		//렌더할때 렌더가 안됨
-		//방법 1
-		//---------------------------------
-//		JScrollPane scrollBar = new JScrollPane();
-//		//scrollBar.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
-//		scrollBar.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
-//		scrollBar.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-//		scrollBar.setBounds(0, 60, 464, 702);
-//		contentPane.add(scrollBar);
-//		
-//		
-//		JPanel posts = new JPanel();
-//		scrollBar.setViewportView(posts);
-//		posts.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
-//		posts.setBounds(0,60,464,702);
-//		
-//		for(int i =0;i<3;i++) {
-//			Post p = new Post("abcd1");
-//			PostPanel post = new PostPanel(p, p.images);
-//			post.setSize(454, 300);
-//			
-//			posts.add(post);
-//			
-//		}
-//		
-//		contentPane.add(posts);
+		JPanel posts = new JPanel();
+		posts.setLayout(new BoxLayout(posts, BoxLayout.Y_AXIS));
+		//posts.setPreferredSize(new Dimension(464, 695));
+		
+		Post p = new Post("abcd1");
+		PostPanel p1 = new PostPanel(p,p.images);
+		posts.add(p1);
+		
+		PostPanel p4 = new PostPanel(p);
+		posts.add(p4);
+		
+		PostPanel p2 = new PostPanel(p,p.images);
+		p2.setPreferredSize(new Dimension(464,300));
+		posts.add(p2);
+		
+		PostPanel p3 = new PostPanel(p,p.images);
+		p3.setPreferredSize(new Dimension(464,300));
+		posts.add(p3);
+		
+		
+		
+		JScrollPane scrollPane = new JScrollPane(posts);
+		scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+		scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+		scrollPane.setSize(464, 695);
+		layeredPane.add(scrollPane);
+		
+		ImageIcon plusImage = ImageManager.GetImageUsingFileSystem("src/assets/UI/plus.png", 50, 50);
+		JLabel WriteBtn = new JLabel(plusImage);
+		WriteBtn.setBounds(0, 0, 50, 50);
 	
-
-		//일반 좌표 지정 렌더
-		//--------------------------------
-		
-//		
-		for(int i =0;i<3;i++) {
-			Post p = new Post("abcd1");
-			PostPanel post = new PostPanel(p, p.images);
-			post.setSize(464, 300);
-			post.setLocation(0, 70 + 300 * i);
-			
-			contentPane.add(post);
-			
-		}
+		JPanel btnPanel = new JPanel();
+		layeredPane.setLayer(btnPanel, 1);
+		btnPanel.setLocation(395, 635);
+		btnPanel.setBackground(new Color(255, 0,0,0));
+		btnPanel.setSize(50, 50);
+		btnPanel.setLayout(null);
+		btnPanel.add(WriteBtn);
+		layeredPane.add(btnPanel);	
 	
 		setVisible(true);
 	}

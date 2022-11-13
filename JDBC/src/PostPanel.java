@@ -1,4 +1,5 @@
 import java.awt.Color;
+import java.awt.Dimension;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -17,18 +18,22 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.JTextPane;
 import java.awt.FlowLayout;
+import java.io.Serializable;
 
-public class PostPanel extends JPanel {
+@SuppressWarnings("serial")
+public class PostPanel extends JPanel{
 	User user;
-
+	JPanel panel;
+	
 	public PostPanel(Post post) {
+		setPreferredSize(new Dimension(464,200));
 		setBorder(new LineBorder(new Color(0, 0, 0), 2));
 		setBackground(new Color(255, 255, 255));		
 		setLayout(null);
 		
 		user = new User(post.user_id);
 		
-		JPanel panel = new JPanel();
+		panel = new JPanel();
 		panel.setBounds(0, 0, 464, 200);
 		panel.setLayout(null);
 		add(panel);
@@ -58,7 +63,7 @@ public class PostPanel extends JPanel {
 		panel.add(scroll);
 		
 		JTextPane text = new JTextPane();
-		text.setText("sssss\r\r\nsssss\r\r\nsssss\r\r\nsssss\r\r\nsssss\r\r\nsssss\r\r\nsssss\r\r\nsssss\r\r\nsssss\r\r\nsssss\r\r\n");
+		text.setText(post.content);
 		scroll.setViewportView(text);
 	}
 	
@@ -67,13 +72,15 @@ public class PostPanel extends JPanel {
 	 */
 	public PostPanel(Post post, List<String> imgs) {
 		setBounds(0, 0, 464, 300);
+		setPreferredSize(new Dimension(464,300));
 		setBorder(new LineBorder(new Color(0, 0, 0), 2));
 		setBackground(new Color(255, 255, 255));		
 		setLayout(null);
 		
 		user = new User(post.user_id);
 		
-		JPanel panel = new JPanel();
+		panel = new JPanel();
+		panel.setBorder(new LineBorder(new Color(0, 0, 0)));
 		panel.setBounds(0, 0, 464, 300);
 		panel.setLayout(null);
 		add(panel);
@@ -103,7 +110,7 @@ public class PostPanel extends JPanel {
 		panel.add(scroll);
 		
 		JTextPane text = new JTextPane();
-		text.setText(post.post_id + "sssss\r\r\nsssss\r\r\nsssss\r\r\nsssss\r\r\nsssss\r\r\nsssss\r\r\nsssss\r\r\nsssss\r\r\nsssss\r\r\nsssss\r\r\n");
+		text.setText(post.content);
 		scroll.setViewportView(text);
 		
 		JScrollPane imageScroll = new JScrollPane();
