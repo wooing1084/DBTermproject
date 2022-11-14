@@ -16,25 +16,41 @@ public class CommentPanel extends JPanel {
 	/**
 	 * Create the panel.
 	 */
-	public CommentPanel(String c_id) {
+	public CommentPanel(Comment comment) {
 		setLayout(null);
 		setPreferredSize(new Dimension(450,100));
 		
-		JLabel profileIcon = new JLabel("");
+		String q1 = "select profile_Image_dir from user where user_id = \"" + comment.user_id + "\";";
+		ResultSet rs = SQLMethods.ExecuteQuery(SQLMethods.GetCon(), q1);
+		
+		String imgUrl = "";
+		try {
+			if(rs.next()) {
+				imgUrl = rs.getString(1);
+			}
+			if(imgUrl.compareTo("") == 0)  
+				imgUrl = "https://play-lh.googleusercontent.com/38AGKCqmbjZ9OuWx4YjssAz3Y0DTWbiM5HB0ove1pNBq_o9mtWfGszjZNxZdwt_vgHo";
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
+		ImageIcon pImage = ImageManager.GetImageUsingURL(imgUrl, 50, 50);
+		JLabel profileIcon = new JLabel(pImage);
 		profileIcon.setBounds(5, 5, 50, 50);
 		profileIcon.setBackground(new Color(128, 255, 128));
 		profileIcon.setPreferredSize(new Dimension(50,50));
 		add(profileIcon);
 		
 		JPanel commentInfo = new JPanel();
-		commentInfo.setBounds(60, 5, 300, 23);
+		commentInfo.setBounds(60, 5, 300, 20);
 		add(commentInfo);
-		commentInfo.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+		commentInfo.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 5));
 		
-		JLabel userID = new JLabel("");
+		JLabel userID = new JLabel(comment.user_id);
 		commentInfo.add(userID);
 		
-		JLabel date = new JLabel("");
+		JLabel date = new JLabel(comment.date.toString());
 		commentInfo.add(date);
 		
 		JScrollPane scrollPane = new JScrollPane();
@@ -42,6 +58,7 @@ public class CommentPanel extends JPanel {
 		add(scrollPane);
 		
 		JTextPane commentContent = new JTextPane();
+		commentContent.setText(comment.content);
 		commentContent.setEditable(false);
 		scrollPane.setViewportView(commentContent);
 		
@@ -57,9 +74,9 @@ public class CommentPanel extends JPanel {
 		add(panel);
 		
 		
-		String q1 = "select count(user_id) from comment_like where comment_id = \"" + c_id + "\";";
+		q1 = "select count(user_id) from comment_like where comment_id = \"" + comment.comment_id + "\";";
 		Connection con = SQLMethods.GetCon();
-		ResultSet rs = SQLMethods.ExecuteQuery(con, q1);
+		rs = SQLMethods.ExecuteQuery(con, q1);
 		int cnt = 0;
 		try {
 			if(rs.next()) {
@@ -72,7 +89,7 @@ public class CommentPanel extends JPanel {
 		
 
 		
-		q1 = "select like_id from comment_like where comment_id = \"" + c_id + "\" and  user_id = \"" + ClientInformation.Logined_id + "\";";
+		q1 = "select like_id from comment_like where comment_id = \"" + comment.comment_id + "\" and  user_id = \"" + ClientInformation.Logined_id + "\";";
 		rs = SQLMethods.ExecuteQuery(con, q1);
 		
 		

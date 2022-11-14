@@ -19,6 +19,7 @@ public class Signin extends JFrame {
 	private JTextField IDTextField;
 	private JTextField PWTextField;
 	private JTextField NameTextField;
+	private JTextField EMailText;
 
 	/**
 	 * Create the frame.
@@ -63,16 +64,28 @@ public class Signin extends JFrame {
 		NameText.setBounds(12, 153, 55, 19);
 		contentPane.add(NameText);
 		
+		EMailText = new JTextField();
+		EMailText.setColumns(10);
+		EMailText.setBounds(65, 184, 206, 38);
+		contentPane.add(EMailText);
+		
+		JLabel lblEmail = new JLabel("e-mail:");
+		lblEmail.setFont(new Font("±¼¸²", Font.PLAIN, 16));
+		lblEmail.setBounds(12, 195, 55, 19);
+		contentPane.add(lblEmail);
+		
+		
 		JButton SigninBtn = new JButton("Sign in");
-		SigninBtn.setBounds(117, 190, 97, 23);
+		SigninBtn.setBounds(118, 232, 97, 23);
 		SigninBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String id = IDTextField.getText();
 				String pw = PWTextField.getText();
 				String name = NameTextField.getText();
+				String email = EMailText.getText();
 				
 				Connection con = SQLMethods.GetCon();
-				int result = SQLMethods.Signin(con,id,pw,name);
+				int result = SQLMethods.Signin(con,id,pw,name,email);
 				
 				if(result == 0)
 				{
@@ -89,7 +102,8 @@ public class Signin extends JFrame {
 		});
 		
 		contentPane.add(SigninBtn);
+		
+		
 		setVisible(true);
 	}
-
 }

@@ -9,8 +9,8 @@ import java.util.List;
 import java.util.Scanner;
 
 public class SQLMethods {	
-	//Connection �޴� �Լ�(SQLMethods�� �Լ��� �� Connection ���ڰ��� ���)
-	//MYSQL���� �� ������ connection��ü�� ��ȯ�Ѵ�.
+	//Connection 占쌨댐옙 占쌉쇽옙(SQLMethods占쏙옙 占쌉쇽옙占쏙옙 占쏙옙載� Connection 占쏙옙占쌘곤옙占쏙옙 占쏙옙占�)
+	//MYSQL占쏙옙占쏙옙 占쏙옙 占쏙옙占쏙옙占쏙옙 connection占쏙옙체占쏙옙 占쏙옙환占싼댐옙.
 	public static Connection con;
 	
 	public static void init() {
@@ -19,8 +19,8 @@ public class SQLMethods {
         try{
             Class.forName("com.mysql.cj.jdbc.Driver");
             String url = "jdbc:mysql://localhost/twitter";
-            //paswd�κ� ���κ��� ���� �ʿ�
-            String user = "root", passwd = "*1378jj*";
+            //paswd占싸븝옙 占쏙옙占싸븝옙占쏙옙 占쏙옙占쏙옙 占십울옙
+            String user = "root", passwd = "dong1084@";
             connection = DriverManager.getConnection(url, user, passwd);
         }catch (ClassNotFoundException e){
             e.printStackTrace();
@@ -116,7 +116,7 @@ public class SQLMethods {
     // return 1 : Sign in Success
     // return 0 : ID already exists
     // return -1 : error
-    public static int Signin(Connection connection, String id, String pwd, String name) {
+    public static int Signin(Connection connection, String id, String pwd, String name, String email) {
         Statement stmt = null;
         ResultSet rs = null;
 
@@ -130,7 +130,7 @@ public class SQLMethods {
                 if(rs.next())
                     return 0;
 
-                q1 = "insert into user values(\"" + id + "\", \"" + pwd + "\", \"" + name+ "\", \"\");";
+                q1 = "insert into user values(\"" + id + "\", \"" + pwd + "\", \"" + name+ "\", \"\", \"" + email+"\");";
                 stmt.executeUpdate(q1);
                 return 1;
 
@@ -315,7 +315,7 @@ public class SQLMethods {
     //return 0 cannot write comment
     //return 1 success write
     //return -1 error
-    public static int WriteComment(Connection connection, String user_id, String post_id, String content)
+    public static int WriteComment(Connection connection, String user_id, String post_id, String content, String parentComment)
     {
         Statement stmt = null;
         ResultSet rs = null;
@@ -345,7 +345,12 @@ public class SQLMethods {
             Date date = new Date();
             java.sql.Date sqlDate = new java.sql.Date(date.getTime());
 
-            q1 = "insert into comment values(\"" + comment_id + "\", \"" + content + "\", \"" + user_id + "\", \"" + post_id + "\", Date(\"" +sqlDate+"\"));";
+            q1 = "insert into comment values(\"" + comment_id + "\", \"" + content + "\", \"" + user_id + "\", \"" + post_id + "\", Date(\"" +sqlDate+"\"),";
+            
+            if(parentComment == null)
+            	q1 += "Null);";
+            else
+            	q1 += "\"" + parentComment + "\";";
             stmt.executeUpdate(q1);
 
             return 1;
@@ -368,11 +373,10 @@ public class SQLMethods {
             stmt = connection.createStatement();
             ResultSet rs = stmt.executeQuery(q1);
 
-            System.out.println("comments");
             while (rs.next())
             {
-                System.out.println(rs.getString(3) + ":" + rs.getString(2));
-                System.out.println(rs.getString(5));
+            	Comment cmt = new Comment(rs.getString(1));
+            	result.add(cmt);
             }
         }
         catch (SQLException e){

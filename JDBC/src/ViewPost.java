@@ -74,7 +74,35 @@ public class ViewPost extends JFrame {
 		
 		appbar.add(Logo);
 		
-		ImageIcon userImage = ImageManager.GetImageUsingURL("https://pbs.twimg.com/profile_images/1374979417915547648/vKspl9Et_400x400.jpg", 100, 100);
+		String q1 = "select user_id from posts where post_id = \"" + p_id + "\";";
+		ResultSet rs = SQLMethods.ExecuteQuery(SQLMethods.GetCon(), q1);
+		String user_id = "";
+		try {
+			if(rs.next()) {
+				user_id = rs.getString(1);
+			}
+		} catch (SQLException e3) {
+			// TODO Auto-generated catch block
+			e3.printStackTrace();
+		}
+		
+		String imgUrl = "";
+		q1 = "select profile_Image_dir from user where user_id = \"" + user_id + "\";";
+		rs = SQLMethods.ExecuteQuery(SQLMethods.GetCon(), q1);
+		
+		try {
+			if(rs.next()) {
+				imgUrl = rs.getString(1);
+			}
+			if(imgUrl.compareTo("") == 0) 
+				imgUrl = "https://play-lh.googleusercontent.com/38AGKCqmbjZ9OuWx4YjssAz3Y0DTWbiM5HB0ove1pNBq_o9mtWfGszjZNxZdwt_vgHo";
+		} catch (SQLException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		}
+		
+		
+		ImageIcon userImage = ImageManager.GetImageUsingURL(imgUrl, 50, 50);
 		JLabel UserBtn = new JLabel(userImage);
 		UserBtn.setBounds(12, 5, 50, 50);
 		UserBtn.setBackground(new Color(255, 255,255));
@@ -112,8 +140,8 @@ public class ViewPost extends JFrame {
 		commentStatus.setPreferredSize(new Dimension(464,35));
 		
 		
-		String q1 = "select count(liker_id) from post_like where post_id = \"" + p_id + "\";";
-		ResultSet rs = SQLMethods.ExecuteQuery(SQLMethods.GetCon(), q1);
+		q1 = "select count(liker_id) from post_like where post_id = \"" + p_id + "\";";
+		rs = SQLMethods.ExecuteQuery(SQLMethods.GetCon(), q1);
 		
 		int cnt = 0;
 		
@@ -152,7 +180,7 @@ public class ViewPost extends JFrame {
 		comments.setLayout(new BoxLayout(comments, BoxLayout.Y_AXIS));
 		
 		for(int i =0;i<list.size();i++) {
-			CommentPanel c = new CommentPanel(list.get(i).comment_id);
+			CommentPanel c = new CommentPanel(list.get(i));
 			comments.add(c);
 			
 		}
@@ -181,20 +209,12 @@ public class ViewPost extends JFrame {
 		enterBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String text = commentText.getText();
-				SQLMethods.WriteComment(SQLMethods.GetCon(), "abcd", p_id,text );
+				SQLMethods.WriteComment(SQLMethods.GetCon(), "abcd", p_id,text, null);
 			}
 		});
 		panel.add(enterBtn);
 		
-		
 
-		
-
-		
-		
-		
-		
-		
 		
 		setVisible(true);
 	}

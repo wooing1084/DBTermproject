@@ -16,7 +16,13 @@ public class Comment {
         ResultSet rs = SQLMethods.ExecuteQuery(SQLMethods.GetCon(), q1);
         try {
             if(rs.next()){
-                //user_id = rs.getString()
+                comment_id = rs.getString(1);
+                content = rs.getString(2);
+                user_id = rs.getString(3);
+                parent_post_id = rs.getString(4);
+                date = rs.getDate(5);
+                parent_comment_id = rs.getString(6);
+                
             }
         } catch (SQLException e) {
            e.printStackTrace();

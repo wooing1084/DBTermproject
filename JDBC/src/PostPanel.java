@@ -45,6 +45,18 @@ public class PostPanel extends JPanel{
 		panel.setLayout(null);
 		add(panel);
 		
+		String q1 = "select user_id from posts where post_id = \"" + post.post_id + "\";";
+		ResultSet rs = SQLMethods.ExecuteQuery(SQLMethods.GetCon(), q1);
+		String user_id = "";
+		try {
+			if(rs.next()) {
+				user_id = rs.getString(1);
+			}
+		} catch (SQLException e3) {
+			// TODO Auto-generated catch block
+			e3.printStackTrace();
+		}
+		
 		ImageIcon userImage = ImageManager.GetImageUsingURL(user.profile_Image_Dir, 50, 50);
 		JLabel UserIcon = new JLabel(userImage);
 		UserIcon.setBackground(new Color(255, 255, 255));
@@ -81,9 +93,9 @@ public class PostPanel extends JPanel{
 		
 		//-----
 		
-		String q1 = "select count(liker_id) from post_like where post_id = \"" + post.post_id + "\";";
+		q1 = "select count(liker_id) from post_like where post_id = \"" + post.post_id + "\";";
 		Connection con = SQLMethods.GetCon();
-		ResultSet rs = SQLMethods.ExecuteQuery(con, q1);
+		rs = SQLMethods.ExecuteQuery(con, q1);
 		int cnt = 0;
 		try {
 			if(rs.next()) {

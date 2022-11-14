@@ -32,6 +32,10 @@ public class User {
 				pwd = rs.getString(2);
 				username = rs.getString(3);
 				profile_Image_Dir = rs.getString(4);
+				
+				if(profile_Image_Dir.compareTo("") == 0) {
+					profile_Image_Dir = "https://play-lh.googleusercontent.com/38AGKCqmbjZ9OuWx4YjssAz3Y0DTWbiM5HB0ove1pNBq_o9mtWfGszjZNxZdwt_vgHo";
+				}
 			}			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
