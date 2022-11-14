@@ -131,7 +131,7 @@ public class MainFeed extends JFrame {
 		p1.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				System.out.println(p.post_id + " Clicked");
+				new ViewPost(p.post_id);
 			}
 		});
 		posts.add(p1);

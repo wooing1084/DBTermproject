@@ -19,7 +19,7 @@ public class CommentPanel extends JPanel {
 	public CommentPanel(Comment comment) {
 		setLayout(null);
 		setPreferredSize(new Dimension(450,100));
-		
+		setBounds(0, 0, 450, 100);
 		String q1 = "select profile_Image_dir from user where user_id = \"" + comment.user_id + "\";";
 		ResultSet rs = SQLMethods.ExecuteQuery(SQLMethods.GetCon(), q1);
 		

@@ -73,22 +73,10 @@ public class ViewPost extends JFrame {
 
 		
 		appbar.add(Logo);
-		
-		String q1 = "select user_id from posts where post_id = \"" + p_id + "\";";
-		ResultSet rs = SQLMethods.ExecuteQuery(SQLMethods.GetCon(), q1);
-		String user_id = "";
-		try {
-			if(rs.next()) {
-				user_id = rs.getString(1);
-			}
-		} catch (SQLException e3) {
-			// TODO Auto-generated catch block
-			e3.printStackTrace();
-		}
-		
+				
 		String imgUrl = "";
-		q1 = "select profile_Image_dir from user where user_id = \"" + user_id + "\";";
-		rs = SQLMethods.ExecuteQuery(SQLMethods.GetCon(), q1);
+		String q1 = "select profile_Image_dir from user where user_id = \"" + ClientInformation.Logined_id + "\";";
+		ResultSet rs = SQLMethods.ExecuteQuery(SQLMethods.GetCon(), q1);
 		
 		try {
 			if(rs.next()) {
@@ -182,12 +170,10 @@ public class ViewPost extends JFrame {
 		for(int i =0;i<list.size();i++) {
 			CommentPanel c = new CommentPanel(list.get(i));
 			comments.add(c);
-			
 		}
-		
-		
-			
 		JScrollPane scrollPane = new JScrollPane(comments);
+		scrollPane.setPreferredSize(new Dimension(464, 550));
+		
 		
 		center.add(scrollPane);
 		bottom.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 0));
@@ -209,12 +195,14 @@ public class ViewPost extends JFrame {
 		enterBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String text = commentText.getText();
-				SQLMethods.WriteComment(SQLMethods.GetCon(), "abcd", p_id,text, null);
+				SQLMethods.WriteComment(SQLMethods.GetCon(), ClientInformation.Logined_id, p_id,text, null);
 			}
 		});
 		panel.add(enterBtn);
 		
 
+		int h = 800 - 20 - top.getPreferredSize().height - bottom.getPreferredSize().height - post.getPreferredSize().height - commentStatus.getPreferredSize().height;
+		scrollPane.setPreferredSize(new Dimension(464,h));
 		
 		setVisible(true);
 	}
