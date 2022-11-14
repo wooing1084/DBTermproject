@@ -20,6 +20,7 @@ import javax.swing.JTextPane;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.Serializable;
@@ -50,34 +51,80 @@ public class PostPanel extends JPanel{
 		UserIcon.setBounds(12, 5, 50, 50);
 		panel.add(UserIcon);
 		
+		JPanel postInfo = new JPanel();
+		postInfo.setBounds(61, 22, 282, 20);
+		postInfo.setBackground(new Color(255, 255, 255));
+		panel.add(postInfo);
+		postInfo.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 5));
+		
 		JLabel Name = new JLabel(user.username);
 		Name.setBackground(new Color(192, 192, 192));
 		Name.setBounds(74, 10, 88, 15);
-		panel.add(Name);
+		postInfo.add(Name);
 		
 		JLabel ID = new JLabel(user.user_id);
 		ID.setBounds(154, 10, 74, 15);
-		panel.add(ID);
+		postInfo.add(ID);
 		Border border = BorderFactory.createLineBorder(Color.black, 2);
 		
 		JLabel date = new JLabel(post.date.toString());
 		date.setBounds(240, 10, 104, 15);
-		panel.add(date);
+		postInfo.add(date);
+		
+		JPanel liekPanel = new JPanel();
+		liekPanel.setBackground(new Color(255, 255, 255));
+		FlowLayout flowLayout = (FlowLayout) liekPanel.getLayout();
+		flowLayout.setVgap(0);
+		flowLayout.setAlignment(FlowLayout.RIGHT);
+		liekPanel.setBounds(355, 22, 84, 20);
+		panel.add(liekPanel);
+		
+		//-----
+		
+		String q1 = "select count(liker_id) from post_like where post_id = \"" + post.post_id + "\";";
+		Connection con = SQLMethods.GetCon();
+		ResultSet rs = SQLMethods.ExecuteQuery(con, q1);
+		int cnt = 0;
+		try {
+			if(rs.next()) {
+				cnt = rs.getInt(1);				
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		JLabel likeCnt = new JLabel("" + cnt);
+		liekPanel.add(likeCnt);
+		
+		q1 = "select post_id from post_like where post_id = \"" + post.post_id + "\" and  liker_id = \"" + User.user_id + "\";";
+		rs = SQLMethods.ExecuteQuery(con, q1);
+		
+		
+		String imgURL ="";
+		try {
+			if(rs.next()) {
+				imgURL = "src/assets/UI/fullHeart.png";
+				
+			}
+			else {
+				imgURL = "src/assets/UI/emptyHeart.png";
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		ImageIcon likeImage = ImageManager.GetImageUsingFileSystem(imgURL, 20, 20);
+		
+		JLabel likeIcon = new JLabel(likeImage);
+		likeIcon.setPreferredSize(new Dimension(20,20));
+		liekPanel.add(likeIcon);
+		
 		
 		JScrollPane scroll = new JScrollPane();
 		scroll.setBounds(12, 65, 428, 100);
 		panel.add(scroll);
-		
-		JButton moreBtn = new JButton("more");
-		moreBtn.setBounds(12, 167, 97, 23);
-		moreBtn.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				
-				
-			}
-		});
-		
-		panel.add(moreBtn);
 		
 		JTextPane text = new JTextPane();
 		text.setText(post.content);
@@ -88,8 +135,8 @@ public class PostPanel extends JPanel{
 	 * @wbp.parser.constructor
 	 */
 	public PostPanel(Post post, List<String> imgs) {
-		setBounds(0, 0, 464, 320);
-		setPreferredSize(new Dimension(464,320));
+		setBounds(0, 0, 464, 300);
+		setPreferredSize(new Dimension(464,300));
 		setBorder(new LineBorder(new Color(0, 0, 0), 2));
 		setBackground(new Color(255, 255, 255));		
 		setLayout(null);
@@ -99,7 +146,7 @@ public class PostPanel extends JPanel{
 		panel = new JPanel();
 		panel.setBackground(new Color(255, 255, 255));
 		panel.setBorder(new LineBorder(new Color(0, 0, 0)));
-		panel.setBounds(0, 0, 464, 320);
+		panel.setBounds(0, 0, 464, 300);
 		panel.setLayout(null);
 		add(panel);
 		
@@ -109,19 +156,77 @@ public class PostPanel extends JPanel{
 		UserIcon.setBounds(12, 5, 50, 50);
 		panel.add(UserIcon);
 		
+		JPanel postInfo = new JPanel();
+		postInfo.setBounds(61, 22, 282, 20);
+		postInfo.setBackground(new Color(255, 255, 255));
+		panel.add(postInfo);
+		postInfo.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 5));
+		
 		JLabel Name = new JLabel(user.username);
 		Name.setBackground(new Color(192, 192, 192));
 		Name.setBounds(74, 10, 88, 15);
-		panel.add(Name);
+		postInfo.add(Name);
 		
 		JLabel ID = new JLabel(user.user_id);
 		ID.setBounds(154, 10, 74, 15);
-		panel.add(ID);
+		postInfo.add(ID);
 		Border border = BorderFactory.createLineBorder(Color.black, 2);
 		
 		JLabel date = new JLabel(post.date.toString());
 		date.setBounds(240, 10, 104, 15);
-		panel.add(date);
+		postInfo.add(date);
+		
+		JPanel liekPanel = new JPanel();
+		liekPanel.setBackground(new Color(255, 255, 255));
+		FlowLayout flowLayout = (FlowLayout) liekPanel.getLayout();
+		flowLayout.setVgap(0);
+		flowLayout.setAlignment(FlowLayout.RIGHT);
+		liekPanel.setBounds(355, 22, 84, 20);
+		panel.add(liekPanel);
+		
+		//-----
+		
+		String q1 = "select count(liker_id) from post_like where post_id = \"" + post.post_id + "\";";
+		Connection con = SQLMethods.GetCon();
+		ResultSet rs = SQLMethods.ExecuteQuery(con, q1);
+		int cnt = 0;
+		try {
+			if(rs.next()) {
+				cnt = rs.getInt(1);				
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		JLabel likeCnt = new JLabel("" + cnt);
+		liekPanel.add(likeCnt);
+		
+		q1 = "select post_id from post_like where post_id = \"" + post.post_id + "\" and  liker_id = \"" + User.user_id + "\";";
+		rs = SQLMethods.ExecuteQuery(con, q1);
+		
+		
+		String imgURL ="";
+		try {
+			if(rs.next()) {
+				imgURL = "src/assets/UI/fullHeart.png";
+				
+			}
+			else {
+				imgURL = "src/assets/UI/emptyHeart.png";
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		ImageIcon likeImage = ImageManager.GetImageUsingFileSystem(imgURL, 20, 20);
+		
+		JLabel likeIcon = new JLabel(likeImage);
+		likeIcon.setPreferredSize(new Dimension(20,20));
+		liekPanel.add(likeIcon);
+		
+		//----
 		
 		JScrollPane scroll = new JScrollPane();
 		scroll.setBounds(12, 65, 428, 100);
@@ -137,20 +242,10 @@ public class PostPanel extends JPanel{
 
 		JPanel images = new JPanel();
 		images.setBackground(new Color(255, 255, 255));
-		images.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+		images.setLayout(new FlowLayout(FlowLayout.RIGHT, 5, 5));
 		imageScroll.add(images);
 		imageScroll.setViewportView(images);
-		
-		JButton moreBtn = new JButton("more");
-		moreBtn.setBounds(12, 290, 97, 23);
-		moreBtn.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				
-				
-			}
-		});
-		
-		panel.add(moreBtn);
+
 		
 		for(int i =0;i<imgs.size(); i++) {
 			ImageIcon img = ImageManager.GetImageUsingURL(imgs.get(i), 100,100);

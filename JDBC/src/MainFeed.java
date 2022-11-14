@@ -26,6 +26,8 @@ import javax.swing.BoxLayout;
 import javax.swing.SpringLayout;
 import javax.swing.JLayeredPane;
 import java.awt.Component;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class MainFeed extends JFrame {
 
@@ -52,48 +54,42 @@ public class MainFeed extends JFrame {
 		
 		ImageIcon logo = ImageManager.GetImageUsingFileSystem("src/assets/logo.png", 50,50);
 		
-		JButton Logo = new JButton(logo);
-		Logo.setBounds(12, 5, 50, 50);
-		Logo.setBackground(new Color(255, 255,255));
-		Logo.setBorderPainted(false);
-		Logo.setFocusPainted(false);
-		Logo.setBounds(200, 5, 50, 50);
-		Logo.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				
-				
+		JLabel Logo = new JLabel(logo);
+		Logo.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
 			}
 		});
+		Logo.setBounds(12, 5, 50, 50);
+		Logo.setBackground(new Color(255, 255,255));
+		Logo.setBounds(200, 5, 50, 50);
+
 		
 		appbar.add(Logo);
 		
 		ImageIcon userImage = ImageManager.GetImageUsingURL("https://pbs.twimg.com/profile_images/1374979417915547648/vKspl9Et_400x400.jpg", 100, 100);
-		JButton UserBtn = new JButton(userImage);
+		JLabel UserBtn = new JLabel(userImage);
 		UserBtn.setBounds(12, 5, 50, 50);
 		UserBtn.setBackground(new Color(255, 255,255));
-		UserBtn.setBorderPainted(false);
-		UserBtn.setFocusPainted(false);
-		UserBtn.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				
-				
+		UserBtn.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
 			}
 		});
+
 		
 		appbar.add(UserBtn);
 		
 		ImageIcon searchIcon = ImageManager.GetImageUsingFileSystem("src/assets/UI/search.png",30,30);
-		JButton SearchBtn = new JButton(searchIcon);
+		JLabel SearchBtn = new JLabel(searchIcon);
 		SearchBtn.setBounds(402, 5, 50, 50);
 		SearchBtn.setBackground(new Color(255, 255,255));
-		SearchBtn.setBorderPainted(false);
-		SearchBtn.setFocusPainted(false);
-		SearchBtn.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				
-				
+		SearchBtn.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
 			}
 		});
+	
 		
 		
 		appbar.add(SearchBtn);
@@ -114,10 +110,17 @@ public class MainFeed extends JFrame {
 		//수정필요(로그인 후 팔로우 부분 활성화 되면 팔로우한 유저의 게시글 보여주기)
 		Post p = new Post("abcd1");
 		PostPanel p1 = new PostPanel(p,p.images);
+		p1.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				System.out.println(p.post_id + " Clicked");
+			}
+		});
 		posts.add(p1);
 		
 		PostPanel p4 = new PostPanel(p);
 		posts.add(p4);
+		
 		
 		PostPanel p2 = new PostPanel(p,p.images);
 		posts.add(p2);
@@ -144,16 +147,13 @@ public class MainFeed extends JFrame {
 		
 		//글쓰기 버튼
 		ImageIcon plusImage = ImageManager.GetImageUsingFileSystem("src/assets/UI/plus.png", 50, 50);
-		JButton writeBtn = new JButton(plusImage);
+		JLabel writeBtn = new JLabel(plusImage);
 		writeBtn.setBounds(0, 0, 50, 50);
 		writeBtn.setBackground(new Color(255, 255,255));
-		writeBtn.setBorderPainted(false);
-		writeBtn.setFocusPainted(false);
-		writeBtn.setContentAreaFilled(false);
-		writeBtn.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				
-				
+
+		writeBtn.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
 			}
 		});
 		

@@ -8,20 +8,10 @@ public class main {
     static Connection con =  null;
     public static void main(String[] args)
     {
-        con = SQLMethods.GetCon();        
-        new Login();
-  
+    	SQLMethods.init();
+     
+        new ViewPost("abcd1");
         //new MainFeed();
-       
-
-        try {
-            if(con != null && !con.isClosed())
-                con.close();;
-        }
-        catch (SQLException e){
-            e.printStackTrace();
-        }
-
     }
 
     

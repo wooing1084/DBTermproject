@@ -11,8 +11,9 @@ import java.util.Scanner;
 public class SQLMethods {	
 	//Connection 받는 함수(SQLMethods의 함수에 들어간 Connection 인자값에 사용)
 	//MYSQL연동 후 연동된 connection객체를 반환한다.
-	public static Connection GetCon()
-	{
+	public static Connection con;
+	
+	public static void init() {
 		Connection connection =  null;
 		connection =  null;
         try{
@@ -27,7 +28,13 @@ public class SQLMethods {
         catch (SQLException e){
             e.printStackTrace();
         }
-		return connection;
+        
+        con = connection;
+	}
+	
+	public static Connection GetCon()
+	{
+		return con;
 	}
 
     public static ResultSet ExecuteQuery(Connection con, String q1){
