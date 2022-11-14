@@ -97,7 +97,7 @@ public class PostPanel extends JPanel{
 		JLabel likeCnt = new JLabel("" + cnt);
 		liekPanel.add(likeCnt);
 		
-		q1 = "select post_id from post_like where post_id = \"" + post.post_id + "\" and  liker_id = \"" + User.user_id + "\";";
+		q1 = "select post_id from post_like where post_id = \"" + post.post_id + "\" and  liker_id = \"" + ClientInformation.Logined_id + "\";";
 		rs = SQLMethods.ExecuteQuery(con, q1);
 		
 		
@@ -202,7 +202,7 @@ public class PostPanel extends JPanel{
 		JLabel likeCnt = new JLabel("" + cnt);
 		liekPanel.add(likeCnt);
 		
-		q1 = "select post_id from post_like where post_id = \"" + post.post_id + "\" and  liker_id = \"" + User.user_id + "\";";
+		q1 = "select post_id from post_like where post_id = \"" + post.post_id + "\" and  liker_id = \"" + ClientInformation.Logined_id + "\";";
 		rs = SQLMethods.ExecuteQuery(con, q1);
 		
 		

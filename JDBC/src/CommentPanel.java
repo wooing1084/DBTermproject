@@ -72,7 +72,7 @@ public class CommentPanel extends JPanel {
 		
 
 		
-		q1 = "select like_id from comment_like where comment_id = \"" + c_id + "\" and  user_id = \"" + User.user_id + "\";";
+		q1 = "select like_id from comment_like where comment_id = \"" + c_id + "\" and  user_id = \"" + ClientInformation.Logined_id + "\";";
 		rs = SQLMethods.ExecuteQuery(con, q1);
 		
 		

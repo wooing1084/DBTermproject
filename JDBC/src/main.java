@@ -9,6 +9,7 @@ public class main {
     public static void main(String[] args)
     {
     	SQLMethods.init();
+    	ClientInformation.Logined_id = "abcd1";
     	
     	//test
      

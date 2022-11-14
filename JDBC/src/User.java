@@ -3,10 +3,10 @@ import java.sql.SQLException;
 import java.util.List;
 
 public class User {
-	public static String user_id;
-	public static String pwd;
-	public static String username;
-	public static String profile_Image_Dir;
+	public String user_id;
+	public String pwd;
+	public String username;
+	public String profile_Image_Dir;
 	List<String> images;
 	
 	User(){
