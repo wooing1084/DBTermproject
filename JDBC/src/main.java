@@ -9,11 +9,11 @@ public class main {
     public static void main(String[] args)
     {
     	SQLMethods.init();
-    	ClientInformation.Logined_id = "abcd1";
-    	
+    	ClientInformation.Logined_id = "hi";
+    	//new Login();
     	//test
-     
-        new ViewPost("abcd1");
+    	new Setting("hi", 9990);
+        //new ViewPost("hi");
         //new MainFeed();
     }
 

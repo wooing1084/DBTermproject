@@ -9,8 +9,8 @@ import java.util.List;
 import java.util.Scanner;
 
 public class SQLMethods {	
-	//Connection ¹Þ´Â ÇÔ¼ö(SQLMethodsÀÇ ÇÔ¼ö¿¡ µé¾î°£ Connection ÀÎÀÚ°ª¿¡ »ç¿ë)
-	//MYSQL¿¬µ¿ ÈÄ ¿¬µ¿µÈ connection°´Ã¼¸¦ ¹ÝÈ¯ÇÑ´Ù.
+	//Connection ï¿½Þ´ï¿½ ï¿½Ô¼ï¿½(SQLMethodsï¿½ï¿½ ï¿½Ô¼ï¿½ï¿½ï¿½ ï¿½ï¿½î°£ Connection ï¿½ï¿½ï¿½Ú°ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½)
+	//MYSQLï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ connectionï¿½ï¿½Ã¼ï¿½ï¿½ ï¿½ï¿½È¯ï¿½Ñ´ï¿½.
 	public static Connection con;
 	
 	public static void init() {
@@ -19,8 +19,8 @@ public class SQLMethods {
         try{
             Class.forName("com.mysql.cj.jdbc.Driver");
             String url = "jdbc:mysql://localhost/twitter";
-            //paswdºÎºÐ °³ÀÎº°·Î ¼³Á¤ ÇÊ¿ä
-            String user = "root", passwd = "dong1084@";
+            //paswdï¿½Îºï¿½ ï¿½ï¿½ï¿½Îºï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ê¿ï¿½
+            String user = "root", passwd = "*1378jj*";
             connection = DriverManager.getConnection(url, user, passwd);
         }catch (ClassNotFoundException e){
             e.printStackTrace();
