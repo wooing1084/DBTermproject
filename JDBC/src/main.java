@@ -9,6 +9,8 @@ public class main {
     public static void main(String[] args)
     {
     	SQLMethods.init();
+    	
+    	//test
      
         new ViewPost("abcd1");
         //new MainFeed();
