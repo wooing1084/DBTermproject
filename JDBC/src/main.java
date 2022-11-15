@@ -15,7 +15,8 @@ public class main {
     	//test
     	//new Setting("abcd", 9990);
         //new ViewPost("hi");
-        new MainFeed();
+        //new MainFeed();
+    	new Profile("hi", 9090);
     }
 
     

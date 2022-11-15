@@ -20,7 +20,7 @@ public class SQLMethods {
             Class.forName("com.mysql.cj.jdbc.Driver");
             String url = "jdbc:mysql://localhost/twitter";
             //paswd占싸븝옙 占쏙옙占싸븝옙占쏙옙 占쏙옙占쏙옙 占십울옙
-            String user = "root", passwd = "dong1084@";
+            String user = "root", passwd = "*1378jj*";
             connection = DriverManager.getConnection(url, user, passwd);
         }catch (ClassNotFoundException e){
             e.printStackTrace();
