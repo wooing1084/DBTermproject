@@ -19,14 +19,28 @@ import javax.imageio.IIOException;
 import javax.swing.*;
 import java.awt.*
 ;
+import javax.swing.GroupLayout.Alignment;
 public class Profile extends JFrame {
-
+	
 	private JPanel panel;
 	private Image backImg;
+	private ImageAvatar imageAvatar;
 	
+	String nickname = null;
 	public Profile(String id, int pwd){
+		try {
+			String q1 = "select username from user where user_id = \"" + id + "\";";
+			ResultSet rs = SQLMethods.ExecuteQuery(SQLMethods.GetCon(), q1);
+			if(rs.next()) {
+				nickname = rs.getString(1);
+			}
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
 		getContentPane().setLayout(null);
-		setBounds(100, 100, 480, 800);
+		getContentPane().setBounds(0,0,466,763);
+		getContentPane().setVisible(true);
+		setBounds(100, 100, 608, 630);
 		setTitle("Profile");
 		panel = new JPanel();
 		panel.setBounds(0, 0, 466, 763);
@@ -57,6 +71,14 @@ public class Profile extends JFrame {
 		appbar.add(Logo);
 		
 		ImageIcon userImage = ImageManager.GetImageUsingURL("https://pbs.twimg.com/profile_images/1374979417915547648/vKspl9Et_400x400.jpg", 100, 100);
+		
+		//앱바에 있는 프로필 사진 원형으로 변경 
+		/*
+		imageAvatar = initComponents(userImage);
+		imageAvatar.setBounds(12, 5, 50, 50);
+        imageAvatar.setBorderColor(new Color(120, 186, 239));
+        appbar.add(imageAvatar);
+        */
 		JLabel UserBtn = new JLabel(userImage);
 		UserBtn.setBounds(12, 5, 50, 50);
 		UserBtn.setBackground(new Color(255, 255,255));
@@ -86,34 +108,28 @@ public class Profile extends JFrame {
 		ImageIcon backIcon = ImageManager.GetImageUsingFileSystem("src/assets/cloud.jpg",464,200);
 		
 		ImageIcon profileIcon = ImageManager.GetImageUsingFileSystem("src/assets/profile_image.png",50,50);
-		Image img = profileIcon.getImage();
+		
+		
+		
+		/*Image img = profileIcon.getImage();
 		Image updateImg = img.getScaledInstance(330, 150, Image.SCALE_SMOOTH);
 		ImageIcon updateIcon = new ImageIcon(updateImg);
+		*/
 		
+		//포스트 레이어부분
 		JPanel panel_2 = new JPanel();
-		panel_2.setBounds(1, 267, 465, 496);
+		panel_2.setBounds(1, 287, 465, 476);
 		//panel_2.setBackground(Color.WHITE);
 		panel.add(panel_2);
 		
-		JLabel profileImg = new JLabel(updateIcon);
-		profileImg.setBounds(1, 10, 100, 100);
-		//profileImg.setIcon(profileIcon);
-		profileImg.setHorizontalAlignment(JLabel.CENTER);
+		//프로필사진
 		
-		RoundedButton profileI = new RoundedButton(updateIcon);
-		profileI.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				System.out.println("KKK");
-			}
-		});
-		profileI.setBounds(1, 115, 149, 150);
-		panel.add(profileI);
-		//profileI.setIcon(updateIcon);
-		profileI.setBorderPainted(false);
-		profileI.setFocusPainted(false);
-		profileI.setContentAreaFilled(false);
-		profileI.setVisible(true);
+		imageAvatar = initComponents(profileIcon);
+		imageAvatar.setBounds(10, 120, 100, 100);
+        imageAvatar.setBorderColor(new Color(120, 186, 239));
+        panel.add(imageAvatar);
 		
+		//배경 이미지
 		JPanel panel_1 = new JPanel();
 		panel_1.setLayout(null);
 		panel_1.setBounds(0, 0, 464, 183);
@@ -124,15 +140,39 @@ public class Profile extends JFrame {
 		backImg_1.setBounds(1, 62, 464, 119);
 		panel_1.add(backImg_1);
 		
+		//프로필 옆 배경
 		JPanel panel_3 = new JPanel();
-		panel_3.setBounds(154, 185, 311, 77);
+		panel_3.setBounds(12, 226, 311, 50);
 		panel_3.setBackground(Color.WHITE);
 		panel.add(panel_3);
 		panel_3.setLayout(null);
-		//profileI.
 		
+		JLabel lblNewLabel = new JLabel(nickname);
+		lblNewLabel.setFont(new Font("LG Smart UI Bold", Font.PLAIN, 23));
+		lblNewLabel.setBounds(0, 10, 299, 29);
+		panel_3.add(lblNewLabel);
+		
+		String fId = "@" + id;
+		JLabel lblNewLabel_1 = new JLabel(fId);
+		lblNewLabel_1.setBounds(0, 35, 52, 15);
+		panel_3.add(lblNewLabel_1);
+		
+		RoundedButton fButton = new RoundedButton("팔로우");
+		//fButton.setFont(new Font("LG Smart UI Bold", Font.PLAIN, 20));
+		//fButton.setForeground(Color.WHITE);
+		//fButton.setBackground(Color.BLACK);
+		fButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				System.out.println("팔로우 기능!");
+			}
+		});
+		fButton.setBounds(320, 193, 119, 32);
+		panel.add(fButton);
+
+		panel_2.setLayout(null);
 		
 		JLayeredPane layeredPane = new JLayeredPane();
+		layeredPane.setBounds(1, 5, 464, 695);
 		layeredPane.setPreferredSize(new Dimension(464, 695));
 		panel_2.add(layeredPane);
 		
@@ -192,4 +232,45 @@ public class Profile extends JFrame {
 		setVisible(true);
 		
 	}
+	
+	//불러서 사용방법
+	//imageAvatar1.setBounds(,,,,)
+	//panel.add(imageAvatar1)
+	//imageAvatar1.setBorderColor(new Color(,,)
+	private ImageAvatar initComponents(ImageIcon icon) {
+		
+		ImageAvatar imageAvatar1 = new ImageAvatar();
+        
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        //
+        //ImageIcon profileIcon = ImageManager.GetImageUsingFileSystem("src/assets/profile_image.png",50,50);
+		
+        Image img = icon.getImage();
+		Image updateImg = img.getScaledInstance(297, 135, Image.SCALE_SMOOTH);
+		ImageIcon updateIcon = new ImageIcon(updateImg);
+		
+		
+        imageAvatar1.setImage(updateIcon); // NOI18N
+        GroupLayout layout = new javax.swing.GroupLayout(panel);
+        layout.setHorizontalGroup(
+        	layout.createParallelGroup(Alignment.LEADING)
+        		.addGroup(Alignment.TRAILING, layout.createSequentialGroup()
+        			.addComponent(imageAvatar1, GroupLayout.PREFERRED_SIZE, 156, GroupLayout.PREFERRED_SIZE)
+        			.addContainerGap(812, Short.MAX_VALUE))
+        );
+        layout.setVerticalGroup(
+        	layout.createParallelGroup(Alignment.LEADING)
+        		.addGroup(layout.createSequentialGroup()
+        			.addGap(142)
+        			.addComponent(imageAvatar1, GroupLayout.PREFERRED_SIZE, 120, GroupLayout.PREFERRED_SIZE)
+        			.addContainerGap(514, Short.MAX_VALUE))
+        );
+        //panel.setLayout(layout);
+
+        pack();
+        setBounds(0, 0, 478, 763);
+        setLocationRelativeTo(null);
+        return imageAvatar1;
+    }
 }

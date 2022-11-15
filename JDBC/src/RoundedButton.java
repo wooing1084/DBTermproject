@@ -1,5 +1,7 @@
 import java.awt.Desktop.Action;
+import java.awt.Color;
 import java.awt.EventQueue;
+import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -14,8 +16,7 @@ import javax.swing.JFrame;
 
 public class RoundedButton extends JButton {
 
-	ImageIcon profileIcon = ImageManager.GetImageUsingFileSystem("src/assets/profile_image.png",50,50);
-	Image image = profileIcon.getImage();
+
     public RoundedButton() {
         super();
         decorate();
@@ -30,7 +31,7 @@ public class RoundedButton extends JButton {
         super(icon);
         decorate();
     }
-    
+
     public RoundedButton(String text, Icon icon) {
         super(text, icon);
         decorate();
@@ -48,29 +49,30 @@ public class RoundedButton extends JButton {
 
         Graphics2D graphics = (Graphics2D) g;
 
-        //graphics.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-        graphics.drawImage(image, 20,10,120,120,null);
-        /*if (getModel().isArmed()) {
+        graphics.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+
+        if (getModel().isArmed()) {
             graphics.setColor(getBackground().darker());
         } else if (getModel().isRollover()) {
-            graphics.setColor(getBackground().brighter());
+            graphics.setColor(Color.GRAY);
         } else {
-            graphics.setColor(getBackground());
-        }*/
-        
-        //graphics.fillRoundRect(0, 0, width, height, 500, 500);
-        //graphics.fillRect(0, 0, 500, 500);
-        ///FontMetrics fontMetrics = graphics.getFontMetrics();
-        //Rectangle stringBounds = fontMetrics.getStringBounds(this.getText(), graphics).getBounds();
+            graphics.setColor(Color.BLACK);
+        }
 
-        //int textX = (width - stringBounds.width) / 2;
-        //int textY = (height - stringBounds.height) / 2 + fontMetrics.getAscent();
+        graphics.fillRoundRect(0, 0, width, height, 10, 10);
 
-       // graphics.setColor(getForeground());
-       // graphics.setFont(getFont());
-       // graphics.drawString(getText(), textX, textY);
+        FontMetrics fontMetrics = graphics.getFontMetrics();
+        Rectangle stringBounds = fontMetrics.getStringBounds(this.getText(), graphics).getBounds();
+
+        int textX = (width - stringBounds.width) / 2 -8;
+        int textY = (height - stringBounds.height) / 2 + fontMetrics.getAscent();
+
+        graphics.setColor(Color.WHITE);
+        graphics.setFont(new Font("LG Smart UI Bold", Font.PLAIN, 20));
+        graphics.drawString(getText(), textX, textY);
         graphics.dispose();
 
         super.paintComponent(g);
     }
 }
+

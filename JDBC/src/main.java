@@ -13,10 +13,11 @@ public class main {
     	//new ViewPost("hhh1");
     	//new Login();
     	//test
-    	//new Setting("abcd", 9990);
+    	//new Setting("hi", 9990);
         //new ViewPost("hi");
         //new MainFeed();
-    	new Profile("hi", 9090);
+    	new Profile("hihi", 9090);
+    	//new test("hi", 9090);
     }
 
     
