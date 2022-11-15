@@ -32,6 +32,7 @@ import javax.swing.JButton;
 import java.awt.Component;
 
 public class Follow extends JFrame{
+	private JFrame frame;
 	private void Follow() {
 		Connection con=SQLMethods.GetCon();
 		List<String> following=SQLMethods.Followers(con,"abcd1");
