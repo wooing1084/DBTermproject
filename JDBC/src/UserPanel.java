@@ -5,37 +5,56 @@ import java.sql.SQLException;
 
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
+import javax.swing.border.LineBorder;
+import java.awt.Color;
+import java.awt.Dimension;
 
 public class UserPanel extends JPanel {
 
-	/**
-	 * Create the panel.
-	 */
+	JPanel panel;
+	
+	public Dimension getMaximumSize() {
+		Dimension d = getPreferredSize();
+		d.width = Integer.MAX_VALUE;
+		
+		return d;
+	}
+	
 	public UserPanel(User user) {
-		setSize(300,75);
+		setBorder(new LineBorder(new Color(0, 0, 0)));
+		setPreferredSize(new Dimension(464, 75));
+		setBounds(0,0,464,75);
+		setLayout(null);
+		
+		JPanel panel = new JPanel();
+		panel.setBorder(new LineBorder(new Color(0, 0, 0)));
+		panel.setBounds(0,0,464,75);
+		panel.setPreferredSize(new Dimension(464,75));
+		panel.setLayout(null);
+		add(panel);
 		
 		ImageIcon uIcon = ImageManager.GetImageUsingURL(user.profile_Image_Dir, 50, 50);
-		setLayout(null);
 		
 		JLabel icon = new JLabel(uIcon);
 		icon.setBounds(5, 10, 50, 50);
-		add(icon);
+		panel.add(icon);
 		
-		JPanel panel = new JPanel();
-		panel.setBounds(62, 15, 158, 40);
-		add(panel);
-		panel.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 5));
+		JPanel infoPanel = new JPanel();
+		infoPanel.setBounds(80, 15, 158, 40);
+		panel.add(infoPanel);
+		FlowLayout fl_infoPanel = new FlowLayout(FlowLayout.LEFT, 5, 5);
+		infoPanel.setLayout(fl_infoPanel);
 		
 		JLabel userName = new JLabel(user.username);
-		panel.add(userName);
+		infoPanel.add(userName);
 		
 		JLabel ID = new JLabel(user.user_id);
-		panel.add(ID);
+		infoPanel.add(ID);
 		
 		String q1 = "select user_id from follow where follower_id = \"" + ClientInformation.Logined_id + "\" and user_id = \"" + user.user_id + "\";";
 		ResultSet rs = SQLMethods.ExecuteQuery(SQLMethods.GetCon(), q1);
 		
-		String followUrl = "";
+		String followUrl = "src/assets/UI/followIcon.png";
 		try {
 			if(rs.next()) {
 				if(rs.getString(1).compareTo("") == 0) {
@@ -43,8 +62,10 @@ public class UserPanel extends JPanel {
 				}
 				else
 					followUrl = "src/assets/UI/followingIcon.png";
-				
+							
 			}
+			else
+				followUrl = "src/assets/UI/followingIcon.png";
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -52,10 +73,7 @@ public class UserPanel extends JPanel {
 		
 		ImageIcon followIcon = ImageManager.GetImageUsingFileSystem(followUrl,79,36);
 		JLabel follow = new JLabel(followIcon);
-		follow.setBounds(215, 15, 79, 36);
-		add(follow);
-		
-		
-
+		follow.setBounds(360, 15, 79, 36);
+		panel.add(follow);
 	}
 }

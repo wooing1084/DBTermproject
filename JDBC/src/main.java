@@ -10,14 +10,9 @@ public class main {
     {
     	SQLMethods.init();
     	ClientInformation.Logined_id = "hhh";
-    	//new ViewPost("hhh1");
-    	//new Login();
-    	//test
-    	//new Setting("hi", 9990);
-        //new ViewPost("hi");
-        //new MainFeed();
-    	new Profile("hihi", 9090);
-    	//new test("hi", 9090);
+ 
+    	//new MainFeed();
+    	new UserSearch();    	
     }
 
     

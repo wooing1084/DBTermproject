@@ -31,6 +31,13 @@ public class PostPanel extends JPanel{
 	User user;
 	JPanel panel;
 	
+	public Dimension getMaximumSize() {
+		Dimension d = getPreferredSize();
+		d.width = Integer.MAX_VALUE;
+		
+		return d;
+	}
+	
 	public PostPanel(Post post) {
 		setPreferredSize(new Dimension(464,200));
 		setBorder(new LineBorder(new Color(0, 0, 0), 2));

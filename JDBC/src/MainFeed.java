@@ -126,6 +126,7 @@ public class MainFeed extends JFrame {
 		
 		
 		//수정필요(로그인 후 팔로우 부분 활성화 되면 팔로우한 유저의 게시글 보여주기)
+		int totalH = 0;
 		Post p = new Post("abcd1");
 		PostPanel p1 = new PostPanel(p,p.images);
 		p1.addMouseListener(new MouseAdapter() {
@@ -134,16 +135,26 @@ public class MainFeed extends JFrame {
 				new ViewPost(p.post_id);
 			}
 		});
+		totalH += p1.getPreferredSize().height;
 		posts.add(p1);
 		
-		PostPanel p4 = new PostPanel(p);
-		posts.add(p4);
-		
-		PostPanel p2 = new PostPanel(p,p.images);
+		PostPanel p2 = new PostPanel(p);
+		totalH += p2.getPreferredSize().height;
 		posts.add(p2);
 		
-		PostPanel p3 = new PostPanel(p,p.images);
+		PostPanel p3 = new PostPanel(p);
+		totalH += p3.getPreferredSize().height;
 		posts.add(p3);
+		
+		PostPanel p4 = new PostPanel(p);
+		totalH += p4.getPreferredSize().height;
+		posts.add(p4);
+		
+		PostPanel p5 = new PostPanel(p);
+		totalH += p5.getPreferredSize().height;
+		posts.add(p5);
+
+	
 		
 		
 		

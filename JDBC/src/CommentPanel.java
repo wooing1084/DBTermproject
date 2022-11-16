@@ -13,6 +13,12 @@ import javax.swing.JTextPane;
 
 public class CommentPanel extends JPanel {
 	
+	public Dimension getMaximumSize() {
+		Dimension d = getPreferredSize();
+		d.width = Integer.MAX_VALUE;
+		
+		return d;
+	}
 	/**
 	 * Create the panel.
 	 */
