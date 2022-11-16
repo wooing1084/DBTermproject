@@ -8,6 +8,8 @@ import javax.swing.JLabel;
 import javax.swing.border.LineBorder;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class UserPanel extends JPanel {
 
@@ -31,11 +33,21 @@ public class UserPanel extends JPanel {
 		panel.setBounds(0,0,464,75);
 		panel.setPreferredSize(new Dimension(464,75));
 		panel.setLayout(null);
+		
+		panel.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				new Profile(user.user_id, 0);
+				
+				
+			}
+		});
 		add(panel);
 		
 		ImageIcon uIcon = ImageManager.GetImageUsingURL(user.profile_Image_Dir, 50, 50);
 		
 		JLabel icon = new JLabel(uIcon);
+		
 		icon.setBounds(5, 10, 50, 50);
 		panel.add(icon);
 		
@@ -60,12 +72,13 @@ public class UserPanel extends JPanel {
 				if(rs.getString(1).compareTo("") == 0) {
 					followUrl = "src/assets/UI/followIcon.png";
 				}
-				else
+				else {
 					followUrl = "src/assets/UI/followingIcon.png";
+				}
 							
 			}
 			else
-				followUrl = "src/assets/UI/followingIcon.png";
+				followUrl = "src/assets/UI/followIcon.png";
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -73,6 +86,40 @@ public class UserPanel extends JPanel {
 		
 		ImageIcon followIcon = ImageManager.GetImageUsingFileSystem(followUrl,79,36);
 		JLabel follow = new JLabel(followIcon);
+		follow.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				System.out.println("Follow Click");
+				SQLMethods.Follow(SQLMethods.GetCon(), ClientInformation.Logined_id, user.user_id);
+				
+				String q1 = "select user_id from follow where follower_id = \"" + ClientInformation.Logined_id + "\" and user_id = \"" + user.user_id + "\";";
+				ResultSet rs = SQLMethods.ExecuteQuery(SQLMethods.GetCon(), q1);
+				
+				String imgUrl = "src/assets/UI/followIcon.png";
+				try {
+					if(rs.next()) {
+						if(rs.getString(1).compareTo("") == 0) {
+							imgUrl = "src/assets/UI/followIcon.png";
+						}
+						else {
+							imgUrl = "src/assets/UI/followingIcon.png";
+						}
+									
+					}
+					else
+						imgUrl = "src/assets/UI/followIcon.png";
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}	
+				ImageIcon fIcon = ImageManager.GetImageUsingFileSystem(imgUrl, 79, 36);
+				
+				follow.setIcon(fIcon);				
+			}
+			
+			
+			
+		});
 		follow.setBounds(360, 15, 79, 36);
 		panel.add(follow);
 	}
