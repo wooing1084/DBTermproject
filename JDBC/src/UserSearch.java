@@ -55,6 +55,7 @@ public class UserSearch extends JFrame {
 		panel_2.add(textField);
 		
 		JLabel enterBtn = new JLabel("Enter");
+		
 		enterBtn.setHorizontalAlignment(SwingConstants.CENTER);
 		enterBtn.setBackground(new Color(255, 255, 255));
 		enterBtn.setBounds(392, 10, 60, 60);
@@ -81,13 +82,40 @@ public class UserSearch extends JFrame {
 		scrollPane.setBounds(0, 79, 464, 682);
 		contentPane.add(scrollPane);
 		
-		User uInfo1 = new User("abcd");	
-		UserPanel u1 = new UserPanel(uInfo1);
-		panel_1.add(u1);
-		UserPanel u2 = new UserPanel(uInfo1);
-		panel_1.add(u2);
-		UserPanel u3 = new UserPanel(uInfo1);
-		panel_1.add(u3);
+		User[] users = SQLMethods.GetUsers(SQLMethods.GetCon());
+		
+		for(int i =0;i < users.length; i++) {
+			if(users[i].user_id.compareTo(ClientInformation.Logined_id) == 0)
+				continue;
+			
+			UserPanel up = new UserPanel(users[i]);
+			panel_1.add(up);
+		}
+
+		
+		enterBtn.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				System.out.println("Enter click");
+				User[] users = SQLMethods.GetUsers(SQLMethods.GetCon());
+				panel_1.invalidate();
+				panel_1.removeAll();
+				
+				for(int i =0;i < users.length; i++) {
+					if(!users[i].user_id.contains(textField.getText()))
+						continue;
+					
+					if(users[i].user_id.compareTo(ClientInformation.Logined_id) == 0)
+						continue;
+					
+					UserPanel up = new UserPanel(users[i]);
+					panel_1.add(up);
+				}
+				
+				panel_1.validate();
+			}
+		});
+		
 		
 		setVisible(true);
 	}

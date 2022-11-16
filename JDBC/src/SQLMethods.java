@@ -61,23 +61,23 @@ public class SQLMethods {
         return result;
     }
 	
-	public static String SearchUser(Connection connection){
+	public static User[] GetUsers(Connection connection){
         Statement stmt = null;
         ResultSet rs = null;
+        
+        List<User> list = new ArrayList<User>();
         try{
             stmt = connection.createStatement();
             String sql = "Select * from user";
             rs = stmt.executeQuery(sql);
 
-            System.out.println("ID\t\tname");
+            
+           
             while(rs.next())
             {
                 String id = rs.getString(1);
-                String name = rs.getString(3);
-                if(rs.wasNull()) id = "null";
-                if(rs.wasNull()) name = "null";
-
-                System.out.println(id + "\t\t" + name);
+                User u = new User(id);
+                list.add(u);
             }
         }
         catch (SQLException e)
@@ -85,7 +85,7 @@ public class SQLMethods {
             e.printStackTrace();
         }
 
-        return "";
+        return list.toArray(new User[0]);
     }
 	
 	// return 0 : 
