@@ -34,17 +34,17 @@ import javax.swing.JButton;
 import java.awt.Component;
 import javax.swing.JScrollBar;
 
-public class Follow extends JFrame{
+public class Follower extends JFrame{
 	
 	private JPanel panel;
 	
-	public Follow() {
+	public Follower(String user_id) {
 		setBackground(new Color(255, 255, 255));
 		setBounds(100,100,480,800);
 		
 		Connection con=SQLMethods.GetCon();
-		List<String> following=SQLMethods.Followers(con,"abcd1");
-		int num_of_follow=following.size();		
+		List<String> follower=SQLMethods.Followers(con,user_id);
+		int num_of_follow=follower.size();		
 		
 		panel = new JPanel();
 		panel.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 0));
@@ -68,7 +68,7 @@ public class Follow extends JFrame{
 		});
 		panel_1.add(label);
 		
-		JLabel lblNewLabel = new JLabel("Follow List");
+		JLabel lblNewLabel = new JLabel("Follower List");
 		lblNewLabel.setBounds(180,7,100,40);
 		lblNewLabel.setHorizontalAlignment(JLabel.CENTER);
 		panel_1.add(lblNewLabel);
@@ -92,7 +92,7 @@ public class Follow extends JFrame{
 			
 			
 		for(int i=0;i<num_of_follow;i++) {
-			User u=new User("abcd1");
+			User u=new User(user_id);
 			UserPanel p1=new UserPanel(u);
 			panel_3.add(p1);
 		}			
