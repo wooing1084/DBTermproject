@@ -115,6 +115,6 @@ public class posting extends JFrame {
 	
 		
 	});
-
+		setVisible(true);
 	}	
 }
