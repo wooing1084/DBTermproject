@@ -23,6 +23,7 @@ import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
 import javax.swing.ScrollPaneConstants;
 import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.GridLayout;
 
 import javax.swing.border.LineBorder;
@@ -42,6 +43,8 @@ public class Follower extends JFrame{
 		setBackground(new Color(255, 255, 255));
 		setBounds(100,100,480,800);
 		
+		Font font = new Font("DialogInput", Font.BOLD, 20);
+		
 		Connection con=SQLMethods.GetCon();
 		List<String> follower=SQLMethods.Followers(con,user_id);
 		int num_of_follow=follower.size();		
@@ -54,10 +57,12 @@ public class Follower extends JFrame{
 		JPanel panel_1 = new JPanel();
 		panel_1.setLayout(null);
 		panel_1.setBackground(new Color(255, 255, 255));
+		panel_1.setBorder(new LineBorder(new Color(0, 0, 0), 1));
 		panel_1.setPreferredSize(new Dimension(480,65));
 		panel.add(panel_1);
 		
 		JLabel label = new JLabel("back");
+		label.setFont(font);
 		label.setBounds(15,7,65,40);
 		label.addMouseListener(new MouseAdapter() {
 			@Override
@@ -69,26 +74,27 @@ public class Follower extends JFrame{
 		panel_1.add(label);
 		
 		JLabel lblNewLabel = new JLabel("Follower List");
-		lblNewLabel.setBounds(180,7,100,40);
+		lblNewLabel.setFont(font);
+		lblNewLabel.setBounds(170,7,140,40);
 		lblNewLabel.setHorizontalAlignment(JLabel.CENTER);
 		panel_1.add(lblNewLabel);
 		
 		//
 		
 		JLayeredPane layeredpanel = new JLayeredPane();
-		layeredpanel.setPreferredSize(new Dimension(460, 700));
+		layeredpanel.setPreferredSize(new Dimension(470, 700));
 		
 		panel.add(layeredpanel);
 		
 		JPanel panel_3 = new JPanel();
-		panel_3.setPreferredSize(new Dimension(460, 700));
+		panel_3.setPreferredSize(new Dimension(470, 700));
 		panel_3.setLayout(new BoxLayout(panel_3, BoxLayout.Y_AXIS));
 			
 		JScrollPane scrollpane=new JScrollPane(panel_3);
-		scrollpane.setSize(460, 700);
+		scrollpane.setSize(470, 700);
 		//scrollpane.setPreferredSize(new Dimension(460, 700));
 		scrollpane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-		scrollpane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+		scrollpane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
 			
 			
 		for(int i=0;i<num_of_follow;i++) {

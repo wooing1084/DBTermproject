@@ -1,53 +1,33 @@
-
-import java.awt.EventQueue;
-import java.awt.Image;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.sql.Connection;
 import java.util.List;
 
-import javax.swing.Box;
 import javax.swing.BoxLayout;
-import javax.swing.ButtonGroup;
-import javax.swing.ImageIcon;
 import javax.swing.JFrame;
-import javax.swing.JPanel;
-import java.awt.BorderLayout;
-import java.awt.Dimension;
-
-import javax.swing.JScrollPane;
-
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
-import java.awt.FlowLayout;
-import java.awt.Font;
-import java.awt.GridLayout;
-
 import javax.swing.border.LineBorder;
 
-import java.awt.Color;
-import javax.swing.JToggleButton;
-import javax.swing.JTextField;
-import javax.swing.JButton;
-import java.awt.Component;
-import javax.swing.JScrollBar;
-
-public class Following extends JFrame{
+public class PostLike extends JFrame{
+private JPanel panel;
 	
-	private JPanel panel;
-	
-	public Following(String user_id) {
+	public PostLike(String post_id) {
 		setBackground(new Color(255, 255, 255));
 		setBounds(100,100,480,800);
 		
 		Font font = new Font("DialogInput", Font.BOLD, 20);
 		
 		Connection con=SQLMethods.GetCon();
-		List<String> following=SQLMethods.Followings(con,user_id);
-		int num_of_follow=following.size();		
+		List<String> likers=SQLMethods.Likers(con,post_id);
+		int num_of_like=likers.size();		
 		
 		panel = new JPanel();
 		panel.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 0));
@@ -73,9 +53,9 @@ public class Following extends JFrame{
 		});
 		panel_1.add(label);
 		
-		JLabel lblNewLabel = new JLabel("Following List");
+		JLabel lblNewLabel = new JLabel("Liker List");
 		lblNewLabel.setFont(font);
-		lblNewLabel.setBounds(170,7,140,40);
+		lblNewLabel.setBounds(170,7,120,40);
 		lblNewLabel.setHorizontalAlignment(JLabel.CENTER);
 		panel_1.add(lblNewLabel);
 		
@@ -97,8 +77,8 @@ public class Following extends JFrame{
 		scrollpane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
 			
 			
-		for(int i=0;i<num_of_follow;i++) {
-			User u=new User(user_id);
+		for(int i=0;i<num_of_like;i++) {
+			User u=new User(post_id);
 			UserPanel p1=new UserPanel(u);
 			panel_3.add(p1);
 		}			
