@@ -168,17 +168,19 @@ public class PostPanel extends JPanel{
 					e1.printStackTrace();
 				}
 				
+				String heartURL = "";
+				
 				System.out.println(post.post_id + "'s liekPanel Clicked");
 				int like=SQLMethods.Like(SQLMethods.GetCon(), user.user_id, post.post_id);
 				System.out.println(like);
 				if(like==1) {
-					imgURL = "src/assets/UI/fullHeart.png";
-					likeImage_1 = ImageManager.GetImageUsingFileSystem(imgURL, 20, 20);
+					heartURL = "src/assets/UI/fullHeart.png";
+					likeImage_1 = ImageManager.GetImageUsingFileSystem(heartURL, 20, 20);
 					cnt=cnt+1;
 				}
 				else if(like==0) {
-					imgURL = "src/assets/UI/emptyHeart.png";
-					likeImage_1 = ImageManager.GetImageUsingFileSystem(imgURL, 20, 20);
+					heartURL = "src/assets/UI/emptyHeart.png";
+					likeImage_1 = ImageManager.GetImageUsingFileSystem(heartURL, 20, 20);
 					cnt=cnt-1;
 				}
 				likeIcon.setIcon(likeImage_1);
@@ -331,17 +333,18 @@ public class PostPanel extends JPanel{
 					e1.printStackTrace();
 				}
 				
+				String heartURL = "";
 				System.out.println(post.post_id + "'s liekPanel Clicked");
 				int like=SQLMethods.Like(SQLMethods.GetCon(), user.user_id, post.post_id);
 				System.out.println(like);
 				if(like==1) {
-					imgURL = "src/assets/UI/fullHeart.png";
-					likeImage_1 = ImageManager.GetImageUsingFileSystem(imgURL, 20, 20);
+					heartURL = "src/assets/UI/fullHeart.png";
+					likeImage_1 = ImageManager.GetImageUsingFileSystem(heartURL, 20, 20);
 					cnt=cnt+1;
 				}
 				else if(like==0) {
-					imgURL = "src/assets/UI/emptyHeart.png";
-					likeImage_1 = ImageManager.GetImageUsingFileSystem(imgURL, 20, 20);
+					heartURL = "src/assets/UI/emptyHeart.png";
+					likeImage_1 = ImageManager.GetImageUsingFileSystem(heartURL, 20, 20);
 					cnt=cnt-1;
 				}
 				likeIcon.setIcon(likeImage_1);
