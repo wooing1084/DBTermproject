@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class Post {
+public class Post implements Comparable<Post>{
 	public String post_id;
 	public String content;
 	public String user_id;
@@ -52,5 +52,13 @@ public class Post {
 		}
 	}
 	
-
+	public int compareTo(Post o) {
+		// TODO Auto-generated method stub
+		if(date.equals(o.date))
+			return 0;
+		else if(date.after(o.date))
+			return 1;
+		else 
+			return -1;
+	}
 }

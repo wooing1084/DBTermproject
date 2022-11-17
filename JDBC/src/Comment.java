@@ -3,7 +3,7 @@ import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class Comment {
+public class Comment implements Comparable<Comment>{
     String comment_id;
     String user_id;
     String post_id;
@@ -33,5 +33,16 @@ public class Comment {
     public int GetLikes(){
         return SQLMethods.PostLikers(SQLMethods.GetCon(), user_id).size();
     }
+    
+    @Override
+	public int compareTo(Comment o) {
+		// TODO Auto-generated method stub
+    	if(date.equals(o.date))
+			return 0;
+		else if(date.after(o.date))
+			return 1;
+		else 
+			return -1;
+	}
 
 }

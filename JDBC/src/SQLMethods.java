@@ -141,16 +141,70 @@ public class SQLMethods {
         return - 1;
     }
     
+    //user_id 의 게시글 불러오기
     public static List<Post> GetPosts(String user_id){
     	List<Post> list = new ArrayList<Post>();
     	
-    	//String q1 = "select * from posts "
+    	String q1 = "select * from posts where user_id = \"" + user_id + "\" order by date desc;";
+    	ResultSet rs = SQLMethods.ExecuteQuery(SQLMethods.GetCon(), q1);
     	
-    	
+    	try {
+			while(rs.next()) {
+				Post p1 = new Post(rs.getString(1));
+				
+				list.add(p1);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
     	
     	
     	return list;    	
     }
+    
+    public static List<Post> GetPosts(List<String> userList){
+    	if(userList.size() == 0)
+    		return null;
+    	
+    	List<String> pIdList = new ArrayList<String>();
+    	
+    	String q1 = "select post_id from posts where user_id in (\"" + userList.get(0)+"\"";
+    	
+    	for(int i =1;i<userList.size();i++) {
+    		q1 += ", \""+ userList.get(i) + "\"";
+    	}
+    	q1 +=") order by date desc;";
+    	
+    	ResultSet rs = SQLMethods.ExecuteQuery(con, q1);
+    	
+    	try {
+			while(rs.next()) {
+				String s = rs.getString(1);
+				if(s.compareTo("") != 0) {
+					pIdList.add(s);
+				}
+				
+				if(pIdList.size() >= 15)
+					break;
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    	
+    	List<Post> result = new ArrayList<Post>();
+    	
+    	for(int i =0;i<pIdList.size();i++) {
+    		Post p = new Post(pIdList.get(i));
+    		
+    		result.add(p);
+    	}
+    	
+    	return result; 	
+    	
+    }
+   
     
     
     public static void WritePost(Connection connection, String user_id, String content, String[] imgs)
