@@ -10,6 +10,8 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 import java.awt.Font;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class ChildCommentPanel extends JPanel {
 	private JTextField textField;
@@ -24,24 +26,26 @@ public class ChildCommentPanel extends JPanel {
 	/**
 	 * Create the panel.
 	 */
-	public ChildCommentPanel(Comment comment) {
+	public ChildCommentPanel(ChildComment comment) {
 		setLayout(null);
-		setPreferredSize(new Dimension(450,50));
-		setBounds(0,0,450,50);
+		setPreferredSize(new Dimension(450,60));
+		setBounds(0,0,450,60);
 		
 		
 		
 		JPanel panel = new JPanel();
-		panel.setBounds(0, 0, 450, 50);
+		panel.setBounds(0, 0, 450, 60);
 		add(panel);
 		panel.setLayout(null);
 		
-		JLabel profileIcon = new JLabel("");
-		profileIcon.setBounds(40, 4, 41, 40);
+		
+		ImageIcon pImage = ImageManager.GetUserProfile(comment.user_id, 41, 40);
+		JLabel profileIcon = new JLabel(pImage);
+		profileIcon.setBounds(45, 10, 41, 40);
 		panel.add(profileIcon);
 		
-		textField = new JTextField();
-		textField.setBounds(81, 5, 304, 35);
+		textField = new JTextField(comment.content);
+		textField.setBounds(89, 20, 290, 35);
 		textField.setEditable(false);
 		panel.add(textField);
 		textField.setColumns(10);
@@ -50,27 +54,16 @@ public class ChildCommentPanel extends JPanel {
 		FlowLayout flowLayout = (FlowLayout) LikePanel.getLayout();
 		flowLayout.setVgap(0);
 		flowLayout.setAlignment(FlowLayout.RIGHT);
-		LikePanel.setBounds(397, 10, 41, 20);
+		LikePanel.setBounds(397, 20, 41, 20);
 		panel.add(LikePanel);
 		
 		
-		String q1 = "select count(user_id) from comment_like where comment_id = \"" + comment.comment_id + "\";";
 		Connection con = SQLMethods.GetCon();
-		ResultSet rs = SQLMethods.ExecuteQuery(con, q1);
-		int cnt = 0;
-		try {
-			if(rs.next()) {
-				cnt = rs.getInt(1);				
-			}
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
+		int cnt = SQLMethods.ChildCommentLikers(con, comment.comment_id).size();
 
 		
-		q1 = "select like_id from comment_like where comment_id = \"" + comment.comment_id + "\" and  user_id = \"" + ClientInformation.Logined_id + "\";";
-		rs = SQLMethods.ExecuteQuery(con, q1);
+		String q1 = "select * from comment_like where comment_id = \"" + comment.comment_id + "\" and  user_id = \"" + ClientInformation.Logined_id + "\";";
+		ResultSet rs = SQLMethods.ExecuteQuery(con, q1);
 		
 		
 		String imgURL ="";
@@ -93,13 +86,28 @@ public class ChildCommentPanel extends JPanel {
 		LikePanel.add(likes);
 		
 		JLabel heart = new JLabel(likeImage);
+		heart.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				System.out.println("like click");
+				SQLMethods.ChildCommentLike(SQLMethods.GetCon(), ClientInformation.Logined_id, comment.comment_id);
+				
+			}
+		});
 		heart.setPreferredSize(new Dimension(20,20));
 		LikePanel.add(heart);
 		
-		JLabel cCommentIcon = new JLabel("L");
-		cCommentIcon.setFont(new Font("±¼¸²", Font.PLAIN, 20));
-		cCommentIcon.setBounds(12, 4, 29, 40);
-		panel.add(cCommentIcon);
+		JPanel panel_1 = new JPanel();
+		panel_1.setBounds(89, 0, 290, 20);
+		panel.add(panel_1);
+		panel_1.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 5));
+		
+		
+		JLabel idLabel = new JLabel(comment.user_id);
+		panel_1.add(idLabel);
+		
+		JLabel dateLabel = new JLabel(comment.date.toString());
+		panel_1.add(dateLabel);
 
 		
 

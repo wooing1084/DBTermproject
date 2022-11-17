@@ -155,7 +155,6 @@ public class SQLMethods {
     
     public static void WritePost(Connection connection, String user_id, String content, String[] imgs)
     {
-        String post_id;
         Statement stmt = null;
         ResultSet rs = null;
 
@@ -170,13 +169,11 @@ public class SQLMethods {
             int counts = Integer.parseInt(temp);
             counts++;
 
-            post_id = user_id + counts;
-
 
             Date date = new Date();
             java.sql.Date sqlDate = new java.sql.Date(date.getTime());
 
-            q1 = "insert into posts values(\"" + post_id + "\", \"" + content + "\", \"" + user_id + "\", Date(\"" +sqlDate+"\"));";
+            q1 = "insert into posts values(null, \"" + content + "\", \"" + user_id + "\", Date(\"" +sqlDate+"\"));";
             stmt.executeUpdate(q1);
 
             int imgCount = imgs.length;
@@ -191,8 +188,14 @@ public class SQLMethods {
 
                     if(imDir.compareTo("0") == 0)
                         break;
-                    String img_id = post_id + "I" + cnt;
-                    String q2 = "insert into images values(\"" + img_id + "\", \"" + imDir + "\", \"" + post_id + "\");";
+                    
+                    String q2 = "select MAX(post_id) from posts";
+                    ResultSet rs2 = stmt.executeQuery(q2);
+                    int id = 0;
+                    if(rs2.next())
+                    	id = rs2.getInt(1);
+                    
+                    q2 = "insert into images values(null, \"" + imDir + "\", \"" + id + "\");";
                     stmt.executeUpdate(q2);
                     cnt++;
                 }
@@ -342,6 +345,7 @@ public class SQLMethods {
 
         return result;
     }
+    
 
     //return 0 cannot write comment
     //return 1 success write
@@ -363,20 +367,12 @@ public class SQLMethods {
                 return 0;
             }
 
-            q1 = "select count(user_id) from comment where post_id = \"" + post_id + "\";";
-            String comment_id = "";
-            rs = stmt.executeQuery(q1);
-            if(rs.next())
-            {
-                int cnt = Integer.parseInt(rs.getString(1));
-                cnt++;
-                comment_id = post_id+ "C" + cnt;
-            }
+
 
             Date date = new Date();
             java.sql.Date sqlDate = new java.sql.Date(date.getTime());
 
-            q1 = "insert into comment values(\"" + comment_id + "\", \"" + content + "\", \"" + user_id + "\", \"" + post_id + "\", Date(\"" +sqlDate+"\"));";
+            q1 = "insert into comment values(null, \"" + content + "\", \"" + user_id + "\", \"" + post_id + "\", Date(\"" +sqlDate+"\"));";
            
             
             stmt.executeUpdate(q1);
@@ -391,47 +387,37 @@ public class SQLMethods {
     
     public static int WriteChildComment(Connection connection, String user_id, String parent_id, String content)
     {
-//        Statement stmt = null;
-//        ResultSet rs = null;
-//
-//
-//        try{
-//            stmt = connection.createStatement();
-//
-//            String q1 = "select * from posts where post_id = \"" + post_id + "\";";
-//            rs = stmt.executeQuery(q1);
-//
-//            if(!rs.next())
-//            {
-//                return 0;
-//            }
-//
-//            q1 = "select count(user_id) from comment where post_id = \"" + post_id + "\";";
-//            String comment_id = "";
-//            rs = stmt.executeQuery(q1);
-//            if(rs.next())
-//            {
-//                int cnt = Integer.parseInt(rs.getString(1));
-//                cnt++;
-//                comment_id = post_id+ "C" + cnt;
-//            }
-//
-//            Date date = new Date();
-//            java.sql.Date sqlDate = new java.sql.Date(date.getTime());
-//
-//            q1 = "insert into comment values(\"" + comment_id + "\", \"" + content + "\", \"" + user_id + "\", \"" + post_id + "\", Date(\"" +sqlDate+"\"));";
-//           
-//            
-//            stmt.executeUpdate(q1);
-//
-//            return 1;
-//        }catch (SQLException e){
-//            e.printStackTrace();
-//
-//            return -1;
-//        }
-    	
-    	return 0;
+        Statement stmt = null;
+        ResultSet rs = null;
+        
+        System.out.println("write child comment");
+
+
+        try{
+            stmt = connection.createStatement();
+
+            String q1 = "select * from comment where comment_id = \"" + parent_id + "\";";
+            rs = stmt.executeQuery(q1);
+
+            if(!rs.next())
+            {
+                return 0;
+            }
+
+            Date date = new Date();
+            java.sql.Date sqlDate = new java.sql.Date(date.getTime());
+
+            q1 = "insert into childcomment values(null, \"" + user_id + "\", \"" + parent_id + "\", \""+ content+ "\", Date(\"" +sqlDate+"\"));";
+           
+            
+            stmt.executeUpdate(q1);
+
+            return 1;
+        }catch (SQLException e){
+            e.printStackTrace();
+
+            return -1;
+        }
     }
 
     //
@@ -458,6 +444,28 @@ public class SQLMethods {
 
         return result;
     }
+    
+    public static List<ChildComment> ChildComments(Connection connection, String parent_id){
+    	String q1 = "select comment_id from childcomment where parent_comment_id = \"" + parent_id + "\";";
+    	
+    	List<ChildComment> list = new ArrayList<ChildComment>();
+    	
+    	ResultSet rs = SQLMethods.ExecuteQuery(connection, q1);
+    	
+    	try {
+			if(rs.next()) {
+				ChildComment c1 = new ChildComment(rs.getString(1));
+				
+				list.add(c1);				
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    	
+    	
+    	return list;    	
+    }
 
     //return 0 unlike
     //return 1 like
@@ -473,18 +481,26 @@ public class SQLMethods {
 
             if(!rs.next())
                 return -1;
-
+            
 
             q1 = "select * from comment_like where user_id = \"" + user_id + "\";";
             rs = stmt.executeQuery(q1);
             if(rs.next())
             {
-                String q2 = "delete from comment_like where user_id = \"" + user_id +"\" and comment_id = \"" + comment_id + "\";";
-                stmt.executeUpdate(q2);
+            	String q2 = "select like_id from comment_like where comment_id = \"" + comment_id + "\", user_id = \"" + user_id + "\";";
+            	ResultSet tRs = SQLMethods.ExecuteQuery(SQLMethods.GetCon(), q2);
+            	if(tRs.next()) {
+            		q2 = "delete from comment_like where user_id = \"" + user_id +"\" and comment_id = \"" + comment_id + "\";";
+                    stmt.executeUpdate(q2);
+            	}
+                       
                 return 0;
             }
             else{
-                String q2 = "insert into comment_like values(\""+comment_id + "\", \"" + user_id + "\");";
+            	String q2 = "select count(user_id) from childcomment where comment_id = \"" + comment_id + "\";";
+
+            	
+                q2 = "insert into comment_like values(\"" +comment_id + "\", \"" + user_id + "\");";
                 stmt.executeUpdate(q2);
                 return 1;
             }
@@ -494,6 +510,49 @@ public class SQLMethods {
         }
 
     }
+    
+  //return 0 unlike
+    //return 1 like
+    //return -1 error
+    public static int ChildCommentLike(Connection connection, String user_id, String comment_id){
+        Statement stmt =null;
+        ResultSet rs = null;
+
+        try {
+            String q1 = "select * from childcomment where comment_id = \"" + comment_id + "\";";
+            stmt = connection.createStatement();
+            rs = stmt.executeQuery(q1);
+
+            if(!rs.next())
+                return -1;
+            
+
+            q1 = "select * from childcomment_like where user_id = \"" + user_id + "\";";
+            rs = stmt.executeQuery(q1);
+            if(rs.next())
+            {
+            	
+            	String q2 = "delete from childcomment_like where user_id = \"" + user_id +"\" and childcomment_id = \"" + comment_id + "\";";
+                   stmt.executeUpdate(q2);
+
+                       
+                return 0;
+            }
+            else{
+ 
+                String q2 = "insert into childcomment_like values(\"" +comment_id + "\", \"" + user_id + "\");";
+                stmt.executeUpdate(q2);
+                return 1;
+            }
+        }catch (SQLException e){
+            e.printStackTrace();
+            return -1;
+        }
+
+    }
+    
+    
+    
     public static List<String> CommentLikers(Connection connection, String comment_id)
     {
         Statement stmt = null;
@@ -514,5 +573,27 @@ public class SQLMethods {
 
         return result;
     }
+    
+    public static List<String> ChildCommentLikers(Connection connection, String comment_id)
+    {
+        Statement stmt = null;
+        String q1 = "select user_id from childcomment_like where childcomment_id = \"" + comment_id + "\";";
+        List<String> result = new ArrayList<String>();
+        try {
+            stmt = connection.createStatement();
+            ResultSet rs = stmt.executeQuery(q1);
+
+            while (rs.next())
+            {
+               result.add(rs.getString(1));
+            }
+        }
+        catch (SQLException e){
+            e.printStackTrace();
+        }
+
+        return result;
+    }
+
 
 }

@@ -1,9 +1,14 @@
 import javax.imageio.ImageIO;
 import javax.swing.*;
+import javax.swing.GroupLayout.Alignment;
+
+import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 public class ImageManager {
 	//사용방법
@@ -47,4 +52,33 @@ public class ImageManager {
 
         return result;
     }
+ 
+    public static ImageIcon GetUserProfile(String user_id, int w, int h) {
+    	String q1 = "select * from user where user_id = \"" + user_id + "\";";
+		ResultSet rs = SQLMethods.ExecuteQuery(SQLMethods.GetCon(), q1);
+		ImageIcon result = null;
+		try {
+			if(rs.next()) {
+				if(rs.getString(4).compareTo("") == 0)
+					result = ImageManager.GetImageUsingFileSystem("src/assets/userImages/user.png", w, h);
+				else
+					result = ImageManager.GetImageUsingURL(rs.getString(4), w, h);			
+				
+			}
+			else {
+				result = ImageManager.GetImageUsingFileSystem("src/assets/userImages/user.png", w, h);
+				
+			}
+			
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return result;
+    }
+    
+    
 }
+    

@@ -75,7 +75,7 @@ public class CommentPanel extends JPanel {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				String text = pPost.commentText.getText();
-				SQLMethods.WriteChildComment(SQLMethods.GetCon(), ClientInformation.Logined_id, pPost.post_id,text);
+				SQLMethods.WriteChildComment(SQLMethods.GetCon(), ClientInformation.Logined_id, comment.comment_id,text);
 			}
 		});
 		reply.setBounds(5, 75, 57, 15);
@@ -104,7 +104,7 @@ public class CommentPanel extends JPanel {
 		
 
 		
-		q1 = "select like_id from comment_like where comment_id = \"" + comment.comment_id + "\" and  user_id = \"" + ClientInformation.Logined_id + "\";";
+		q1 = "select * from comment_like where comment_id = \"" + comment.comment_id + "\" and  user_id = \"" + ClientInformation.Logined_id + "\";";
 		rs = SQLMethods.ExecuteQuery(con, q1);
 		
 		
@@ -128,6 +128,13 @@ public class CommentPanel extends JPanel {
 		panel.add(likes);
 		
 		JLabel heart = new JLabel(likeImage);
+		heart.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				System.out.println("click like");
+				SQLMethods.CommentLike(SQLMethods.GetCon(), ClientInformation.Logined_id, comment.comment_id);
+			}
+		});
 		heart.setPreferredSize(new Dimension(20,20));
 		panel.add(heart);
 

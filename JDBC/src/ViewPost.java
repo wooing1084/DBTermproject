@@ -118,7 +118,7 @@ public class ViewPost extends JFrame {
 		
 		appbar.add(SearchBtn);
 		
-		Post p = new Post("abcd1");
+		Post p = new Post(p_id);
 		PostPanel post = new PostPanel(p);
 		center.add(post);
 
@@ -173,6 +173,15 @@ public class ViewPost extends JFrame {
 		for(int i =0;i<list.size();i++) {
 			CommentPanel c = new CommentPanel(list.get(i), this);
 			comments.add(c);
+			
+			List<ChildComment> cList = SQLMethods.ChildComments(SQLMethods.GetCon(), list.get(i).comment_id);
+			
+			for(int j =0;j< (cList.size() >= 2 ? 2: cList.size()); j++) {
+				ChildCommentPanel cC = new ChildCommentPanel(cList.get(j));
+				comments.add(cC);				
+			}
+			
+			
 		}
 		JScrollPane scrollPane = new JScrollPane(comments);
 		scrollPane.setPreferredSize(new Dimension(464, 550));
