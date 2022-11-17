@@ -27,9 +27,12 @@ import java.awt.BorderLayout;
 public class ViewPost extends JFrame {
 
 	private JPanel contentPane;
-	private JTextField commentText;
+	public JTextField commentText;
+	public String post_id;
 
 	public ViewPost(String p_id) {
+		post_id = p_id;
+		
 		setBackground(new Color(255, 255, 255));
 		setBounds(150, 150, 480, 800);
 		contentPane = new JPanel();
@@ -168,7 +171,7 @@ public class ViewPost extends JFrame {
 		comments.setLayout(new BoxLayout(comments, BoxLayout.Y_AXIS));
 		
 		for(int i =0;i<list.size();i++) {
-			CommentPanel c = new CommentPanel(list.get(i));
+			CommentPanel c = new CommentPanel(list.get(i), this);
 			comments.add(c);
 		}
 		JScrollPane scrollPane = new JScrollPane(comments);
@@ -195,7 +198,7 @@ public class ViewPost extends JFrame {
 		enterBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String text = commentText.getText();
-				SQLMethods.WriteComment(SQLMethods.GetCon(), ClientInformation.Logined_id, p_id,text, null);
+				SQLMethods.WriteComment(SQLMethods.GetCon(), ClientInformation.Logined_id, p_id,text);
 			}
 		});
 		panel.add(enterBtn);

@@ -6,8 +6,7 @@ import java.sql.SQLException;
 public class Comment {
     String comment_id;
     String user_id;
-    String parent_post_id;
-    String parent_comment_id;
+    String post_id;
     String content;
     Date date;
 
@@ -19,17 +18,14 @@ public class Comment {
                 comment_id = rs.getString(1);
                 content = rs.getString(2);
                 user_id = rs.getString(3);
-                parent_post_id = rs.getString(4);
-                date = rs.getDate(5);
-                parent_comment_id = rs.getString(6);
-                
+                post_id = rs.getString(4);
+                date = rs.getDate(5);                
             }
         } catch (SQLException e) {
            e.printStackTrace();
         }
 
         this.comment_id = comment_id;
-
     }
 
 

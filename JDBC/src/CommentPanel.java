@@ -10,6 +10,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import javax.swing.JTextPane;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class CommentPanel extends JPanel {
 	
@@ -22,7 +24,7 @@ public class CommentPanel extends JPanel {
 	/**
 	 * Create the panel.
 	 */
-	public CommentPanel(Comment comment) {
+	public CommentPanel(Comment comment, ViewPost pPost) {
 		setLayout(null);
 		setPreferredSize(new Dimension(450,100));
 		setBounds(0, 0, 450, 100);
@@ -69,6 +71,13 @@ public class CommentPanel extends JPanel {
 		scrollPane.setViewportView(commentContent);
 		
 		JLabel reply = new JLabel("Reply");
+		reply.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				String text = pPost.commentText.getText();
+				SQLMethods.WriteChildComment(SQLMethods.GetCon(), ClientInformation.Logined_id, pPost.post_id,text);
+			}
+		});
 		reply.setBounds(5, 75, 57, 15);
 		add(reply);
 		

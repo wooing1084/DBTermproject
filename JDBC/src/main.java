@@ -9,10 +9,10 @@ public class main {
     public static void main(String[] args)
     {
     	SQLMethods.init();
-    	ClientInformation.Logined_id = "hhh";
+    	ClientInformation.Logined_id = "abcd";
  
-    	//new MainFeed();
-    	new UserSearch();    	
+    	
+    	new MainFeed();  	
     }
 
     

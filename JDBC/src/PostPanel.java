@@ -68,10 +68,18 @@ public class PostPanel extends JPanel{
 		JLabel UserIcon = new JLabel(userImage);
 		UserIcon.setBackground(new Color(255, 255, 255));
 		UserIcon.setBounds(12, 5, 50, 50);
+		
+		UserIcon.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				new Profile(post.user_id,0);
+			}
+		});
+		
 		panel.add(UserIcon);
 		
 		JPanel postInfo = new JPanel();
-		postInfo.setBounds(61, 22, 282, 20);
+		postInfo.setBounds(61, 5, 282, 20);
 		postInfo.setBackground(new Color(255, 255, 255));
 		panel.add(postInfo);
 		postInfo.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 5));
@@ -211,12 +219,18 @@ public class PostPanel extends JPanel{
 		
 		ImageIcon userImage = ImageManager.GetImageUsingURL(user.profile_Image_Dir, 50, 50);
 		JLabel UserIcon = new JLabel(userImage);
+		UserIcon.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				new Profile(post.user_id,0);
+			}
+		});
 		UserIcon.setBackground(new Color(255, 255, 255));
 		UserIcon.setBounds(12, 5, 50, 50);
 		panel.add(UserIcon);
 		
 		JPanel postInfo = new JPanel();
-		postInfo.setBounds(61, 22, 282, 20);
+		postInfo.setBounds(61, 5, 282, 20);
 		postInfo.setBackground(new Color(255, 255, 255));
 		panel.add(postInfo);
 		postInfo.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 5));

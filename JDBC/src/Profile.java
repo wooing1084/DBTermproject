@@ -179,7 +179,7 @@ public class Profile extends JFrame {
 		JPanel posts = new JPanel();
 		posts.setLayout(new BoxLayout(posts, BoxLayout.Y_AXIS));
 		
-		Post p = new Post("p1");
+		Post p = new Post("abcd1");
 		PostPanel p1 = new PostPanel(p,p.images);
 		p1.addMouseListener(new MouseAdapter() {
 			@Override
@@ -202,7 +202,7 @@ public class Profile extends JFrame {
 		JScrollPane scrollPane = new JScrollPane(posts);
 		scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 		scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
-		scrollPane.setSize(464, 695);
+		scrollPane.setSize(464, 495);
 		layeredPane.add(scrollPane);
 		
 		JPanel btnPanel = new JPanel();
