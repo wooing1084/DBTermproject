@@ -131,7 +131,10 @@ public class PostPanel extends JPanel{
 		String imgURL ="";
 		try {
 			if(rs.next()) {
-				imgURL = "src/assets/UI/fullHeart.png";
+				if(rs.getString(1).compareTo("") == 0)
+					imgURL = "src/assets/UI/emptyHeart.png";
+				else
+					imgURL = "src/assets/UI/fullHeart.png";
 				
 			}
 			else {
@@ -166,7 +169,7 @@ public class PostPanel extends JPanel{
 				Connection con = SQLMethods.GetCon();
 				ResultSet rs = SQLMethods.ExecuteQuery(con, q1);
 				
-				int cnt = 0;
+				int cnt = SQLMethods.PostLikers(SQLMethods.GetCon(), post.post_id).size();
 				try {
 					if(rs.next()) {
 						cnt = rs.getInt(1);				
@@ -179,7 +182,7 @@ public class PostPanel extends JPanel{
 				String heartURL = "";
 				
 				System.out.println(post.post_id + "'s liekPanel Clicked");
-				int like=SQLMethods.Like(SQLMethods.GetCon(), user.user_id, post.post_id);
+				int like=SQLMethods.PostLike(SQLMethods.GetCon(), ClientInformation.Logined_id, post.post_id);
 				System.out.println(like);
 				if(like==1) {
 					heartURL = "src/assets/UI/fullHeart.png";
@@ -262,7 +265,7 @@ public class PostPanel extends JPanel{
 		String q1 = "select count(liker_id) from post_like where post_id = \"" + post.post_id + "\";";
 		Connection con = SQLMethods.GetCon();
 		ResultSet rs = SQLMethods.ExecuteQuery(con, q1);
-		int cnt = 0;
+		int cnt = SQLMethods.PostLikers(SQLMethods.GetCon(), post.post_id).size();
 		try {
 			if(rs.next()) {
 				cnt = rs.getInt(1);				
@@ -282,7 +285,10 @@ public class PostPanel extends JPanel{
 		String imgURL ="";
 		try {
 			if(rs.next()) {
-				imgURL = "src/assets/UI/fullHeart.png";
+				if(rs.getString(1).compareTo("") == 0)
+					imgURL = "src/assets/UI/emptyHeart.png";
+				else
+					imgURL = "src/assets/UI/fullHeart.png";
 				
 			}
 			else {
@@ -349,7 +355,7 @@ public class PostPanel extends JPanel{
 				
 				String heartURL = "";
 				System.out.println(post.post_id + "'s liekPanel Clicked");
-				int like=SQLMethods.Like(SQLMethods.GetCon(), user.user_id, post.post_id);
+				int like=SQLMethods.PostLike(SQLMethods.GetCon(), ClientInformation.Logined_id, post.post_id);
 				System.out.println(like);
 				if(like==1) {
 					heartURL = "src/assets/UI/fullHeart.png";
