@@ -148,6 +148,44 @@ public class PostPanel extends JPanel{
 		JTextPane text = new JTextPane();
 		text.setText(post.content);
 		scroll.setViewportView(text);
+		
+		liekPanel.addMouseListener(new MouseAdapter() {
+			
+			ImageIcon likeImage_1=new ImageIcon();
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				String q1 = "select count(liker_id) from post_like where post_id = \"" + post.post_id + "\";";
+				Connection con = SQLMethods.GetCon();
+				ResultSet rs = SQLMethods.ExecuteQuery(con, q1);
+				
+				int cnt = 0;
+				try {
+					if(rs.next()) {
+						cnt = rs.getInt(1);				
+					}
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				
+				System.out.println(post.post_id + "'s liekPanel Clicked");
+				int like=SQLMethods.Like(SQLMethods.GetCon(), user.user_id, post.post_id);
+				System.out.println(like);
+				if(like==1) {
+					imgURL = "src/assets/UI/fullHeart.png";
+					likeImage_1 = ImageManager.GetImageUsingFileSystem(imgURL, 20, 20);
+					cnt=cnt+1;
+				}
+				else if(like==0) {
+					imgURL = "src/assets/UI/emptyHeart.png";
+					likeImage_1 = ImageManager.GetImageUsingFileSystem(imgURL, 20, 20);
+					cnt=cnt-1;
+				}
+				likeIcon.setIcon(likeImage_1);
+				likeCnt.setText("" + cnt);
+				
+			}
+		});
 	}
 	
 	/**
@@ -273,5 +311,43 @@ public class PostPanel extends JPanel{
 			images.add(imgLabel);
 			
 		}	
+		
+		liekPanel.addMouseListener(new MouseAdapter() {
+			
+			ImageIcon likeImage_1=new ImageIcon();
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				String q1 = "select count(liker_id) from post_like where post_id = \"" + post.post_id + "\";";
+				Connection con = SQLMethods.GetCon();
+				ResultSet rs = SQLMethods.ExecuteQuery(con, q1);
+				
+				int cnt = 0;
+				try {
+					if(rs.next()) {
+						cnt = rs.getInt(1);				
+					}
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				
+				System.out.println(post.post_id + "'s liekPanel Clicked");
+				int like=SQLMethods.Like(SQLMethods.GetCon(), user.user_id, post.post_id);
+				System.out.println(like);
+				if(like==1) {
+					imgURL = "src/assets/UI/fullHeart.png";
+					likeImage_1 = ImageManager.GetImageUsingFileSystem(imgURL, 20, 20);
+					cnt=cnt+1;
+				}
+				else if(like==0) {
+					imgURL = "src/assets/UI/emptyHeart.png";
+					likeImage_1 = ImageManager.GetImageUsingFileSystem(imgURL, 20, 20);
+					cnt=cnt-1;
+				}
+				likeIcon.setIcon(likeImage_1);
+				likeCnt.setText("" + cnt);
+				
+			}
+		});
 	}
 }
