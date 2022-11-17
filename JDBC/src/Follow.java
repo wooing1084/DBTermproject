@@ -48,12 +48,12 @@ public class Follow extends JFrame{
 		
 		panel = new JPanel();
 		panel.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 0));
-		//panel.setBackground(new Color(255, 255, 255));
+		panel.setBackground(new Color(255, 255, 255));
 		setContentPane(panel);
 		
 		JPanel panel_1 = new JPanel();
 		panel_1.setLayout(null);
-		//panel_1.setBackground(new Color(255, 255, 255));
+		panel_1.setBackground(new Color(255, 255, 255));
 		panel_1.setPreferredSize(new Dimension(480,65));
 		panel.add(panel_1);
 		
@@ -68,7 +68,7 @@ public class Follow extends JFrame{
 		});
 		panel_1.add(label);
 		
-		JLabel lblNewLabel = new JLabel("New label");
+		JLabel lblNewLabel = new JLabel("Follow List");
 		lblNewLabel.setBounds(180,7,100,40);
 		lblNewLabel.setHorizontalAlignment(JLabel.CENTER);
 		panel_1.add(lblNewLabel);
