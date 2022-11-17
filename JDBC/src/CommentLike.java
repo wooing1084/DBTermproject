@@ -5,9 +5,12 @@ import java.awt.Font;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.List;
 
 import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
@@ -34,30 +37,55 @@ private JPanel panel;
 		panel.setBackground(new Color(255, 255, 255));
 		setContentPane(panel);
 		
-		JPanel panel_1 = new JPanel();
-		panel_1.setLayout(null);
-		panel_1.setBackground(new Color(255, 255, 255));
-		panel_1.setBorder(new LineBorder(new Color(0, 0, 0), 1));
-		panel_1.setPreferredSize(new Dimension(480,65));
-		panel.add(panel_1);
+		JPanel appbar = new JPanel();
+		appbar.setBackground(new Color(255, 255, 255));
+		appbar.setPreferredSize(new Dimension(464,65));
+		appbar.setLayout(null);
+		panel.add(appbar);
 		
-		JLabel label = new JLabel("back");
-		label.setFont(font);
-		label.setBounds(15,7,65,40);
-		label.addMouseListener(new MouseAdapter() {
+		ImageIcon logo = ImageManager.GetImageUsingFileSystem("src/assets/logo.png", 50,50);
+		
+		JLabel Logo = new JLabel(logo);
+		Logo.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				System.out.println("back");
-				dispose();
 			}
 		});
-		panel_1.add(label);
+		Logo.setBounds(12, 5, 50, 50);
+		Logo.setBackground(new Color(255, 255,255));
+		Logo.setBounds(200, 5, 50, 50);
+
 		
-		JLabel lblNewLabel = new JLabel("Comment Like List");
-		lblNewLabel.setFont(font);
-		lblNewLabel.setBounds(160,7,160,40);
-		lblNewLabel.setHorizontalAlignment(JLabel.CENTER);
-		panel_1.add(lblNewLabel);
+		appbar.add(Logo);
+		
+		String q1 = "select profile_Image_dir from user where user_id = \"" + ClientInformation.Logined_id + "\";";
+		ResultSet rs = SQLMethods.ExecuteQuery(SQLMethods.GetCon(), q1);
+		
+		String imgUrl = "";
+		try {
+			if(rs.next()) {
+				imgUrl = rs.getString(1);
+			}
+			if(imgUrl.compareTo("") == 0)  
+				imgUrl = "https://play-lh.googleusercontent.com/38AGKCqmbjZ9OuWx4YjssAz3Y0DTWbiM5HB0ove1pNBq_o9mtWfGszjZNxZdwt_vgHo";
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
+		
+		ImageIcon userImage = ImageManager.GetImageUsingURL(imgUrl, 50, 50);
+		JLabel UserBtn = new JLabel(userImage);
+		UserBtn.setBounds(12, 5, 50, 50);
+		UserBtn.setBackground(new Color(255, 255,255));
+		UserBtn.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+			}
+		});
+
+		
+		appbar.add(UserBtn);
 		
 		//
 		
@@ -72,16 +100,15 @@ private JPanel panel;
 			
 		JScrollPane scrollpane=new JScrollPane(panel_3);
 		scrollpane.setSize(470, 700);
-		//scrollpane.setPreferredSize(new Dimension(460, 700));
 		scrollpane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 		scrollpane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
 			
-			
 		for(int i=0;i<num_of_comment;i++) {
-			User u=new User(post_id);
+			User u=new User(commentlikers.get(i));
 			UserPanel p1=new UserPanel(u);
 			panel_3.add(p1);
 		}			
+		
 		layeredpanel.add(scrollpane);
 		setVisible(true);
 	}
