@@ -493,40 +493,32 @@ public class SQLMethods {
                 return -1;
             
 
-            q1 = "select * from comment_like where user_id = \"" + user_id + "\";";
-            rs = stmt.executeQuery(q1);
-            if(rs.next())
-            {
-            	if(rs.getString(1).compareTo("") == 0)
+    
+            String q2 = "select * from comment_like where comment_id = \"" + comment_id + "\" and user_id = \"" + user_id + "\";";
+            ResultSet tRs = SQLMethods.ExecuteQuery(SQLMethods.GetCon(), q2);
+            if(tRs.next()) {
+            	if(tRs.getString(1).compareTo("") != 0)
             	{
-               	
-            		String q2 = "insert into comment_like values(\"" +comment_id + "\", \"" + user_id + "\");";
+            		q2 = "delete from comment_like where user_id = \"" + user_id +"\" and comment_id = \"" + comment_id + "\";";
+            		stmt.executeUpdate(q2);            			
+            	}
+            	else {
+            		q2 = "insert into comment_like values(\"" +comment_id + "\", \"" + user_id + "\");";
                     stmt.executeUpdate(q2);
                     return 1;
             	}
-            	String q2 = "select * from comment_like where comment_id = \"" + comment_id + "\" and user_id = \"" + user_id + "\";";
-            	ResultSet tRs = SQLMethods.ExecuteQuery(SQLMethods.GetCon(), q2);
-            	if(tRs.next()) {
-            		if(tRs.getString(1).compareTo("") != 0)
-            		{
-            			q2 = "delete from comment_like where user_id = \"" + user_id +"\" and comment_id = \"" + comment_id + "\";";
-            			stmt.executeUpdate(q2);            			
-            		}
-            		else {
-            			q2 = "insert into comment_like values(\"" +comment_id + "\", \"" + user_id + "\");";
-                        stmt.executeUpdate(q2);
-                        return 1;
-            		}
-            	}
+            
                        
                 return 0;
             }
+        
             else{
             	
-                String q2 = "insert into comment_like values(\"" +comment_id + "\", \"" + user_id + "\");";
+                 q2 = "insert into comment_like values(\"" +comment_id + "\", \"" + user_id + "\");";
                 stmt.executeUpdate(q2);
                 return 1;
             }
+            
         }catch (SQLException e){
             e.printStackTrace();
             return -1;
@@ -550,37 +542,26 @@ public class SQLMethods {
                 return -1;
             
 
-            q1 = "select * from childcomment_like where user_id = \"" + user_id + "\";";
-            rs = stmt.executeQuery(q1);
-            if(rs.next())
-            {
-            	if(rs.getString(1).compareTo("") == 0)
+            String q2 = "select * from childcomment_like where childcomment_id = \"" + comment_id + "\" and user_id = \"" + user_id + "\";";
+            ResultSet tRs = SQLMethods.ExecuteQuery(SQLMethods.GetCon(), q2);
+            if(tRs.next()) {
+            	if(tRs.getString(1).compareTo("") != 0)
             	{
-               	
-            		String q2 = "insert into childcomment_like values(\"" +comment_id + "\", \"" + user_id + "\");";
-                    stmt.executeUpdate(q2);
-                    return 1;
-            	}
-            	String q2 = "select * from childcomment_like where childcomment_id = \"" + comment_id + "\" and user_id = \"" + user_id + "\";";
-            	ResultSet tRs = SQLMethods.ExecuteQuery(SQLMethods.GetCon(), q2);
-            	if(tRs.next()) {
-            		if(tRs.getString(1).compareTo("") != 0)
-            		{
-            			q2 = "delete from childcomment_like where user_id = \"" + user_id +"\" and childcomment_id = \"" + comment_id + "\";";
+            		q2 = "delete from childcomment_like where user_id = \"" + user_id +"\" and childcomment_id = \"" + comment_id + "\";";
             			stmt.executeUpdate(q2);            			
-            		}
-            		else {
-            			q2 = "insert into childcomment_like values(\"" +comment_id + "\", \"" + user_id + "\");";
-                        stmt.executeUpdate(q2);
-                        return 1;
-            		}
             	}
+            	else {
+            		q2 = "insert into childcomment_like values(\"" +comment_id + "\", \"" + user_id + "\");";
+            		stmt.executeUpdate(q2);
+            		return 1;
+            	}
+
                        
                 return 0;
             }
             else{
             	
-                String q2 = "insert into childcomment_like values(\"" +comment_id + "\", \"" + user_id + "\");";
+                q2 = "insert into childcomment_like values(\"" +comment_id + "\", \"" + user_id + "\");";
                 stmt.executeUpdate(q2);
                 return 1;
             }

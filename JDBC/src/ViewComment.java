@@ -1,10 +1,7 @@
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.EventQueue;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -17,21 +14,22 @@ import java.util.List;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import java.awt.Component;
-import javax.swing.JTextField;
-import javax.swing.border.LineBorder;
-import javax.swing.JScrollPane;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
-import java.awt.BorderLayout;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextField;
+import javax.swing.border.EmptyBorder;
+import javax.swing.border.LineBorder;
 
-public class ViewPost extends JFrame {
+public class ViewComment extends JFrame {
 
 	private JPanel contentPane;
 	public JTextField commentText;
-	public String post_id;
+	public String comment_id;
 
-	public ViewPost(String p_id) {
-		post_id = p_id;
+	public ViewComment(String c_id) {
+		comment_id = c_id;
 		
 		setBackground(new Color(255, 255, 255));
 		setBounds(150, 150, 480, 800);
@@ -118,83 +116,27 @@ public class ViewPost extends JFrame {
 		
 		appbar.add(SearchBtn);
 		
-		Post p = new Post(p_id);
-		PostPanel post = new PostPanel(p);
-		center.add(post);
-		
 		commentText = new JTextField();
 		commentText.setBounds(12, 10, 367, 48);
 		commentText.setColumns(10);
+		
+		
+		Comment p = new Comment(c_id);
+		CommentPanel comment = new CommentPanel(p,commentText);
+		center.add(comment);
+		
 
 		
-		JPanel commentStatus = new JPanel();
-		center.add(commentStatus);
-		commentStatus.setBorder(new LineBorder(new Color(0, 0, 0)));
-		commentStatus.setBackground(new Color(255, 255, 255));
-		commentStatus.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 5));
-		commentStatus.setPreferredSize(new Dimension(464,35));
-		
-		
-		q1 = "select count(liker_id) from post_like where post_id = \"" + p_id + "\";";
-		rs = SQLMethods.ExecuteQuery(SQLMethods.GetCon(), q1);
-		
-		int cnt = 0;
-		
-		try {
-			if(rs.next())
-			cnt = rs.getInt(1);
-		} catch (SQLException e1) {
-				// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-		
-		JLabel likeCnt = new JLabel(""+cnt);
-		commentStatus.add(likeCnt);
-		
-		JButton likeBtn = new JButton("Likes");
-		likeBtn.setBackground(new Color(255, 255, 255));
-		likeBtn.setToolTipText("");
-		likeBtn.setBorderPainted(false);
-		likeBtn.setFocusPainted(false);
-		
-		commentStatus.add(likeBtn);
-		
-		List<Comment> list = SQLMethods.Comments(SQLMethods.GetCon(), p_id);
-		
-		cnt = list.size();
+		List<ChildComment> list = SQLMethods.ChildComments(SQLMethods.GetCon(), c_id);
 
-		JLabel commentCnt = new JLabel(""+cnt);
-		commentStatus.add(commentCnt);
-			
-		JLabel lblNewLabel = new JLabel("Comments");
-		commentStatus.add(lblNewLabel);
-		
 		//comment 객체 생성 후 추가(메인피드와 비슷함)
 		JPanel comments = new JPanel();
 		comments.setBackground(new Color(255, 255, 255));
 		comments.setLayout(new BoxLayout(comments, BoxLayout.Y_AXIS));
 		
 		for(int i =0;i<list.size();i++) {
-			CommentPanel c = new CommentPanel(list.get(i), this.commentText);
-			Comment temp = list.get(i);
-			
-			c.addMouseListener(new MouseAdapter() {
-				@Override
-				public void mouseClicked(MouseEvent e) {
-					new ViewComment(temp.comment_id);
-				}
-			});
-			
+			ChildCommentPanel c = new ChildCommentPanel(list.get(i));
 			comments.add(c);
-			
-			List<ChildComment> cList = SQLMethods.ChildComments(SQLMethods.GetCon(), list.get(i).comment_id);
-			
-			for(int j =0;j< (cList.size() >= 2 ? 2 : cList.size()); j++) {
-				ChildCommentPanel cC = new ChildCommentPanel(cList.get(j));
-				comments.add(cC);				
-			}
-			
-			
 		}
 		JScrollPane scrollPane = new JScrollPane(comments);
 		scrollPane.setPreferredSize(new Dimension(464, 550));
@@ -220,11 +162,11 @@ public class ViewPost extends JFrame {
 		enterBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String text = commentText.getText();
-				SQLMethods.WriteComment(SQLMethods.GetCon(), ClientInformation.Logined_id, p_id,text);
+				SQLMethods.WriteChildComment(SQLMethods.GetCon(), ClientInformation.Logined_id, c_id,text);
 				
 				comments.invalidate();
 				
-				String q2 = "select max(comment_id) from comment;";
+				String q2 = "select max(comment_id) from childcomment;";
 				ResultSet rs2 = SQLMethods.ExecuteQuery(SQLMethods.GetCon(), q2);
 				String c_id= "";
 				try {
@@ -237,8 +179,8 @@ public class ViewPost extends JFrame {
 					e1.printStackTrace();
 				}
 				
-				Comment c1 = new Comment(c_id);
-				CommentPanel cP1 = new CommentPanel(c1, commentText );
+				ChildComment c1 = new ChildComment(c_id);
+				ChildCommentPanel cP1 = new ChildCommentPanel(c1);
 				comments.add(cP1);
 				
 				comments.validate();
@@ -247,9 +189,10 @@ public class ViewPost extends JFrame {
 		panel.add(enterBtn);
 		
 
-		int h = 800 - 20 - top.getPreferredSize().height - bottom.getPreferredSize().height - post.getPreferredSize().height - commentStatus.getPreferredSize().height;
+		int h = 800 - 20 - top.getPreferredSize().height - bottom.getPreferredSize().height - comment.getPreferredSize().height;
 		scrollPane.setPreferredSize(new Dimension(464,h));
 		
 		setVisible(true);
 	}
+
 }
