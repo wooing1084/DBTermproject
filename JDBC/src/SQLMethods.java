@@ -290,7 +290,7 @@ public class SQLMethods {
     //return 0 unlike
     //return 1 like
     //return -1 error
-    public static int Like(Connection connection, String user_id, String post_id)
+    public static int PostLike(Connection connection, String user_id, String post_id)
     {
         Statement stmt =null;
         ResultSet rs = null;
@@ -310,10 +310,18 @@ public class SQLMethods {
             rs = stmt.executeQuery(q1);
             if(rs.next())
             {
-                System.out.println("Already liked. Unlike.");
-                String q2 = "delete from post_like where liker_id = \"" + user_id +"\" and post_id = \"" + post_id + "\";";
-                stmt.executeUpdate(q2);
-                return 0;
+            	if(rs.getString(1).compareTo("") == 0)
+            	{
+            		String q2 = "insert into post_like values(\""+post_id + "\", \"" + user_id + "\");";
+                    stmt.executeUpdate(q2);
+                    return 1;
+            	}
+            	else {
+            		System.out.println("Already liked. Unlike.");
+            		String q2 = "delete from post_like where liker_id = \"" + user_id +"\" and post_id = \"" + post_id + "\";";
+            		stmt.executeUpdate(q2);
+            		return 0;
+            	}
             }
             else{
                 String q2 = "insert into post_like values(\""+post_id + "\", \"" + user_id + "\");";
@@ -325,7 +333,9 @@ public class SQLMethods {
             return -1;
         }
     }
-    public static List<String> Likers(Connection connection, String post_id)
+    
+    
+    public static List<String> PostLikers(Connection connection, String post_id)
     {
         Statement stmt = null;
         String q1 = "select liker_id from post_like where post_id = \"" + post_id + "\";";
@@ -453,7 +463,7 @@ public class SQLMethods {
     	ResultSet rs = SQLMethods.ExecuteQuery(connection, q1);
     	
     	try {
-			if(rs.next()) {
+			while(rs.next()) {
 				ChildComment c1 = new ChildComment(rs.getString(1));
 				
 				list.add(c1);				
@@ -487,20 +497,33 @@ public class SQLMethods {
             rs = stmt.executeQuery(q1);
             if(rs.next())
             {
-            	String q2 = "select like_id from comment_like where comment_id = \"" + comment_id + "\", user_id = \"" + user_id + "\";";
+            	if(rs.getString(1).compareTo("") == 0)
+            	{
+               	
+            		String q2 = "insert into comment_like values(\"" +comment_id + "\", \"" + user_id + "\");";
+                    stmt.executeUpdate(q2);
+                    return 1;
+            	}
+            	String q2 = "select * from comment_like where comment_id = \"" + comment_id + "\" and user_id = \"" + user_id + "\";";
             	ResultSet tRs = SQLMethods.ExecuteQuery(SQLMethods.GetCon(), q2);
             	if(tRs.next()) {
-            		q2 = "delete from comment_like where user_id = \"" + user_id +"\" and comment_id = \"" + comment_id + "\";";
-                    stmt.executeUpdate(q2);
+            		if(tRs.getString(1).compareTo("") != 0)
+            		{
+            			q2 = "delete from comment_like where user_id = \"" + user_id +"\" and comment_id = \"" + comment_id + "\";";
+            			stmt.executeUpdate(q2);            			
+            		}
+            		else {
+            			q2 = "insert into comment_like values(\"" +comment_id + "\", \"" + user_id + "\");";
+                        stmt.executeUpdate(q2);
+                        return 1;
+            		}
             	}
                        
                 return 0;
             }
             else{
-            	String q2 = "select count(user_id) from childcomment where comment_id = \"" + comment_id + "\";";
-
             	
-                q2 = "insert into comment_like values(\"" +comment_id + "\", \"" + user_id + "\");";
+                String q2 = "insert into comment_like values(\"" +comment_id + "\", \"" + user_id + "\");";
                 stmt.executeUpdate(q2);
                 return 1;
             }
@@ -531,15 +554,32 @@ public class SQLMethods {
             rs = stmt.executeQuery(q1);
             if(rs.next())
             {
-            	
-            	String q2 = "delete from childcomment_like where user_id = \"" + user_id +"\" and childcomment_id = \"" + comment_id + "\";";
-                   stmt.executeUpdate(q2);
-
+            	if(rs.getString(1).compareTo("") == 0)
+            	{
+               	
+            		String q2 = "insert into childcomment_like values(\"" +comment_id + "\", \"" + user_id + "\");";
+                    stmt.executeUpdate(q2);
+                    return 1;
+            	}
+            	String q2 = "select * from childcomment_like where childcomment_id = \"" + comment_id + "\" and user_id = \"" + user_id + "\";";
+            	ResultSet tRs = SQLMethods.ExecuteQuery(SQLMethods.GetCon(), q2);
+            	if(tRs.next()) {
+            		if(tRs.getString(1).compareTo("") != 0)
+            		{
+            			q2 = "delete from childcomment_like where user_id = \"" + user_id +"\" and childcomment_id = \"" + comment_id + "\";";
+            			stmt.executeUpdate(q2);            			
+            		}
+            		else {
+            			q2 = "insert into childcomment_like values(\"" +comment_id + "\", \"" + user_id + "\");";
+                        stmt.executeUpdate(q2);
+                        return 1;
+            		}
+            	}
                        
                 return 0;
             }
             else{
- 
+            	
                 String q2 = "insert into childcomment_like values(\"" +comment_id + "\", \"" + user_id + "\");";
                 stmt.executeUpdate(q2);
                 return 1;

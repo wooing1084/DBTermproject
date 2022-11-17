@@ -4,6 +4,8 @@ import javax.swing.JLabel;
 import java.awt.Color;
 import java.awt.Dimension;
 import javax.swing.JScrollPane;
+import javax.swing.JTextField;
+
 import java.awt.FlowLayout;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -24,7 +26,7 @@ public class CommentPanel extends JPanel {
 	/**
 	 * Create the panel.
 	 */
-	public CommentPanel(Comment comment, ViewPost pPost) {
+	public CommentPanel(Comment comment, JTextField textField) {
 		setLayout(null);
 		setPreferredSize(new Dimension(450,100));
 		setBounds(0, 0, 450, 100);
@@ -74,7 +76,7 @@ public class CommentPanel extends JPanel {
 		reply.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				String text = pPost.commentText.getText();
+				String text = textField.getText();
 				SQLMethods.WriteChildComment(SQLMethods.GetCon(), ClientInformation.Logined_id, comment.comment_id,text);
 			}
 		});
@@ -132,7 +134,27 @@ public class CommentPanel extends JPanel {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				System.out.println("click like");
-				SQLMethods.CommentLike(SQLMethods.GetCon(), ClientInformation.Logined_id, comment.comment_id);
+							
+				String heartURL = "";
+				
+				ImageIcon likeImage_1 = null;
+				int cnt1 = SQLMethods.CommentLikers(SQLMethods.GetCon(), comment.comment_id).size();
+				
+				System.out.println(comment.comment_id + "'s liekPanel Clicked");
+				int like=SQLMethods.CommentLike(SQLMethods.GetCon(), ClientInformation.Logined_id , comment.comment_id);
+				System.out.println(like);
+				if(like==1) {
+					heartURL = "src/assets/UI/fullHeart.png";
+					likeImage_1 = ImageManager.GetImageUsingFileSystem(heartURL, 20, 20);
+					cnt1=cnt1+1;
+				}
+				else if(like==0) {
+					heartURL = "src/assets/UI/emptyHeart.png";
+					likeImage_1 = ImageManager.GetImageUsingFileSystem(heartURL, 20, 20);
+					cnt1=cnt1-1;
+				}
+				heart.setIcon(likeImage_1);
+				likes.setText("" + cnt1);
 			}
 		});
 		heart.setPreferredSize(new Dimension(20,20));

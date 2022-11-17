@@ -11,9 +11,10 @@ public class main {
     	SQLMethods.init();
     	ClientInformation.Logined_id = "abcd";
  
+    	//new UserSearch();
     	//new posting();
-    	//new Login();
-    	new MainFeed();  	
+    	new Login();
+    	//new MainFeed();  	
     }
 
     

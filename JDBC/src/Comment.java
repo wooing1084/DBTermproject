@@ -31,7 +31,7 @@ public class Comment {
 
 
     public int GetLikes(){
-        return SQLMethods.Likers(SQLMethods.GetCon(), user_id).size();
+        return SQLMethods.PostLikers(SQLMethods.GetCon(), user_id).size();
     }
 
 }

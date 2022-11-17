@@ -121,6 +121,10 @@ public class ViewPost extends JFrame {
 		Post p = new Post(p_id);
 		PostPanel post = new PostPanel(p);
 		center.add(post);
+		
+		commentText = new JTextField();
+		commentText.setBounds(12, 10, 367, 48);
+		commentText.setColumns(10);
 
 		
 		JPanel commentStatus = new JPanel();
@@ -171,12 +175,12 @@ public class ViewPost extends JFrame {
 		comments.setLayout(new BoxLayout(comments, BoxLayout.Y_AXIS));
 		
 		for(int i =0;i<list.size();i++) {
-			CommentPanel c = new CommentPanel(list.get(i), this);
+			CommentPanel c = new CommentPanel(list.get(i), this.commentText);
 			comments.add(c);
 			
 			List<ChildComment> cList = SQLMethods.ChildComments(SQLMethods.GetCon(), list.get(i).comment_id);
 			
-			for(int j =0;j< (cList.size() >= 2 ? 2: cList.size()); j++) {
+			for(int j =0;j< (cList.size() >= 2 ? 2 : cList.size()); j++) {
 				ChildCommentPanel cC = new ChildCommentPanel(cList.get(j));
 				comments.add(cC);				
 			}
@@ -197,10 +201,10 @@ public class ViewPost extends JFrame {
 		bottom.add(panel);
 		panel.setLayout(null);
 		
-		commentText = new JTextField();
-		commentText.setBounds(12, 10, 367, 48);
+		
 		panel.add(commentText);
-		commentText.setColumns(10);
+		
+		
 		
 		JButton enterBtn = new JButton("Enter");
 		enterBtn.setBounds(391, 10, 61, 48);
@@ -208,6 +212,27 @@ public class ViewPost extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				String text = commentText.getText();
 				SQLMethods.WriteComment(SQLMethods.GetCon(), ClientInformation.Logined_id, p_id,text);
+				
+				comments.invalidate();
+				
+				String q2 = "select max(comment_id) from comment;";
+				ResultSet rs2 = SQLMethods.ExecuteQuery(SQLMethods.GetCon(), q2);
+				String c_id= "";
+				try {
+					if(rs2.next())
+					{
+						c_id = rs2.getString(1);
+					}
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				
+				Comment c1 = new Comment(c_id);
+				CommentPanel cP1 = new CommentPanel(c1, commentText );
+				comments.add(cP1);
+				
+				comments.validate();
 			}
 		});
 		panel.add(enterBtn);

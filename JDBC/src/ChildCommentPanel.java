@@ -69,7 +69,14 @@ public class ChildCommentPanel extends JPanel {
 		String imgURL ="";
 		try {
 			if(rs.next()) {
-				imgURL = "src/assets/UI/fullHeart.png";
+				if(rs.getString(1).compareTo("") == 0)
+				{
+					imgURL = "src/assets/UI/emptyHeart.png";
+				}
+				else {
+					imgURL = "src/assets/UI/fullHeart.png";
+					
+				}
 				
 			}
 			else {
@@ -90,7 +97,28 @@ public class ChildCommentPanel extends JPanel {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				System.out.println("like click");
-				SQLMethods.ChildCommentLike(SQLMethods.GetCon(), ClientInformation.Logined_id, comment.comment_id);
+				
+				
+				String heartURL = "";
+				
+				ImageIcon likeImage_1 = null;
+				int cnt1 = SQLMethods.ChildCommentLikers(SQLMethods.GetCon(), comment.comment_id).size();
+				
+				System.out.println(comment.comment_id + "'s liekPanel Clicked");
+				int like=SQLMethods.ChildCommentLike(SQLMethods.GetCon(), ClientInformation.Logined_id , comment.comment_id);
+				System.out.println(like);
+				if(like==1) {
+					heartURL = "src/assets/UI/fullHeart.png";
+					likeImage_1 = ImageManager.GetImageUsingFileSystem(heartURL, 20, 20);
+					cnt1=cnt1+1;
+				}
+				else if(like==0) {
+					heartURL = "src/assets/UI/emptyHeart.png";
+					likeImage_1 = ImageManager.GetImageUsingFileSystem(heartURL, 20, 20);
+					cnt1=cnt1-1;
+				}
+				heart.setIcon(likeImage_1);
+				likes.setText("" + cnt1);
 				
 			}
 		});

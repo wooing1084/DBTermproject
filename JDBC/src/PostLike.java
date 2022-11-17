@@ -29,7 +29,7 @@ private JPanel panel;
 		Font font = new Font("DialogInput", Font.BOLD, 20);
 		
 		Connection con=SQLMethods.GetCon();
-		List<String> likers=SQLMethods.Likers(con,post_id);
+		List<String> likers=SQLMethods.PostLikers(con,post_id);
 		int num_of_like=likers.size();		
 		
 		panel = new JPanel();
