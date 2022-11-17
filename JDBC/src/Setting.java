@@ -21,7 +21,11 @@ public class Setting extends JFrame {
 	private JTextField textField_5;
 
 	String nickname = null;
+	String profileDir = null;
+	String backgroundDir = null;
 	String email = "Email not saved. Please enter e-mail!";
+	private JTextField textField_6;
+	private JTextField textField_7;
 	public Setting(String id, int pwd){
 
 		JPanel contentPane;
@@ -30,7 +34,7 @@ public class Setting extends JFrame {
 		
 		//Connection connection =  null;
 		
-		setBounds(500,500,490,542);
+		setBounds(500,500,1268,1052);
 		setTitle("Setting");
 		getContentPane().setLayout(null);
 		
@@ -38,12 +42,13 @@ public class Setting extends JFrame {
 		JPanel panel_1 = new JPanel(); //닉네임 변경
 		JPanel panel_2 = new JPanel(); //이메일 변경
 		JPanel panel_3 = new JPanel(); //내 정보
+		JPanel panel_4 = new JPanel(); //프로필 이미지 및 배경사진 변경
 		
 		panel.setVisible(true);
 		panel_1.setVisible(false);
 		panel_2.setVisible(false);
 		panel_3.setVisible(false);
-		
+		panel_4.setVisible(false);
 		
 		panel.setBounds(0, 0, 473, 505);
 		getContentPane().add(panel);
@@ -51,6 +56,7 @@ public class Setting extends JFrame {
 		panel.setBackground(new Color(255, 255, 255));
 		
 		JTextArea txtrSetting = new JTextArea();
+		txtrSetting.setEditable(false);
 		txtrSetting.setFont(new Font("Nirmala UI Semilight", Font.BOLD, 33));
 		//txtrSetting.setFont(new Font("맑은 고딕", Font.BOLD, 27));
 		txtrSetting.setText("Setting");
@@ -59,6 +65,7 @@ public class Setting extends JFrame {
 		panel.add(txtrSetting);
 		
 		JTextArea txtrEditProfile = new JTextArea();
+		txtrEditProfile.setEditable(false);
 		txtrEditProfile.setFont(new Font("Nirmala UI Semilight", Font.BOLD, 23));
 		txtrEditProfile.setText("edit profile");
 		txtrEditProfile.setBackground(new Color(255, 255, 255));
@@ -94,17 +101,18 @@ public class Setting extends JFrame {
 		});
 		
 		JTextArea txtrCheakProfile = new JTextArea();
+		txtrCheakProfile.setEditable(false);
 		txtrCheakProfile.setText("Cheak profile");
 		txtrCheakProfile.setFont(new Font("Nirmala UI Semilight", Font.BOLD, 23));
 		txtrCheakProfile.setBackground(new Color(255, 255, 255));
-		txtrCheakProfile.setBounds(12, 338, 212, 31);
+		txtrCheakProfile.setBounds(12, 375, 212, 31);
 		panel.add(txtrCheakProfile);
 		
 		JButton btnNewButton_2 = new JButton("My profile");
 		btnNewButton_2.setBackground(new Color(255, 255, 255));
 		btnNewButton_2.setHorizontalAlignment(SwingConstants.LEFT);
 		btnNewButton_2.setFont(new Font("Nirmala UI Semilight", Font.PLAIN, 20));
-		btnNewButton_2.setBounds(12, 388, 447, 53);
+		btnNewButton_2.setBounds(12, 416, 447, 53);
 		panel.add(btnNewButton_2);
 		
 		btnNewButton_2.addActionListener(new ActionListener() {
@@ -119,13 +127,34 @@ public class Setting extends JFrame {
 		
 		JButton btnNewButton_3_1 = new JButton(img);
 		btnNewButton_3_1.setBounds(394, 10, 65, 62);
-		panel.add(btnNewButton_3_1);
 		btnNewButton_3_1.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				//프로필 화면으로 돌아감
 			}
 		});
+		panel.add(btnNewButton_3_1);
+		
+		JButton btnChangeImage = new JButton("Change image");
+		btnChangeImage.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+		btnChangeImage.setHorizontalAlignment(SwingConstants.LEFT);
+		btnChangeImage.setFont(new Font("Nirmala UI Semilight", Font.PLAIN, 20));
+		btnChangeImage.setBackground(Color.WHITE);
+		btnChangeImage.setBounds(12, 280, 447, 53);
+		btnChangeImage.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				panel_4.setVisible(true);
+				panel.setVisible(false);
+			}
+		});
+		panel.add(btnChangeImage);
+		
+		
+
 
 		////////////////패널 1/////////////////
 		panel_1.setBounds(0, 0, 473, 505);
@@ -134,6 +163,7 @@ public class Setting extends JFrame {
 		panel_1.setLayout(null);
 		
 		JTextArea txtrSetting_1 = new JTextArea();
+		txtrSetting_1.setEditable(false);
 		txtrSetting_1.setText("Setting");
 		txtrSetting_1.setFont(new Font("Nirmala UI Semilight", Font.BOLD, 33));
 		txtrSetting_1.setBackground(Color.WHITE);
@@ -141,6 +171,7 @@ public class Setting extends JFrame {
 		panel_1.add(txtrSetting_1);
 		
 		JTextArea txtrYourNickname = new JTextArea();
+		txtrYourNickname.setEditable(false);
 		//txtrYourNickname.setEnabled(false);
 		txtrYourNickname.setText("Your nickname");
 		txtrYourNickname.setFont(new Font("Nirmala UI Semilight", Font.BOLD, 23));
@@ -149,10 +180,11 @@ public class Setting extends JFrame {
 		panel_1.add(txtrYourNickname);
 		
 		JTextArea txtrChangeNickname = new JTextArea();
+		txtrChangeNickname.setEditable(false);
 		txtrChangeNickname.setText("Change nickname");
 		txtrChangeNickname.setFont(new Font("Nirmala UI Semilight", Font.BOLD, 23));
 		txtrChangeNickname.setBackground(Color.WHITE);
-		txtrChangeNickname.setBounds(12, 238, 212, 31);
+		txtrChangeNickname.setBounds(12, 238, 212, 36);
 		panel_1.add(txtrChangeNickname);
 
 		try {
@@ -210,6 +242,7 @@ public class Setting extends JFrame {
 		panel_2.setLayout(null);
 		
 		JTextArea txtrSetting_2 = new JTextArea();
+		txtrSetting_2.setEditable(false);
 		txtrSetting_2.setText("Setting");
 		txtrSetting_2.setFont(new Font("Nirmala UI Semilight", Font.BOLD, 33));
 		txtrSetting_2.setBackground(Color.WHITE);
@@ -217,6 +250,7 @@ public class Setting extends JFrame {
 		panel_2.add(txtrSetting_2);
 		
 		JTextArea txtrYourEmail = new JTextArea("Email not saved. Please enter e-mail!");
+		txtrYourEmail.setEditable(false);
 		txtrYourEmail.setText("Your e-mail");
 		txtrYourEmail.setFont(new Font("Nirmala UI Semilight", Font.BOLD, 23));
 		txtrYourEmail.setBackground(Color.WHITE);
@@ -241,10 +275,11 @@ public class Setting extends JFrame {
 		
 		
 		JTextArea txtrChangeEmail = new JTextArea();
+		txtrChangeEmail.setEditable(false);
 		txtrChangeEmail.setText("Change e-mail");
 		txtrChangeEmail.setFont(new Font("Nirmala UI Semilight", Font.BOLD, 23));
 		txtrChangeEmail.setBackground(Color.WHITE);
-		txtrChangeEmail.setBounds(12, 238, 212, 31);
+		txtrChangeEmail.setBounds(12, 238, 212, 36);
 		panel_2.add(txtrChangeEmail);
 		
 		textField_2 = new JTextField();
@@ -284,6 +319,7 @@ public class Setting extends JFrame {
 		panel_3.setLayout(null);
 		
 		JTextArea txtrSetting_2_1 = new JTextArea();
+		txtrSetting_2_1.setEditable(false);
 		txtrSetting_2_1.setText("Setting");
 		txtrSetting_2_1.setFont(new Font("Nirmala UI Semilight", Font.BOLD, 33));
 		txtrSetting_2_1.setBackground(Color.WHITE);
@@ -291,6 +327,7 @@ public class Setting extends JFrame {
 		panel_3.add(txtrSetting_2_1);
 		
 		JTextArea txtrNickname = new JTextArea();
+		txtrNickname.setEditable(false);
 		txtrNickname.setText("ID");
 		txtrNickname.setFont(new Font("Nirmala UI Semilight", Font.BOLD, 23));
 		txtrNickname.setBackground(Color.WHITE);
@@ -298,6 +335,7 @@ public class Setting extends JFrame {
 		panel_3.add(txtrNickname);
 
 		JTextArea txtrNickname_2 = new JTextArea();
+		txtrNickname_2.setEditable(false);
 		txtrNickname_2.setText("Nickname");
 		txtrNickname_2.setFont(new Font("Nirmala UI Semilight", Font.BOLD, 23));
 		txtrNickname_2.setBackground(Color.WHITE);
@@ -305,6 +343,7 @@ public class Setting extends JFrame {
 		panel_3.add(txtrNickname_2);
 		
 		JTextArea txtrNickname_2_1 = new JTextArea();
+		txtrNickname_2_1.setEditable(false);
 		txtrNickname_2_1.setText("e-mail");
 		txtrNickname_2_1.setFont(new Font("Nirmala UI Semilight", Font.BOLD, 23));
 		txtrNickname_2_1.setBackground(Color.WHITE);
@@ -343,12 +382,105 @@ public class Setting extends JFrame {
 				panel_3.setVisible(false);
 			}
 		});
-
+		
+		////////////////패널 4/////////////////
+		panel_4.setBounds(0, 0, 473, 505);
+		panel_4.setBackground(new Color(255, 255, 255));
+		getContentPane().add(panel_4);
+		panel_4.setLayout(null);
+		
+		JButton btnNewButton_3_4 = new JButton(img);
+		btnNewButton_3_4.setBounds(394, 10, 65, 62);
+		btnNewButton_3_4.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				panel.setVisible(true);
+				panel_4.setVisible(false);
+			}
+		});
+		panel_4.add(btnNewButton_3_4);
+		
+		JTextArea txtrSetting_2_1_1 = new JTextArea();
+		txtrSetting_2_1_1.setEditable(false);
+		txtrSetting_2_1_1.setText("Setting");
+		txtrSetting_2_1_1.setFont(new Font("Nirmala UI Semilight", Font.BOLD, 33));
+		txtrSetting_2_1_1.setBackground(Color.WHITE);
+		txtrSetting_2_1_1.setBounds(12, 26, 139, 46);
+		panel_4.add(txtrSetting_2_1_1);
+		
+		JTextArea txtrChangeProfileImage = new JTextArea("Change profile image");
+		txtrChangeProfileImage.setEditable(false);
+		txtrChangeProfileImage.setFont(new Font("Nirmala UI Semilight", Font.BOLD, 23));
+		txtrChangeProfileImage.setBackground(Color.WHITE);
+		txtrChangeProfileImage.setBounds(12, 108, 249, 35);
+		panel_4.add(txtrChangeProfileImage);
+		
+		JTextArea txtrChangeBackgroundImage = new JTextArea();
+		txtrChangeBackgroundImage.setEditable(false);
+		txtrChangeBackgroundImage.setText("Change background image");
+		txtrChangeBackgroundImage.setFont(new Font("Nirmala UI Semilight", Font.BOLD, 23));
+		txtrChangeBackgroundImage.setBackground(Color.WHITE);
+		txtrChangeBackgroundImage.setBounds(12, 238, 311, 40);
+		panel_4.add(txtrChangeBackgroundImage);
+		
+		try {
+			//자신의 프로필 사진 경로
+				String q1 = "select profile_Image_dir from user where user_id = \"" + id + "\";";
+				ResultSet rs = SQLMethods.ExecuteQuery(SQLMethods.GetCon(),q1);
+				if(rs.next()) {
+					profileDir = rs.getString(1);	
+				}
+			}catch(SQLException e) {
+				e.printStackTrace();
+			}
+		try {
+			//자신의 배경 사진 경로
+				String q1 = "select background_Image_dir from user where user_id = \"" + id + "\";";
+				ResultSet rs = SQLMethods.ExecuteQuery(SQLMethods.GetCon(),q1);
+				if(rs.next()) {
+					backgroundDir = rs.getString(1);	
+				}
+			}catch(SQLException e) {
+				e.printStackTrace();
+			}
+		textField_6 = new JTextField();
+		textField_6.setToolTipText("Enter profile image path");
+		textField_6.setColumns(10);
+		textField_6.setBounds(12, 153, 449, 53);
+		textField_6.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				String text = textField_6.getText();
+				String p1 = "update user set profile_Image_dir = \""+text+"\"where user_id= \"" + id + "\";";
+				if(SQLMethods.ExecuteUpdate(SQLMethods.GetCon(), p1) != 0) {
+					new CustomDialog("Setting", "profile image Changed!");
+				}
+			}
+		});
+		panel_4.add(textField_6);
+		
+		textField_7 = new JTextField();
+		textField_7.setColumns(10);
+		textField_7.setBounds(12, 284, 449, 53);
+		//TextHint hint = new TextHint(textField_7, "Enter background image path");
+		textField_7.setToolTipText("Enter background image path");
+		textField_7.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				String text = textField_7.getText();
+				String p1 = "update user set background_Image_dir = \""+text+"\"where user_id= \"" + id + "\";";
+				if(SQLMethods.ExecuteUpdate(SQLMethods.GetCon(), p1) != 0) {
+					new CustomDialog("Setting", "background image Changed!");
+				}
+			}
+		});
+		panel_4.add(textField_7);
+		//panel_4.add(hint);
 
 		
 		
 		//contentPane = new JPanel();
-		
 		setVisible(true);
 	}
 }
+
