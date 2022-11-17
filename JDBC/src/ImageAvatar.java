@@ -40,7 +40,7 @@ public class ImageAvatar extends JComponent{
 	}
 	
 	private Icon image;
-	private int borderSize = 3;
+	private int borderSize = 4;
 	private Color borderColor = new Color(255,255,255);
 	
 	@Override

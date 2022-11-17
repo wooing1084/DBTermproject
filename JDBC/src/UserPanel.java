@@ -37,7 +37,7 @@ public class UserPanel extends JPanel {
 		panel.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				new Profile(user.user_id, 0);
+				new Profile(user.user_id);
 				
 				
 			}
@@ -84,8 +84,10 @@ public class UserPanel extends JPanel {
 			e.printStackTrace();
 		}
 		
+		
 		ImageIcon followIcon = ImageManager.GetImageUsingFileSystem(followUrl,79,36);
 		JLabel follow = new JLabel(followIcon);
+		/*팔로우에 추가하기 (프로필)*/
 		follow.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {

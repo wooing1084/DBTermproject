@@ -34,7 +34,8 @@ public class Setting extends JFrame {
 		
 		//Connection connection =  null;
 		
-		setBounds(500,500,1268,1052);
+		setBounds(0, 0, 478, 763);
+		setLocationRelativeTo(null);
 		setTitle("Setting");
 		getContentPane().setLayout(null);
 		
@@ -43,14 +44,18 @@ public class Setting extends JFrame {
 		JPanel panel_2 = new JPanel(); //이메일 변경
 		JPanel panel_3 = new JPanel(); //내 정보
 		JPanel panel_4 = new JPanel(); //프로필 이미지 및 배경사진 변경
+		JPanel panel_5 = new JPanel(); //비밀번호 변경
+		JPanel panel_6 = new JPanel(); //한줄소개 변경
 		
 		panel.setVisible(true);
 		panel_1.setVisible(false);
 		panel_2.setVisible(false);
 		panel_3.setVisible(false);
 		panel_4.setVisible(false);
+		panel_5.setVisible(false);
+		panel_6.setVisible(false);
 		
-		panel.setBounds(0, 0, 473, 505);
+		panel.setBounds(0, 0, 478, 763);
 		getContentPane().add(panel);
 		panel.setLayout(null);
 		panel.setBackground(new Color(255, 255, 255));
@@ -69,7 +74,7 @@ public class Setting extends JFrame {
 		txtrEditProfile.setFont(new Font("Nirmala UI Semilight", Font.BOLD, 23));
 		txtrEditProfile.setText("edit profile");
 		txtrEditProfile.setBackground(new Color(255, 255, 255));
-		txtrEditProfile.setBounds(12, 113, 212, 31);
+		txtrEditProfile.setBounds(12, 136, 212, 31);
 		panel.add(txtrEditProfile);
 		
 		JButton btnNewButton = new JButton("Change Nickname");
@@ -83,14 +88,14 @@ public class Setting extends JFrame {
 				panel.setVisible(false);
 			}
 		});
-		btnNewButton.setBounds(12, 154, 447, 53);
+		btnNewButton.setBounds(12, 187, 447, 53);
 		panel.add(btnNewButton);
 		
 		JButton btnNewButton_1 = new JButton("change email");
 		btnNewButton_1.setBackground(new Color(255, 255, 255));
 		btnNewButton_1.setHorizontalAlignment(SwingConstants.LEFT);
 		btnNewButton_1.setFont(new Font("Nirmala UI Semilight", Font.PLAIN, 20));
-		btnNewButton_1.setBounds(12, 217, 447, 53);
+		btnNewButton_1.setBounds(12, 327, 447, 53);
 		panel.add(btnNewButton_1);
 		btnNewButton_1.addActionListener(new ActionListener() {
 			@Override
@@ -105,14 +110,14 @@ public class Setting extends JFrame {
 		txtrCheakProfile.setText("Cheak profile");
 		txtrCheakProfile.setFont(new Font("Nirmala UI Semilight", Font.BOLD, 23));
 		txtrCheakProfile.setBackground(new Color(255, 255, 255));
-		txtrCheakProfile.setBounds(12, 375, 212, 31);
+		txtrCheakProfile.setBounds(12, 561, 212, 31);
 		panel.add(txtrCheakProfile);
 		
 		JButton btnNewButton_2 = new JButton("My profile");
 		btnNewButton_2.setBackground(new Color(255, 255, 255));
 		btnNewButton_2.setHorizontalAlignment(SwingConstants.LEFT);
 		btnNewButton_2.setFont(new Font("Nirmala UI Semilight", Font.PLAIN, 20));
-		btnNewButton_2.setBounds(12, 416, 447, 53);
+		btnNewButton_2.setBounds(12, 612, 447, 53);
 		panel.add(btnNewButton_2);
 		
 		btnNewButton_2.addActionListener(new ActionListener() {
@@ -135,15 +140,12 @@ public class Setting extends JFrame {
 		});
 		panel.add(btnNewButton_3_1);
 		
+		//이미지 바꾸기
 		JButton btnChangeImage = new JButton("Change image");
-		btnChangeImage.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
 		btnChangeImage.setHorizontalAlignment(SwingConstants.LEFT);
 		btnChangeImage.setFont(new Font("Nirmala UI Semilight", Font.PLAIN, 20));
 		btnChangeImage.setBackground(Color.WHITE);
-		btnChangeImage.setBounds(12, 280, 447, 53);
+		btnChangeImage.setBounds(12, 397, 447, 53);
 		btnChangeImage.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -152,6 +154,32 @@ public class Setting extends JFrame {
 			}
 		});
 		panel.add(btnChangeImage);
+		
+		//비밀번호 바꾸기
+		JButton btnChangePassword = new JButton("Change password");
+		btnChangePassword.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+		btnChangePassword.setHorizontalAlignment(SwingConstants.LEFT);
+		btnChangePassword.setFont(new Font("Nirmala UI Semilight", Font.PLAIN, 20));
+		btnChangePassword.setBackground(Color.WHITE);
+		btnChangePassword.setBounds(12, 257, 447, 53);
+		panel.add(btnChangePassword);
+		
+		//
+		JButton btnChangeMessage = new JButton("Change introduce");
+		btnChangeMessage.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				panel_6.setVisible(true);
+				panel.setVisible(false);
+			}
+		});
+		btnChangeMessage.setHorizontalAlignment(SwingConstants.LEFT);
+		btnChangeMessage.setFont(new Font("Nirmala UI Semilight", Font.PLAIN, 20));
+		btnChangeMessage.setBackground(Color.WHITE);
+		btnChangeMessage.setBounds(12, 467, 447, 53);
+		panel.add(btnChangeMessage);
 		
 		
 
@@ -477,8 +505,147 @@ public class Setting extends JFrame {
 		panel_4.add(textField_7);
 		//panel_4.add(hint);
 
+		/*비밀번호 변경 부분 시간 되면
+		panel_5.setBounds(0, 0, 473, 505);
+		panel_5.setBackground(new Color(255, 255, 255));
+		getContentPane().add(panel_5);
+		panel_5.setLayout(null);
 		
+		JTextArea txt = new JTextArea();
+		txt.setEditable(false);
+		txt.setText("Setting");
+		txt.setFont(new Font("Nirmala UI Semilight", Font.BOLD, 33));
+		txt.setBackground(Color.WHITE);
+		txt.setBounds(12, 26, 130, 46);
+		panel_5.add(txtrSetting_1);
 		
+		JTextArea txtYourPassword = new JTextArea();
+		txtYourPassword.setEditable(false);
+		//txtrYourNickname.setEnabled(false);
+		txtYourPassword.setText("Your nickname");
+		txtYourPassword.setFont(new Font("Nirmala UI Semilight", Font.BOLD, 23));
+		txtYourPassword.setBackground(Color.WHITE);
+		txtYourPassword.setBounds(12, 108, 212, 31);
+		panel_1.add(txtrYourNickname);
+		
+		JTextArea txtrChangeNickname = new JTextArea();
+		txtrChangeNickname.setEditable(false);
+		txtrChangeNickname.setText("Change nickname");
+		txtrChangeNickname.setFont(new Font("Nirmala UI Semilight", Font.BOLD, 23));
+		txtrChangeNickname.setBackground(Color.WHITE);
+		txtrChangeNickname.setBounds(12, 238, 212, 36);
+		panel_1.add(txtrChangeNickname);
+
+		try {
+		//자신의 닉네임
+			String q1 = "select username from user where user_id = \"" + id + "\";";
+			ResultSet rs = SQLMethods.ExecuteQuery(SQLMethods.GetCon(),q1);
+			if(rs.next()) {
+				nickname = rs.getString(1);
+				textField = new JTextField(nickname);
+				textField.setForeground(Color.black);
+				textField.setEditable(false);
+				textField.setBounds(12, 154, 449, 53);
+				panel_1.add(textField);
+				textField.setColumns(10);	
+			}
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
+		//바꿀 닉네임
+		textField_1 = new JTextField();
+		textField_1.setColumns(10);
+		textField_1.setBounds(12, 284, 449, 53);
+		panel_1.add(textField_1);
+		textField_1.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				String text = textField_1.getText();
+				String p1 = "update user set username = \""+text+"\"where user_id= \"" + id + "\";";
+				if(text.compareTo(nickname) == 0) {
+					new CustomDialog("Setting", "Cannot change to same nickname!");
+				}
+				else if(SQLMethods.ExecuteUpdate(SQLMethods.GetCon(), p1) != 0) {
+					new CustomDialog("Setting", "Nickname Changed!");
+				}
+			}
+		});
+
+		*/
+		/////////////////////한줄소개 변경//////////////
+		panel_6.setBounds(0, 0, 473, 505);
+		panel_6.setBackground(new Color(255, 255, 255));
+		getContentPane().add(panel_6);
+		panel_6.setLayout(null);
+		
+		JTextArea txt2 = new JTextArea();
+		txt2.setEditable(false);
+		txt2.setText("Setting");
+		txt2.setFont(new Font("Nirmala UI Semilight", Font.BOLD, 33));
+		txt2.setBackground(Color.WHITE);
+		txt2.setBounds(12, 26, 130, 46);
+		panel_6.add(txt2);
+		
+		JTextArea txtYourIntroduce = new JTextArea();
+		txtYourIntroduce.setEditable(false);
+		//txtrYourNickname.setEnabled(false);
+		txtYourIntroduce.setText("Your introduce");
+		txtYourIntroduce.setFont(new Font("Nirmala UI Semilight", Font.BOLD, 23));
+		txtYourIntroduce.setBackground(Color.WHITE);
+		txtYourIntroduce.setBounds(12, 108, 212, 31);
+		panel_6.add(txtYourIntroduce);
+		
+		JTextArea txtrChangeIntroduce = new JTextArea();
+		txtrChangeIntroduce.setEditable(false);
+		txtrChangeIntroduce.setText("Change introduce");
+		txtrChangeIntroduce.setFont(new Font("Nirmala UI Semilight", Font.BOLD, 23));
+		txtrChangeIntroduce.setBackground(Color.WHITE);
+		txtrChangeIntroduce.setBounds(12, 238, 212, 36);
+		panel_6.add(txtrChangeIntroduce);
+
+		String introduce = null;
+		try {
+		//자신의 한줄소개
+			String q1 = "select introduce from user where user_id = \"" + id + "\";";
+			ResultSet rs = SQLMethods.ExecuteQuery(SQLMethods.GetCon(),q1);
+			if(rs.next()) {
+				introduce = rs.getString(1);
+				textField = new JTextField(introduce);
+				textField.setForeground(Color.black);
+				textField.setEditable(false);
+				textField.setBounds(12, 154, 449, 53);
+				panel_6.add(textField);
+				textField.setColumns(10);	
+			}
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
+		//바꿀 한줄소개
+		JTextField textField_8 = new JTextField();
+		textField_8.setColumns(10);
+		textField_8.setBounds(12, 284, 449, 53);
+		panel_6.add(textField_8);
+		
+		JButton btnNewButton_3_5 = new JButton(img);
+		btnNewButton_3_5.setBounds(394, 10, 65, 62);
+		btnNewButton_3_5.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				panel.setVisible(true);
+				panel_6.setVisible(false);
+			}
+		});
+		panel_6.add(btnNewButton_3_5);
+		textField_8.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				String text = textField_8.getText();
+				String p1 = "update user set introduce = \""+text+"\"where user_id= \"" + id + "\";";
+				if(SQLMethods.ExecuteUpdate(SQLMethods.GetCon(), p1) != 0) {
+					new CustomDialog("Setting", "Introduce Changed!");
+				}
+			}
+		});
 		//contentPane = new JPanel();
 		setVisible(true);
 	}

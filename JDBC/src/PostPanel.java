@@ -72,7 +72,7 @@ public class PostPanel extends JPanel{
 		UserIcon.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				new Profile(post.user_id,0);
+				new Profile(post.user_id);
 			}
 		});
 		
@@ -222,7 +222,7 @@ public class PostPanel extends JPanel{
 		UserIcon.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				new Profile(post.user_id,0);
+				new Profile(post.user_id);
 			}
 		});
 		UserIcon.setBackground(new Color(255, 255, 255));
