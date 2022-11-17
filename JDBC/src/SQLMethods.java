@@ -252,6 +252,26 @@ public class SQLMethods {
 
         return result;
     }
+    
+    public static List<String> Followings(Connection connection, String user_id)
+    {
+        Statement stmt = null;
+        String q1 = "select follower_id from follow where follower_id = \"" + user_id + "\";";
+        
+        List<String> result = new ArrayList<String >();
+
+        try {
+            stmt = connection.createStatement();
+            ResultSet rs = stmt.executeQuery(q1);
+            while (rs.next())
+                result.add(rs.getString(1));
+        }
+        catch (SQLException e){
+            e.printStackTrace();
+        }
+
+        return result;
+    }
 
     //return 0 unlike
     //return 1 like
