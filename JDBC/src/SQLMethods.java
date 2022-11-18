@@ -327,7 +327,7 @@ public class SQLMethods {
     public static List<String> Followings(Connection connection, String user_id)
     {
         Statement stmt = null;
-        String q1 = "select follower_id from follow where follower_id = \"" + user_id + "\";";
+        String q1 = "select user_id from follow where follower_id = \"" + user_id + "\";";
         
         List<String> result = new ArrayList<String >();
 
@@ -491,7 +491,7 @@ public class SQLMethods {
     public static List<Comment> Comments(Connection connection, String post_id)
     {
         Statement stmt = null;
-        String q1 = "select * from comment where post_id = \"" + post_id + "\";";
+        String q1 = "select * from comment where post_id = \"" + post_id + "\" order by date desc;";
 
         List<Comment> result = new ArrayList<Comment>();
 
@@ -513,7 +513,7 @@ public class SQLMethods {
     }
     
     public static List<ChildComment> ChildComments(Connection connection, String parent_id){
-    	String q1 = "select comment_id from childcomment where parent_comment_id = \"" + parent_id + "\";";
+    	String q1 = "select comment_id from childcomment where parent_comment_id = \"" + parent_id + "\" order by date desc;";
     	
     	List<ChildComment> list = new ArrayList<ChildComment>();
     	
