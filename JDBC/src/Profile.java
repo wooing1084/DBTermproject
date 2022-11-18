@@ -2,12 +2,12 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Image;
-import java.awt.List;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.List;
 
 import javax.swing.BoxLayout;
 import javax.swing.GroupLayout;
@@ -76,17 +76,9 @@ public class Profile extends JFrame {
 		String myProfileImage = null;
 		
 		//현재 로그인 되어있는 유저의 프로필 사진 스트링 얻어오기
-		try {
-			String q1 = "select profile_Image_dir from user where user_id = \"" + ClientInformation.Logined_id + "\";";
-			ResultSet rs = SQLMethods.ExecuteQuery(SQLMethods.GetCon(), q1);
-			if(rs.next()) {
-				myProfileImage = rs.getString(1);
-			}
-		}catch(SQLException e) {
-			e.printStackTrace();
-		}
+
 		//현재 로그인 되어있는 유저의 프로필 사진
-		ImageIcon myImage = ImageManager.GetImageUsingURL(myProfileImage, 50, 50);
+		ImageIcon myImage = ImageManager.GetUserProfile(myProfileImage, 50, 50);
 		/*
 		Image img = myImage.getImage();
 		Image updateMyImg = img.getScaledInstance(50, 50, Image.SCALE_SMOOTH);
@@ -136,7 +128,7 @@ public class Profile extends JFrame {
 		}catch(SQLException e) {
 			e.printStackTrace();
 		}
-		ImageIcon backIcon = ImageManager.GetImageUsingURL(userBackgroundImage,464,200);
+		ImageIcon backIcon = ImageManager.GetUserBackground(userBackgroundImage,464,200);
 		
 		String userProfileImage = null;
 		try {
@@ -148,7 +140,7 @@ public class Profile extends JFrame {
 		}catch(SQLException e) {
 			e.printStackTrace();
 		}
-		ImageIcon profileIcon = ImageManager.GetImageUsingURL(userProfileImage,100,200);
+		ImageIcon profileIcon = ImageManager.GetUserProfile(userProfileImage,100,200);
 		
 		
 		
@@ -321,28 +313,38 @@ public class Profile extends JFrame {
 		JPanel posts = new JPanel();
 		posts.setLayout(new BoxLayout(posts, BoxLayout.Y_AXIS));
 		
-		//이미지 있는 경우
-		Post p = new Post("p1");
-		PostPanel p1 = new PostPanel(p,p.images);
-		//게시글 누르면 포스트로 넘어가기
-		//메인피드 135
-		p1.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				System.out.println(p.post_id + " Clicked");
+		//이미지 있는 경우		
+		List<Post> pList = SQLMethods.GetPosts(id);
+		
+		for(int i =0;i<pList.size();i++) {
+			Post pTemp = pList.get(i); 
+			
+			PostPanel p1 = null;
+			if(pTemp.images == null)
+			{
+				p1 = new PostPanel(pTemp);
 			}
-		});
-		posts.add(p1);
+			else
+			{
+				p1 = new PostPanel(pTemp, pTemp.images);
+			}
+			
+			//게시글 누르면 포스트로 넘어가기
+			//메인피드 135
+			p1.addMouseListener(new MouseAdapter() {
+				@Override
+				public void mouseClicked(MouseEvent e) {
+					new ViewPost(pTemp.post_id);
+				}
+			});
+			posts.add(p1);
+		}
 		
-		//이미지 없는 경우
-		PostPanel p4 = new PostPanel(p);
-		posts.add(p4);
 		
-		PostPanel p2 = new PostPanel(p,p.images);
-		posts.add(p2);
 		
-		PostPanel p3 = new PostPanel(p,p.images);
-		posts.add(p3);
+		
+		
+
 		
 		JScrollPane scrollPane = new JScrollPane(posts);
 		scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);

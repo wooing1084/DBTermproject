@@ -11,7 +11,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class ImageManager {
-	//»ç¿ë¹æ¹ý
+	//ï¿½ï¿½ï¿½ï¿½ï¿½
 	//ImageIcon img = ImageManager.GetImageUsingFileSystem("src/assets/logo.png", 100, 100);
     public static ImageIcon GetImageUsingFileSystem(String url, int w, int h){
         ImageIcon result = null;
@@ -32,7 +32,7 @@ public class ImageManager {
         return result;
     }
     
-    //»ç¿ë¹æ¹ý
+    //ï¿½ï¿½ï¿½ï¿½ï¿½
     //ImageIcon img = ImageManager.GetImageUsingURL("https://pbs.twimg.com/profile_images/1374979417915547648/vKspl9Et_400x400.jpg", 100, 100);
     public static ImageIcon GetImageUsingURL(String url, int w, int h){
         ImageIcon result = null;
@@ -67,6 +67,32 @@ public class ImageManager {
 			}
 			else {
 				result = ImageManager.GetImageUsingFileSystem("src/assets/userImages/user.png", w, h);
+				
+			}
+			
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return result;
+    }
+    
+    public static ImageIcon GetUserBackground(String user_id, int w, int h) {
+    	String q1 = "select * from user where user_id = \"" + user_id + "\";";
+		ResultSet rs = SQLMethods.ExecuteQuery(SQLMethods.GetCon(), q1);
+		ImageIcon result = null;
+		try {
+			if(rs.next()) {
+				if(rs.getString(4).compareTo("") == 0)
+					result = ImageManager.GetImageUsingFileSystem("src/assets/cloud.jpg", w, h);
+				else
+					result = ImageManager.GetImageUsingURL(rs.getString(4), w, h);			
+				
+			}
+			else {
+				result = ImageManager.GetImageUsingFileSystem("src/assets/cloud.jpg", w, h);
 				
 			}
 			
