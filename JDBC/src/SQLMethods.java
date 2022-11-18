@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Scanner;
+import java.util.Random;
 
 public class SQLMethods {	
 	//Connection 占쌨댐옙 占쌉쇽옙(SQLMethods占쏙옙 占쌉쇽옙占쏙옙 占쏙옙載� Connection 占쏙옙占쌘곤옙占쏙옙 占쏙옙占�)
@@ -226,8 +227,10 @@ public class SQLMethods {
 
             Date date = new Date();
             java.sql.Date sqlDate = new java.sql.Date(date.getTime());
+            
+            Random random=new Random();
 
-            q1 = "insert into posts values(null, \"" + content + "\", \"" + user_id + "\", Date(\"" +sqlDate+"\"));";
+            q1 = "insert into posts values(\""+random.nextInt(100000)+"\", \"" + content + "\", \"" + user_id + "\", Date(\"" +sqlDate+"\"));";
             stmt.executeUpdate(q1);
 
             int imgCount = imgs.length;
