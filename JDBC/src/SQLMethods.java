@@ -145,9 +145,41 @@ public class SQLMethods {
     //user_id 의 게시글 불러오기
     public static List<Post> GetPosts(String user_id){
     	List<Post> list = new ArrayList<Post>();
+    	List<String> taggedList = new ArrayList<String>();    
     	
-    	String q1 = "select * from posts where user_id = \"" + user_id + "\" order by date desc;";
-    	ResultSet rs = SQLMethods.ExecuteQuery(SQLMethods.GetCon(), q1);
+    	String q1 = "select posts_id from hashtag where user_user_id = \"" + ClientInformation.Logined_id +"\";";
+    	ResultSet rs = SQLMethods.ExecuteQuery(con, q1);
+    	
+    	try {
+			while(rs.next()) {
+				String s = rs.getString(1);
+				if(s.compareTo("") != 0) {
+					taggedList.add(s);
+				}
+				
+				if(taggedList.size() >= 15)
+					break;
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    	
+    	
+    	q1 = "select * from posts where user_id = \"" + user_id + "\"";
+    	
+    	if(taggedList.size() > 0) {
+    		q1 += " or post_id in(\"" + taggedList.get(0) + "\"";
+    		
+    		for(int i =0;i < taggedList.size(); i++) {
+    			q1 += ", \"" + taggedList.get(i) + "\"";
+    		}
+    		q1 += ")";
+    	}
+    	
+    	q1+= " order by date desc";
+    	
+    	rs = SQLMethods.ExecuteQuery(SQLMethods.GetCon(), q1);
     	
     	try {
 			while(rs.next()) {
@@ -164,20 +196,51 @@ public class SQLMethods {
     	return list;    	
     }
     
+
     public static List<Post> GetPosts(List<String> userList){
     	if(userList.size() == 0)
     		return null;
     	
     	List<String> pIdList = new ArrayList<String>();
+    	List<String> taggedList = new ArrayList<String>();    	
     	
-    	String q1 = "select post_id from posts where user_id in (\"" + userList.get(0)+"\"";
+    	String q1 = "select posts_id from hashtag where user_user_id = \"" + ClientInformation.Logined_id +"\";";
+    	ResultSet rs = SQLMethods.ExecuteQuery(con, q1);
+    	
+    	try {
+			while(rs.next()) {
+				String s = rs.getString(1);
+				if(s.compareTo("") != 0) {
+					taggedList.add(s);
+				}
+				
+				if(taggedList.size() >= 15)
+					break;
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    	
+    	
+    	q1 = "select post_id from posts where user_id in (\"" + userList.get(0)+"\"";
     	
     	for(int i =1;i<userList.size();i++) {
     		q1 += ", \""+ userList.get(i) + "\"";
     	}
-    	q1 +=") order by date desc;";
     	
-    	ResultSet rs = SQLMethods.ExecuteQuery(con, q1);
+    	if(taggedList.size() > 0) {
+    		q1 += ") or post_id in(\"" + taggedList.get(0) + "\"";
+    		
+    		for(int i =1; i<taggedList.size(); i++) {
+    			q1 += ", \"" + taggedList.get(i) + "\"";
+    		}
+    		
+    	}
+    		
+    	q1 += ") order by date desc;";
+    	
+    	rs = SQLMethods.ExecuteQuery(con, q1);
     	
     	try {
 			while(rs.next()) {
