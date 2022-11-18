@@ -104,7 +104,7 @@ public class SQLMethods {
         		return rs.getString(1);
         		}
         	else {
-        		System.out.println("Wrong Id/password.");
+        		new CustomDialog("Login Failed!", "Wrong ID/Password!");
         		}
         
         } catch (SQLException e) {

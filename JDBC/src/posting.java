@@ -171,6 +171,11 @@ public class posting extends JFrame {
 		profileIcon.setBounds(10, 45, 50, 50);
 		contentPane.add(profileIcon);
 		
+		ImageIcon iIcon = ImageManager.GetImageUsingFileSystem("src/assets/UI/image.png", 35, 35);
+		JLabel imageIcon = new JLabel(iIcon);
+		imageIcon.setBounds(15, 209, 35, 35);
+		contentPane.add(imageIcon);
+		
 		
 		
 		btnpost.addActionListener(new ActionListener() {
