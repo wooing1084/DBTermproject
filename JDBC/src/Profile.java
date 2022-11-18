@@ -121,7 +121,7 @@ public class Profile extends JFrame {
 			settingBtn.addMouseListener(new MouseAdapter() {
 				@Override
 				public void mouseClicked(MouseEvent e) {
-					new Setting(ClientInformation.Logined_id, ClientInformation.Logined_pwd);
+					new Setting(ClientInformation.Logined_id);
 				}
 			});
 			appbar.add(settingBtn);

@@ -26,7 +26,7 @@ public class Setting extends JFrame {
 	String email = "Email not saved. Please enter e-mail!";
 	private JTextField textField_6;
 	private JTextField textField_7;
-	public Setting(String id, int pwd){
+	public Setting(String id){
 
 		JPanel contentPane;
 		JTextField textField;

@@ -74,7 +74,7 @@ public class posting extends JFrame {
 		Logo.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				new MainFeed(user_id);
+				new MainFeed();
 				dispose();
 			}
 		});
@@ -170,7 +170,7 @@ public class posting extends JFrame {
             String content = textArea.getText();
             Connection con = SQLMethods.GetCon();
             SQLMethods.WritePost(con,ClientInformation.Logined_id,content, urls.toArray(new String[0]));
-            new MainFeed(user_id);
+            new MainFeed();
             dispose();
 		}
 	

@@ -230,7 +230,7 @@ public class SQLMethods {
             
             Random random=new Random();
 
-            q1 = "insert into posts values(\""+random.nextInt(100000)+"\", \"" + content + "\", \"" + user_id + "\", Date(\"" +sqlDate+"\"));";
+            q1 = "insert into posts values(null, \"" + content + "\", \"" + user_id + "\", Date(\"" +sqlDate+"\"));";
             stmt.executeUpdate(q1);
 
             int imgCount = imgs.length;

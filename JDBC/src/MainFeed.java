@@ -38,7 +38,7 @@ public class MainFeed extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public MainFeed(String user_id) {
+	public MainFeed() {
 		setBackground(new Color(255, 255, 255));
 		setBounds(100, 100, 480, 800);
 		setTitle("Twitter");
@@ -61,7 +61,7 @@ public class MainFeed extends JFrame {
 		Logo.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				new MainFeed(user_id);
+				new MainFeed();
 				dispose();
 			}
 		});
@@ -95,8 +95,7 @@ public class MainFeed extends JFrame {
 		UserBtn.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				User u=new User(user_id);
-				new Profile(user_id);
+				new Profile(ClientInformation.Logined_id);
 				dispose();
 			}
 		});
@@ -186,7 +185,7 @@ public class MainFeed extends JFrame {
 		writeBtn.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				new posting(user_id);
+				new posting(ClientInformation.Logined_id);
 				dispose();
 			}
 		});
