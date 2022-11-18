@@ -11,6 +11,7 @@ import java.awt.event.ActionListener;
 import java.sql.Connection;
 
 import javax.swing.JTextField;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 
 public class Signin extends JFrame {
@@ -25,58 +26,67 @@ public class Signin extends JFrame {
 	 * Create the frame.
 	 */
 	public Signin() {
-		setBounds(150, 150, 326, 304);
+		setBounds(150, 150, 300, 480);
 		setTitle("Sign in");
 		contentPane = new JPanel();
-		contentPane.setBackground(new Color(120, 186, 239));
+		contentPane.setBackground(new Color(255, 255, 255));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
+		ImageIcon logoImage = ImageManager.GetImageUsingFileSystem("src/assets/logo.png", 100, 100);
+		JLabel Logo = new JLabel(logoImage);
+		Logo.setBackground(new Color(133, 251, 254));
+		Logo.setBounds(92, 32, 100, 100);
+		contentPane.add(Logo);
+		
 		JLabel IDText = new JLabel("ID:");
-		IDText.setFont(new Font("±¼¸²", Font.PLAIN, 16));
-		IDText.setBounds(39, 54, 28, 19);
+		IDText.setFont(new Font("Arial", Font.PLAIN, 12));
+		IDText.setBounds(39, 163, 28, 19);
 		contentPane.add(IDText);
 		
 		IDTextField = new JTextField();
 		IDTextField.setColumns(10);
-		IDTextField.setBounds(65, 46, 206, 38);
+		IDTextField.setBounds(65, 155, 206, 38);
 		contentPane.add(IDTextField);
 		
 		PWTextField = new JTextField();
 		PWTextField.setColumns(10);
-		PWTextField.setBounds(65, 94, 206, 38);
+		PWTextField.setBounds(65, 203, 206, 38);
 		contentPane.add(PWTextField);
 		
 		NameTextField = new JTextField();
 		NameTextField.setColumns(10);
-		NameTextField.setBounds(65, 142, 206, 38);
+		NameTextField.setBounds(65, 251, 206, 38);
 		contentPane.add(NameTextField);
 		
 		JLabel PWText = new JLabel("PW:");
-		PWText.setFont(new Font("±¼¸²", Font.PLAIN, 16));
-		PWText.setBounds(28, 105, 39, 19);
+		PWText.setFont(new Font("Arial", Font.PLAIN, 12));
+		PWText.setBounds(28, 214, 39, 19);
 		contentPane.add(PWText);
 		
 		JLabel NameText = new JLabel("Name:");
-		NameText.setFont(new Font("±¼¸²", Font.PLAIN, 16));
-		NameText.setBounds(12, 153, 55, 19);
+		NameText.setFont(new Font("Arial", Font.PLAIN, 12));
+		NameText.setBounds(12, 262, 55, 19);
 		contentPane.add(NameText);
 		
 		EMailText = new JTextField();
 		EMailText.setColumns(10);
-		EMailText.setBounds(65, 184, 206, 38);
+		EMailText.setBounds(65, 293, 206, 38);
 		contentPane.add(EMailText);
 		
 		JLabel lblEmail = new JLabel("e-mail:");
-		lblEmail.setFont(new Font("±¼¸²", Font.PLAIN, 16));
-		lblEmail.setBounds(12, 195, 55, 19);
+		lblEmail.setFont(new Font("Arial", Font.PLAIN, 12));
+		lblEmail.setBounds(12, 304, 55, 19);
 		contentPane.add(lblEmail);
 		
-		
-		JButton SigninBtn = new JButton("Sign in");
-		SigninBtn.setBounds(118, 232, 97, 23);
+		ImageIcon signinImage = ImageManager.GetImageUsingFileSystem("src/assets/UI/sign_up.png",190,36);
+		JButton SigninBtn = new JButton(signinImage);
+		SigninBtn.setBounds(45, 383, 190, 36);
+		SigninBtn.setContentAreaFilled(false);
+		SigninBtn.setOpaque(false);
+		SigninBtn.setBorder(null);
 		SigninBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String id = IDTextField.getText();

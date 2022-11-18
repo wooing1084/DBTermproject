@@ -25,7 +25,7 @@ public class Login extends JFrame {
 		setTitle("Login");
 		
 		contentPane = new JPanel();
-		contentPane.setBackground(new Color(120, 186, 239));
+		contentPane.setBackground(new Color(255, 255, 255));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		
 		setContentPane(contentPane);
@@ -37,38 +37,45 @@ public class Login extends JFrame {
 		
 		logoImage = ImageManager.GetImageUsingFileSystem("src/assets/logo.png", 100, 100);
 	
-		logoText = ImageManager.GetImageUsingFileSystem("src/assets/logoText.png", 259, 38);
+		logoText = ImageManager.GetImageUsingFileSystem("src/assets/UI/text_logo.png", 174, 39);
 		
 		JLabel Logo = new JLabel(logoImage);
 		Logo.setBackground(new Color(133, 251, 254));
-		Logo.setBounds(87, 31, 100, 100);
+		Logo.setBounds(92, 32, 100, 100);
 		contentPane.add(Logo);
 		
 		IDInput = new JTextField();
-		IDInput.setBounds(65, 193, 206, 38);
+		IDInput.setBackground(new Color(236, 236, 236));
+		IDInput.setBounds(65, 233, 206, 38);
 		contentPane.add(IDInput);
 		IDInput.setColumns(10);
 		
 		PWInput = new JTextField();
+		PWInput.setBackground(new Color(236, 236, 236));
 		PWInput.setColumns(10);
-		PWInput.setBounds(65, 241, 206, 38);
+		PWInput.setBounds(65, 281, 206, 38);
 		contentPane.add(PWInput);
 		
 		JLabel TwitterTextLogo = new JLabel(logoText);
-		TwitterTextLogo.setBounds(12, 135, 259, 38);
+		TwitterTextLogo.setBounds(55, 142, 174, 39);
 		contentPane.add(TwitterTextLogo);
 		
 		JLabel IDText = new JLabel("ID:");
-		IDText.setFont(new Font("±¼¸²", Font.PLAIN, 26));
-		IDText.setBounds(12, 193, 57, 38);
+		IDText.setFont(new Font("Arial", Font.PLAIN, 18));
+		IDText.setBounds(12, 233, 57, 38);
 		contentPane.add(IDText);
 		
 		JLabel PasswordText = new JLabel("PW:");
-		PasswordText.setFont(new Font("±¼¸²", Font.PLAIN, 26));
-		PasswordText.setBounds(12, 241, 57, 38);
+		PasswordText.setFont(new Font("Arial", Font.PLAIN, 18));
+		PasswordText.setBounds(12, 281, 57, 38);
 		contentPane.add(PasswordText);
 		
-		JButton LoginBtn = new JButton("Login");
+		ImageIcon LoginImage = ImageManager.GetImageUsingFileSystem("src/assets/UI/login.png",190,36);
+		JButton LoginBtn = new JButton(LoginImage);
+		LoginBtn.setContentAreaFilled(false);
+		LoginBtn.setOpaque(false);
+		LoginBtn.setBorder(null);
+		
 		LoginBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String id = IDInput.getText();
@@ -87,16 +94,20 @@ public class Login extends JFrame {
 				
 			}
 		});
-		LoginBtn.setBounds(51, 306, 97, 38);
+		LoginBtn.setBounds(50, 349, 190, 36);
 		contentPane.add(LoginBtn);
 		
-		JButton RegisterBtn = new JButton("Sign in");
+		ImageIcon signinImage = ImageManager.GetImageUsingFileSystem("src/assets/UI/sign_up.png",190,36);
+		JButton RegisterBtn = new JButton(signinImage);
+		RegisterBtn.setContentAreaFilled(false);
+		RegisterBtn.setOpaque(false);
+		RegisterBtn.setBorder(null);
 		RegisterBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				new Signin();
 			}
 		});
-		RegisterBtn.setBounds(160, 306, 97, 38);
+		RegisterBtn.setBounds(50, 395, 190, 36);
 		contentPane.add(RegisterBtn);
 		
 		setVisible(true);

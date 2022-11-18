@@ -32,28 +32,6 @@ public class posting extends JFrame {
 	private JTextField imurl;
 	private JTextField hashTextField;
 
-	/**
-	 * Launch the application.
-	 */
-//	public static void main(String[] args) {
-//		SQLMethods.init();
-//		ClientInformation.Logined_id = "abcd";
-//		
-//		EventQueue.invokeLater(new Runnable() {
-//			public void run() {
-//				try {
-//					posting frame = new posting();
-//					frame.setVisible(true);
-//				} catch (Exception e) {
-//					e.printStackTrace();
-//				}
-//			}
-//		});
-//	}
-
-	/**
-	 * Create the frame.
-	 */
 	public posting(String user_id) {
 		setBackground(new Color(255, 255, 255));
 		setBounds(100, 100, 480, 500);
@@ -214,29 +192,3 @@ public class posting extends JFrame {
 		setVisible(true);
 	}	
 }
-
-//태그
-//String q1 = "select user_id from user where user_id = \"" + hashTextField.getText() + "\"";
-//ResultSet rs = SQLMethods.ExecuteQuery(SQLMethods.GetCon(), q1);
-//
-//try {
-//	if(rs.next()) {
-//		if(rs.getString(1).compareTo("") == 0)
-//			return;
-//	}
-//	else
-//		return;
-//} catch (SQLException e1) {
-//	// TODO Auto-generated catch block
-//	e1.printStackTrace();
-//}	
-//
-//tags.add(hashTextField.getText());
-
-//이미지
-//btnadd.addActionListener(new ActionListener() {
-//	public void actionPerformed(ActionEvent e) {
-//		urls.add(imurl.getText());
-//    }
-//    
-//});

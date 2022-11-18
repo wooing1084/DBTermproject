@@ -131,7 +131,7 @@ public class SQLMethods {
                 if(rs.next())
                     return 0;
 
-                q1 = "insert into user values(\"" + id + "\", \"" + pwd + "\", \"" + name+ "\", \"\", \"" + email+"\", \"\");";
+                q1 = "insert into user values(\"" + id + "\", \"" + pwd + "\", \"" + name+ "\", \"\", \"" + email+"\", \"\", \"\");";
                 stmt.executeUpdate(q1);
                 return 1;
 
@@ -147,7 +147,7 @@ public class SQLMethods {
     	List<Post> list = new ArrayList<Post>();
     	List<String> taggedList = new ArrayList<String>();    
     	
-    	String q1 = "select posts_id from hashtag where user_user_id = \"" + ClientInformation.Logined_id +"\";";
+    	String q1 = "select posts_id from hashtag where user_user_id = \"" + user_id +"\";";
     	ResultSet rs = SQLMethods.ExecuteQuery(con, q1);
     	
     	try {

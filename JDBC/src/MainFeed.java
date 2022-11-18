@@ -185,6 +185,7 @@ public class MainFeed extends JFrame {
 		writeBtn.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				System.out.println("posint click");
 				new posting(ClientInformation.Logined_id);
 				dispose();
 			}
