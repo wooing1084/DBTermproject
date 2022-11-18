@@ -44,7 +44,7 @@ public class UserPanel extends JPanel {
 		});
 		add(panel);
 		
-		ImageIcon uIcon = ImageManager.GetImageUsingURL(user.profile_Image_Dir, 50, 50);
+		ImageIcon uIcon = ImageManager.GetUserProfile(user.profile_Image_Dir, 50, 50);
 		
 		JLabel icon = new JLabel(uIcon);
 		
@@ -66,26 +66,26 @@ public class UserPanel extends JPanel {
 		String q1 = "select user_id from follow where follower_id = \"" + ClientInformation.Logined_id + "\" and user_id = \"" + user.user_id + "\";";
 		ResultSet rs = SQLMethods.ExecuteQuery(SQLMethods.GetCon(), q1);
 		
-		String followUrl = "src/assets/UI/followIcon.png";
+		String followUrl = "src/assets/UI/follow_en.png";
 		try {
 			if(rs.next()) {
 				if(rs.getString(1).compareTo("") == 0) {
-					followUrl = "src/assets/UI/followIcon.png";
+					followUrl = "src/assets/UI/follow_en.png";
 				}
 				else {
-					followUrl = "src/assets/UI/followingIcon.png";
+					followUrl = "src/assets/UI/following.png";
 				}
 							
 			}
 			else
-				followUrl = "src/assets/UI/followIcon.png";
+				followUrl = "src/assets/UI/follow_en.png";
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
 		
-		ImageIcon followIcon = ImageManager.GetImageUsingFileSystem(followUrl,79,36);
+		ImageIcon followIcon = ImageManager.GetImageUsingFileSystem(followUrl,116,32);
 		JLabel follow = new JLabel(followIcon);
 		/*팔로우에 추가하기 (프로필)*/
 		follow.addMouseListener(new MouseAdapter() {
@@ -101,20 +101,20 @@ public class UserPanel extends JPanel {
 				try {
 					if(rs.next()) {
 						if(rs.getString(1).compareTo("") == 0) {
-							imgUrl = "src/assets/UI/followIcon.png";
+							imgUrl = "src/assets/UI/follow_en.png";
 						}
 						else {
-							imgUrl = "src/assets/UI/followingIcon.png";
+							imgUrl = "src/assets/UI/following.png";
 						}
 									
 					}
 					else
-						imgUrl = "src/assets/UI/followIcon.png";
+						imgUrl = "src/assets/UI/follow_en.png";
 				} catch (SQLException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}	
-				ImageIcon fIcon = ImageManager.GetImageUsingFileSystem(imgUrl, 79, 36);
+				ImageIcon fIcon = ImageManager.GetImageUsingFileSystem(imgUrl, 116, 32);
 				
 				follow.setIcon(fIcon);				
 			}
@@ -122,7 +122,7 @@ public class UserPanel extends JPanel {
 			
 			
 		});
-		follow.setBounds(360, 15, 79, 36);
+		follow.setBounds(336, 15, 116, 32);
 		panel.add(follow);
 	}
 }

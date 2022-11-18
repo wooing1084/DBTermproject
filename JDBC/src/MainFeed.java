@@ -80,15 +80,13 @@ public class MainFeed extends JFrame {
 			if(rs.next()) {
 				imgUrl = rs.getString(1);
 			}
-			if(imgUrl.compareTo("") == 0)  
-				imgUrl = "https://play-lh.googleusercontent.com/38AGKCqmbjZ9OuWx4YjssAz3Y0DTWbiM5HB0ove1pNBq_o9mtWfGszjZNxZdwt_vgHo";
 		} catch (SQLException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
 		
 		
-		ImageIcon userImage = ImageManager.GetImageUsingURL(imgUrl, 50, 50);
+		ImageIcon userImage = ImageManager.GetUserProfile(imgUrl, 50, 50);
 		JLabel UserBtn = new JLabel(userImage);
 		UserBtn.setBounds(12, 5, 50, 50);
 		UserBtn.setBackground(new Color(255, 255,255));
@@ -103,7 +101,7 @@ public class MainFeed extends JFrame {
 		
 		appbar.add(UserBtn);
 		
-		ImageIcon searchIcon = ImageManager.GetImageUsingFileSystem("src/assets/UI/search.png",30,30);
+		ImageIcon searchIcon = ImageManager.GetImageUsingFileSystem("src/assets/UI/search_2.png",30,30);
 		JLabel SearchBtn = new JLabel(searchIcon);
 		SearchBtn.setBounds(402, 5, 50, 50);
 		SearchBtn.setBackground(new Color(255, 255,255));
@@ -128,6 +126,7 @@ public class MainFeed extends JFrame {
 		contentPane.add(layeredPane);
 		
 		JPanel posts = new JPanel();
+		posts.setBackground(new Color(255, 255, 255));
 		posts.setLayout(new BoxLayout(posts, BoxLayout.Y_AXIS));
 		//posts.setPreferredSize(new Dimension(464, 695));
 		

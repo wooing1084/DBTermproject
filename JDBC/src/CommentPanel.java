@@ -7,6 +7,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 
 import java.awt.FlowLayout;
+import java.awt.Font;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -38,14 +39,12 @@ public class CommentPanel extends JPanel {
 			if(rs.next()) {
 				imgUrl = rs.getString(1);
 			}
-			if(imgUrl.compareTo("") == 0)  
-				imgUrl = "https://play-lh.googleusercontent.com/38AGKCqmbjZ9OuWx4YjssAz3Y0DTWbiM5HB0ove1pNBq_o9mtWfGszjZNxZdwt_vgHo";
 		} catch (SQLException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
 		
-		ImageIcon pImage = ImageManager.GetImageUsingURL(imgUrl, 50, 50);
+		ImageIcon pImage = ImageManager.GetUserProfile(imgUrl, 50, 50);
 		JLabel profileIcon = new JLabel(pImage);
 		profileIcon.setBounds(5, 5, 50, 50);
 		profileIcon.setBackground(new Color(128, 255, 128));
@@ -59,6 +58,11 @@ public class CommentPanel extends JPanel {
 		
 		JLabel userID = new JLabel(comment.user_id);
 		commentInfo.add(userID);
+		
+		JLabel margin1 = new JLabel("•");
+		margin1.setFont(new Font("굴림", Font.PLAIN, 8));
+		margin1.setForeground(new Color(175, 175, 175));
+		commentInfo.add(margin1);
 		
 		JLabel date = new JLabel(comment.date.toString());
 		commentInfo.add(date);

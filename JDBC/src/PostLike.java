@@ -43,12 +43,14 @@ private JPanel panel;
 		appbar.setLayout(null);
 		panel.add(appbar);
 		
-		ImageIcon logo = ImageManager.GetImageUsingFileSystem("src/assets/logo.png", 50,50);
+ImageIcon logo = ImageManager.GetImageUsingFileSystem("src/assets/logo.png", 50,50);
 		
 		JLabel Logo = new JLabel(logo);
 		Logo.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				new MainFeed();
+				dispose();
 			}
 		});
 		Logo.setBounds(12, 5, 50, 50);
@@ -66,26 +68,23 @@ private JPanel panel;
 			if(rs.next()) {
 				imgUrl = rs.getString(1);
 			}
-			if(imgUrl.compareTo("") == 0)  
-				imgUrl = "https://play-lh.googleusercontent.com/38AGKCqmbjZ9OuWx4YjssAz3Y0DTWbiM5HB0ove1pNBq_o9mtWfGszjZNxZdwt_vgHo";
 		} catch (SQLException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
 		
 		
-		ImageIcon userImage = ImageManager.GetImageUsingURL(imgUrl, 50, 50);
+		ImageIcon userImage = ImageManager.GetUserProfile(imgUrl, 50, 50);
 		JLabel UserBtn = new JLabel(userImage);
 		UserBtn.setBounds(12, 5, 50, 50);
 		UserBtn.setBackground(new Color(255, 255,255));
 		UserBtn.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				new Profile(ClientInformation.Logined_id);
+				dispose();
 			}
 		});
-
-		
-		appbar.add(UserBtn);
 		
 		//
 		

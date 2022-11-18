@@ -128,14 +128,18 @@ public class Setting extends JFrame {
 			}
 		});
 		
-		ImageIcon img = ImageManager.GetImageUsingFileSystem("src/assets/back.png", 50, 50);
+		ImageIcon img = ImageManager.GetImageUsingFileSystem("src/assets/UI/back.png", 50, 50);
 		
 		JButton btnNewButton_3_1 = new JButton(img);
 		btnNewButton_3_1.setBounds(394, 10, 65, 62);
+		btnNewButton_3_1.setContentAreaFilled(false);
+		btnNewButton_3_1.setOpaque(false);
+		btnNewButton_3_1.setBorder(null);
 		btnNewButton_3_1.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				//프로필 화면으로 돌아감
+				dispose();
 			}
 		});
 		panel.add(btnNewButton_3_1);

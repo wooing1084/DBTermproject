@@ -25,6 +25,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.Serializable;
 import javax.swing.JButton;
+import java.awt.Font;
 
 @SuppressWarnings("serial")
 public class PostPanel extends JPanel{
@@ -64,7 +65,7 @@ public class PostPanel extends JPanel{
 			e3.printStackTrace();
 		}
 		
-		ImageIcon userImage = ImageManager.GetImageUsingURL(user.profile_Image_Dir, 50, 50);
+		ImageIcon userImage = ImageManager.GetUserProfile(user.profile_Image_Dir, 50, 50);
 		JLabel UserIcon = new JLabel(userImage);
 		UserIcon.setBackground(new Color(255, 255, 255));
 		UserIcon.setBounds(12, 5, 50, 50);
@@ -89,10 +90,21 @@ public class PostPanel extends JPanel{
 		Name.setBounds(74, 10, 88, 15);
 		postInfo.add(Name);
 		
+		JLabel margin1 = new JLabel("•");
+		margin1.setFont(new Font("굴림", Font.PLAIN, 8));
+		margin1.setForeground(new Color(175, 175, 175));
+		postInfo.add(margin1);
+		
 		JLabel ID = new JLabel(user.user_id);
+		ID.setForeground(new Color(175, 175, 175));
 		ID.setBounds(154, 10, 74, 15);
 		postInfo.add(ID);
 		Border border = BorderFactory.createLineBorder(Color.black, 2);
+		
+		JLabel maring2 = new JLabel("•");
+		maring2.setFont(new Font("굴림", Font.PLAIN, 8));
+		maring2.setForeground(new Color(175, 175, 175));
+		postInfo.add(maring2);
 		
 		JLabel date = new JLabel(post.date.toString());
 		date.setBounds(240, 10, 104, 15);
@@ -215,12 +227,12 @@ public class PostPanel extends JPanel{
 		
 		panel = new JPanel();
 		panel.setBackground(new Color(255, 255, 255));
-		panel.setBorder(new LineBorder(new Color(0, 0, 0)));
+		panel.setBorder(null);
 		panel.setBounds(0, 0, 464, 300);
 		panel.setLayout(null);
 		add(panel);
 		
-		ImageIcon userImage = ImageManager.GetImageUsingURL(user.profile_Image_Dir, 50, 50);
+		ImageIcon userImage = ImageManager.GetUserProfile(user.profile_Image_Dir, 50, 50);
 		JLabel UserIcon = new JLabel(userImage);
 		UserIcon.addMouseListener(new MouseAdapter() {
 			@Override
@@ -243,10 +255,21 @@ public class PostPanel extends JPanel{
 		Name.setBounds(74, 10, 88, 15);
 		postInfo.add(Name);
 		
+		JLabel margin1 = new JLabel("•");
+		margin1.setFont(new Font("굴림", Font.PLAIN, 8));
+		margin1.setForeground(new Color(175, 175, 175));
+		postInfo.add(margin1);
+		
 		JLabel ID = new JLabel(user.user_id);
+		ID.setForeground(new Color(175, 175, 175));
 		ID.setBounds(154, 10, 74, 15);
 		postInfo.add(ID);
 		Border border = BorderFactory.createLineBorder(Color.black, 2);
+		
+		JLabel maring2 = new JLabel("•");
+		maring2.setFont(new Font("굴림", Font.PLAIN, 8));
+		maring2.setForeground(new Color(175, 175, 175));
+		postInfo.add(maring2);
 		
 		JLabel date = new JLabel(post.date.toString());
 		date.setBounds(240, 10, 104, 15);

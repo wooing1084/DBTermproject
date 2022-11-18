@@ -1,5 +1,6 @@
 import javax.swing.JPanel;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.sql.Connection;
@@ -133,6 +134,11 @@ public class ChildCommentPanel extends JPanel {
 		
 		JLabel idLabel = new JLabel(comment.user_id);
 		panel_1.add(idLabel);
+		
+		JLabel margin1 = new JLabel("•");
+		margin1.setFont(new Font("굴림", Font.PLAIN, 8));
+		margin1.setForeground(new Color(175, 175, 175));
+		panel_1.add(margin1);
 		
 		JLabel dateLabel = new JLabel(comment.date.toString());
 		panel_1.add(dateLabel);

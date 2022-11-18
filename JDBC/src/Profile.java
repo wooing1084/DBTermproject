@@ -106,7 +106,7 @@ public class Profile extends JFrame {
 		appbar.add(UserBtn);
 		
 		if(id.equals(ClientInformation.Logined_id)) {
-			ImageIcon settingIcon = ImageManager.GetImageUsingFileSystem("src/assets/setting.png",30,30);
+			ImageIcon settingIcon = ImageManager.GetImageUsingFileSystem("src/assets/UI/setting2.png",30,30);
 			JLabel settingBtn = new JLabel(settingIcon);
 			settingBtn.setBounds(402, 5, 50, 50);
 			//SearchBtn.setBackground(new Color(255, 255,255));
@@ -387,8 +387,7 @@ public class Profile extends JFrame {
 	private ImageAvatar initComponents(ImageIcon icon) {
 		
 		ImageAvatar imageAvatar1 = new ImageAvatar();
-        
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+       
 
         //
         //ImageIcon profileIcon = ImageManager.GetImageUsingFileSystem("src/assets/profile_image.png",50,50);

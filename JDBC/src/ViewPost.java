@@ -61,13 +61,14 @@ public class ViewPost extends JFrame {
 		appbar.setLayout(null);
 		top.add(appbar);
 	
-		
 		ImageIcon logo = ImageManager.GetImageUsingFileSystem("src/assets/logo.png", 50,50);
 		
 		JLabel Logo = new JLabel(logo);
 		Logo.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				new MainFeed();
+				dispose();
 			}
 		});
 		Logo.setBounds(12, 5, 50, 50);
@@ -76,47 +77,53 @@ public class ViewPost extends JFrame {
 
 		
 		appbar.add(Logo);
-				
-		String imgUrl = "";
+		
 		String q1 = "select profile_Image_dir from user where user_id = \"" + ClientInformation.Logined_id + "\";";
 		ResultSet rs = SQLMethods.ExecuteQuery(SQLMethods.GetCon(), q1);
 		
+		String imgUrl = "";
 		try {
 			if(rs.next()) {
 				imgUrl = rs.getString(1);
 			}
-			if(imgUrl.compareTo("") == 0) 
-				imgUrl = "https://play-lh.googleusercontent.com/38AGKCqmbjZ9OuWx4YjssAz3Y0DTWbiM5HB0ove1pNBq_o9mtWfGszjZNxZdwt_vgHo";
-		} catch (SQLException e2) {
+		} catch (SQLException e1) {
 			// TODO Auto-generated catch block
-			e2.printStackTrace();
+			e1.printStackTrace();
 		}
 		
 		
-		ImageIcon userImage = ImageManager.GetImageUsingURL(imgUrl, 50, 50);
+		ImageIcon userImage = ImageManager.GetUserProfile(imgUrl, 50, 50);
 		JLabel UserBtn = new JLabel(userImage);
 		UserBtn.setBounds(12, 5, 50, 50);
 		UserBtn.setBackground(new Color(255, 255,255));
 		UserBtn.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				new Profile(ClientInformation.Logined_id);
+				dispose();
 			}
 		});
 
 		
 		appbar.add(UserBtn);
 		
-		ImageIcon searchIcon = ImageManager.GetImageUsingFileSystem("src/assets/UI/search.png",30,30);
+		ImageIcon searchIcon = ImageManager.GetImageUsingFileSystem("src/assets/UI/search_2.png",30,30);
 		JLabel SearchBtn = new JLabel(searchIcon);
 		SearchBtn.setBounds(402, 5, 50, 50);
 		SearchBtn.setBackground(new Color(255, 255,255));
 		SearchBtn.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				new UserSearch();
+				dispose();
 			}
 		});
+	
+		
 		
 		appbar.add(SearchBtn);
+		
+		
 		PostPanel post = null;
 		Post p = new Post(p_id);
 		if(p.images.size() == 0)
@@ -159,6 +166,12 @@ public class ViewPost extends JFrame {
 		commentStatus.add(likeCnt);
 		
 		JButton likeBtn = new JButton("Likes");
+		likeBtn.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				new PostLike(p_id);
+			}
+		});
 		likeBtn.setBackground(new Color(255, 255, 255));
 		likeBtn.setToolTipText("");
 		likeBtn.setBorderPainted(false);
@@ -220,8 +233,6 @@ public class ViewPost extends JFrame {
 		
 		panel.add(commentText);
 		
-		
-		
 		JButton enterBtn = new JButton("Enter");
 		enterBtn.setBounds(391, 10, 61, 48);
 		enterBtn.addActionListener(new ActionListener() {
@@ -230,6 +241,7 @@ public class ViewPost extends JFrame {
 				SQLMethods.WriteComment(SQLMethods.GetCon(), ClientInformation.Logined_id, p_id,text);
 				
 				comments.invalidate();
+				commentStatus.invalidate();
 				
 				String q2 = "select max(comment_id) from comment;";
 				ResultSet rs2 = SQLMethods.ExecuteQuery(SQLMethods.GetCon(), q2);
@@ -248,7 +260,10 @@ public class ViewPost extends JFrame {
 				CommentPanel cP1 = new CommentPanel(c1, commentText );
 				comments.add(cP1);
 				
+				commentCnt.setText("" + Integer.parseInt(commentCnt.getText() + 1));
+				
 				comments.validate();
+				commentStatus.validate();
 			}
 		});
 		panel.add(enterBtn);
