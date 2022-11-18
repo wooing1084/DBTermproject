@@ -321,7 +321,7 @@ public class PostPanel extends JPanel{
 
 		JPanel images = new JPanel();
 		images.setBackground(new Color(255, 255, 255));
-		images.setLayout(new FlowLayout(FlowLayout.RIGHT, 5, 5));
+		images.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 5));
 		imageScroll.add(images);
 		imageScroll.setViewportView(images);
 

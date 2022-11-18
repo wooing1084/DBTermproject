@@ -61,102 +61,86 @@ public class posting extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		contentPane = new JPanel();
+		contentPane.setBackground(new Color(255, 255, 255));
 		contentPane.setLayout(null);
 		setContentPane(contentPane);
 		
 		JPanel appbar = new JPanel();
 		appbar.setBackground(new Color(255, 255, 255));
-		appbar.setBounds(0,0,464,65);
+		appbar.setBounds(0,0,464,41);
 		appbar.setLayout(null);
 		contentPane.add(appbar);
 		
-		ImageIcon logo = ImageManager.GetImageUsingFileSystem("src/assets/logo.png", 50,50);
+		JTextArea textArea = new JTextArea();
+		textArea.setBackground(new Color(247, 247, 247));
+		textArea.setBounds(10, 90, 445, 210);
+		textArea.setLineWrap(true);
 		
-		JLabel Logo = new JLabel(logo);
-		Logo.addMouseListener(new MouseAdapter() {
+		JScrollPane scrollPane=new JScrollPane(textArea);
+		scrollPane.setBounds(66, 40, 398, 215);
+		//scrollPane.setBorder(null);
+		scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+		scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
+		contentPane.add(scrollPane);
+		
+		ImageIcon back = ImageManager.GetImageUsingFileSystem("src/assets/UI/back.png",25,25);
+		JLabel backBtn = new JLabel(back);
+		backBtn.setBounds(12, 9, 25, 25);
+		backBtn.setBackground(new Color(255, 255,255));
+		backBtn.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				new MainFeed();
 				dispose();
 			}
 		});
-	
-		Logo.setBackground(new Color(255, 255,255));
-		Logo.setBounds(200, 5, 50, 50);
-
-		
-		appbar.add(Logo);
-		
-		String q1 = "select profile_Image_dir from user where user_id = \"" + ClientInformation.Logined_id + "\";";
-		ResultSet rs = SQLMethods.ExecuteQuery(SQLMethods.GetCon(), q1);
-		
-		String imgUrl = "";
-		try {
-			if(rs.next()) {
-				imgUrl = rs.getString(1);
-			}
-			if(imgUrl.compareTo("") == 0)  
-				imgUrl = "https://play-lh.googleusercontent.com/38AGKCqmbjZ9OuWx4YjssAz3Y0DTWbiM5HB0ove1pNBq_o9mtWfGszjZNxZdwt_vgHo";
-		} catch (SQLException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
+		appbar.add(backBtn);
 		
 		
-		ImageIcon userImage = ImageManager.GetImageUsingURL(imgUrl, 50, 50);
-		JLabel UserBtn = new JLabel(userImage);
-		UserBtn.setBounds(12, 5, 50, 50);
-		UserBtn.setBackground(new Color(255, 255,255));
-		UserBtn.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				User u=new User(user_id);
-				new Profile(user_id);
-				dispose();
-			}
-		});
-		appbar.add(UserBtn);
+		JScrollPane scrollPane_1 = new JScrollPane();
+		scrollPane_1.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
+		scrollPane_1.setBorder(null);
+		scrollPane_1.setBounds(0, 254, 452, 118);
+		contentPane.add(scrollPane_1);
 		
-		JTextArea textArea = new JTextArea();
-		textArea.setBounds(10, 90, 445, 210);
-		textArea.setLineWrap(true);
+		JPanel panel = new JPanel();
+		panel.setBorder(null);
+		panel.setBackground(new Color(255, 255, 255));
+		scrollPane_1.setViewportView(panel);
 		
-		JScrollPane scrollPane=new JScrollPane(textArea);
-		scrollPane.setBounds(10, 90, 445, 205);
-		scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-		scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
-		contentPane.add(scrollPane);
+		
 		
 		imurl = new JTextField();
-		imurl.setBounds(135, 304, 210, 23);
+		imurl.setBounds(10, 382, 333, 32);
 		contentPane.add(imurl);
 		
 		imurl.setColumns(10);
 		
-		JLabel lblNewLabel = new JLabel("image url");
-		lblNewLabel.setBounds(66, 308, 60, 15);
-		contentPane.add(lblNewLabel);
 		
-		
-		
-		JButton btnadd = new JButton("add");
-		btnadd.setBounds(355, 304, 100, 25);
+		ImageIcon addImage = ImageManager.GetImageUsingFileSystem("src/assets/UI/image_button.png",81,32);
+		JButton btnadd = new JButton(addImage);
+		btnadd.setBounds(371, 382, 81, 32);
+		btnadd.setContentAreaFilled(false);
+		btnadd.setOpaque(false);
 		contentPane.add(btnadd);
 		
-		
-		JButton btnpost = new JButton("post");
-		btnpost.setBounds(355, 369, 100, 25);
-		contentPane.add(btnpost);
-		
 		hashTextField = new JTextField();
-		hashTextField.setBounds(135, 339, 210, 21);
+		hashTextField.setBounds(10, 417, 333, 32);
 		contentPane.add(hashTextField);
 		hashTextField.setColumns(10);
 		
+		ImageIcon tagImage = ImageManager.GetImageUsingFileSystem("src/assets/UI/tag.png",81,32);
 		Set<String> tags = new HashSet<String>();
-		JButton hashTagBtn = new JButton("tag");
+		JButton hashTagBtn = new JButton(tagImage);
+		hashTagBtn.setContentAreaFilled(false);
+		hashTagBtn.setOpaque(false);
+		
+		
+		
 		hashTagBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				panel.invalidate(); 
+				
 				String q1 = "select user_id from user where user_id = \"" + hashTextField.getText() + "\"";
 				ResultSet rs = SQLMethods.ExecuteQuery(SQLMethods.GetCon(), q1);
 				
@@ -171,22 +155,45 @@ public class posting extends JFrame {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}	
+
 				
 				tags.add(hashTextField.getText());
 			}
 		});
-		hashTagBtn.setBounds(355, 336, 100, 25);
+		hashTagBtn.setBounds(371, 417, 81, 32);;
 		contentPane.add(hashTagBtn);
-		
-		//
 
 		List<String> urls = new ArrayList<String>();
 		btnadd.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				panel.invalidate(); 
+				scrollPane_1.invalidate();
+				
+				ImageIcon img = ImageManager.GetImageUsingURL(imurl.getText(), 110,110);
+				JLabel lb = new JLabel(img);				
+				panel.add(lb);
+				panel.validate();
+				scrollPane_1.validate();
+				
+				
 				urls.add(imurl.getText());
 		    }
 		    
 		});
+		
+		ImageIcon twit = ImageManager.GetImageUsingFileSystem("src/assets/UI/twit.png",81,32);
+		JButton btnpost = new JButton(twit);
+		btnpost.setBounds(375, 5, 81, 32);
+		btnpost.setContentAreaFilled(false);
+		btnpost.setOpaque(false);
+		appbar.add(btnpost);
+		
+		ImageIcon userImage = ImageManager.GetUserProfile(ClientInformation.Logined_id, 50, 50);
+		JLabel profileIcon = new JLabel(userImage);
+		profileIcon.setBounds(10, 45, 50, 50);
+		contentPane.add(profileIcon);
+		
+		
 		
 		btnpost.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -202,6 +209,34 @@ public class posting extends JFrame {
 	
 		
 	});
+		
+		
 		setVisible(true);
 	}	
 }
+
+//태그
+//String q1 = "select user_id from user where user_id = \"" + hashTextField.getText() + "\"";
+//ResultSet rs = SQLMethods.ExecuteQuery(SQLMethods.GetCon(), q1);
+//
+//try {
+//	if(rs.next()) {
+//		if(rs.getString(1).compareTo("") == 0)
+//			return;
+//	}
+//	else
+//		return;
+//} catch (SQLException e1) {
+//	// TODO Auto-generated catch block
+//	e1.printStackTrace();
+//}	
+//
+//tags.add(hashTextField.getText());
+
+//이미지
+//btnadd.addActionListener(new ActionListener() {
+//	public void actionPerformed(ActionEvent e) {
+//		urls.add(imurl.getText());
+//    }
+//    
+//});

@@ -284,14 +284,10 @@ public class SQLMethods {
                 return;
 
             String temp =  rs.getString(1);
-            int counts = Integer.parseInt(temp);
-            counts++;
-
 
             Date date = new Date();
             java.sql.Date sqlDate = new java.sql.Date(date.getTime());
             
-            Random random=new Random();
 
             q1 = "insert into posts values(null, \"" + content + "\", \"" + user_id + "\", Date(\"" +sqlDate+"\"));";
             stmt.executeUpdate(q1);
