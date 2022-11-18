@@ -208,7 +208,7 @@ public class SQLMethods {
    
     
     
-    public static void WritePost(Connection connection, String user_id, String content, String[] imgs)
+    public static void WritePost(Connection connection, String user_id, String content, String[] imgs, String[] tags)
     {
         Statement stmt = null;
         ResultSet rs = null;
@@ -243,7 +243,7 @@ public class SQLMethods {
                 		break;
                     String imDir = imgs[cnt];
 
-                    if(imDir.compareTo("0") == 0)
+                    if(imDir.compareTo("") == 0)
                         break;
                     
                     String q2 = "select MAX(post_id) from posts";
@@ -257,6 +257,26 @@ public class SQLMethods {
                     cnt++;
                 }
             }
+            
+            int tagCount = tags.length;
+            
+            if(tagCount > 0) {
+            	while(tagCount > 0) {
+            		tagCount--;
+            		String q2 = "select MAX(post_id) from posts";
+                    ResultSet rs2 = stmt.executeQuery(q2);
+                    int id = 0;
+                    if(rs2.next())
+                    	id = rs2.getInt(1);
+                    
+                    q2 = "insert into hashtag values(\"" + id + "\", \"" + tags[tagCount]+ "\");";
+                    stmt.executeUpdate(q2);
+                                       
+            	}
+            	
+            	
+            }
+            
         }catch (SQLException e){
             e.printStackTrace();
         }

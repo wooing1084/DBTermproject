@@ -132,7 +132,7 @@ public class MainFeed extends JFrame {
 		//posts.setPreferredSize(new Dimension(464, 695));
 		
 		
-		//¼öÁ¤ÇÊ¿ä(·Î±×ÀÎ ÈÄ ÆÈ·Î¿ì ºÎºÐ È°¼ºÈ­ µÇ¸é ÆÈ·Î¿ìÇÑ À¯ÀúÀÇ °Ô½Ã±Û º¸¿©ÁÖ±â)
+		//ï¿½ï¿½ï¿½ï¿½ï¿½Ê¿ï¿½(ï¿½Î±ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½È·Î¿ï¿½ ï¿½Îºï¿½ È°ï¿½ï¿½È­ ï¿½Ç¸ï¿½ ï¿½È·Î¿ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ô½Ã±ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ö±ï¿½)
 		List<String> list = SQLMethods.Followings(SQLMethods.GetCon(), ClientInformation.Logined_id);
 		List<Post> postList = null;
 		
@@ -142,7 +142,7 @@ public class MainFeed extends JFrame {
 			for(int i =0;i<postList.size();i++) {
 				Post post = postList.get(i);
 				PostPanel p1 = null;
-				if(post.images == null)
+				if(post.images.size() == 0)
 					p1 = new PostPanel(post);
 				else
 					p1 = new PostPanel(post,post.images);
@@ -176,7 +176,7 @@ public class MainFeed extends JFrame {
 		btnPanel.setSize(50, 50);
 		btnPanel.setLayout(null);
 		
-		//±Û¾²±â ¹öÆ°
+		//ï¿½Û¾ï¿½ï¿½ï¿½ ï¿½ï¿½Æ°
 		ImageIcon plusImage = ImageManager.GetImageUsingFileSystem("src/assets/UI/plus.png", 50, 50);
 		JLabel writeBtn = new JLabel(plusImage);
 		writeBtn.setBounds(0, 0, 50, 50);

@@ -320,7 +320,7 @@ public class Profile extends JFrame {
 			Post pTemp = pList.get(i); 
 			
 			PostPanel p1 = null;
-			if(pTemp.images == null)
+			if(pTemp.images.size() == 0)
 			{
 				p1 = new PostPanel(pTemp);
 			}

@@ -117,10 +117,17 @@ public class ViewPost extends JFrame {
 		});
 		
 		appbar.add(SearchBtn);
-		
+		PostPanel post = null;
 		Post p = new Post(p_id);
-		PostPanel post = new PostPanel(p);
-		center.add(post);
+		if(p.images.size() == 0)
+		{
+			post = new PostPanel(p);
+			center.add(post);			
+		}
+		else {
+			post = new PostPanel(p, p.images);
+			center.add(post);
+		}
 		
 		commentText = new JTextField();
 		commentText.setBounds(12, 10, 367, 48);
@@ -169,7 +176,7 @@ public class ViewPost extends JFrame {
 		JLabel lblNewLabel = new JLabel("Comments");
 		commentStatus.add(lblNewLabel);
 		
-		//comment °´Ã¼ »ý¼º ÈÄ Ãß°¡(¸ÞÀÎÇÇµå¿Í ºñ½ÁÇÔ)
+		//comment ï¿½ï¿½Ã¼ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ß°ï¿½(ï¿½ï¿½ï¿½ï¿½ï¿½Çµï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½)
 		JPanel comments = new JPanel();
 		comments.setBackground(new Color(255, 255, 255));
 		comments.setLayout(new BoxLayout(comments, BoxLayout.Y_AXIS));

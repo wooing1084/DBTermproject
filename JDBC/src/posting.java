@@ -11,7 +11,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -28,7 +30,7 @@ public class posting extends JFrame {
 
 	private JPanel contentPane;
 	private JTextField imurl;
-	private JTextField textField;
+	private JTextField hashTextField;
 
 	/**
 	 * Launch the application.
@@ -146,14 +148,35 @@ public class posting extends JFrame {
 		btnpost.setBounds(355, 369, 100, 25);
 		contentPane.add(btnpost);
 		
-		textField = new JTextField();
-		textField.setBounds(135, 339, 210, 21);
-		contentPane.add(textField);
-		textField.setColumns(10);
+		hashTextField = new JTextField();
+		hashTextField.setBounds(135, 339, 210, 21);
+		contentPane.add(hashTextField);
+		hashTextField.setColumns(10);
 		
-		JButton btnNewButton = new JButton("tag");
-		btnNewButton.setBounds(355, 336, 100, 25);
-		contentPane.add(btnNewButton);
+		Set<String> tags = new HashSet<String>();
+		JButton hashTagBtn = new JButton("tag");
+		hashTagBtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String q1 = "select user_id from user where user_id = \"" + hashTextField.getText() + "\"";
+				ResultSet rs = SQLMethods.ExecuteQuery(SQLMethods.GetCon(), q1);
+				
+				try {
+					if(rs.next()) {
+						if(rs.getString(1).compareTo("") == 0)
+							return;
+					}
+					else
+						return;
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}	
+				
+				tags.add(hashTextField.getText());
+			}
+		});
+		hashTagBtn.setBounds(355, 336, 100, 25);
+		contentPane.add(hashTagBtn);
 		
 		//
 
@@ -169,7 +192,10 @@ public class posting extends JFrame {
 			public void actionPerformed(ActionEvent e) {
             String content = textArea.getText();
             Connection con = SQLMethods.GetCon();
-            SQLMethods.WritePost(con,ClientInformation.Logined_id,content, urls.toArray(new String[0]));
+            List<String> tagList = new ArrayList<String>(tags);
+            
+            
+            SQLMethods.WritePost(con,ClientInformation.Logined_id,content, urls.toArray(new String[0]), tagList.toArray(new String[0]));
             new MainFeed();
             dispose();
 		}
