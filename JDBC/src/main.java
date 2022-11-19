@@ -13,10 +13,10 @@ public class main {
  
     	//new UserSearch();
     	//new posting("hi");
-    	//new Login();
+    	new Login();
     	//new MainFeed();
     	//new Setting("hi");
-    	new Profile("hi");
+    	//new Profile("hi");
     }
 
     

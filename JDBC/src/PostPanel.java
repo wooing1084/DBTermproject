@@ -31,6 +31,7 @@ import java.io.Serializable;
 import javax.swing.JButton;
 import java.awt.Font;
 import java.awt.Image;
+import javax.swing.ScrollPaneConstants;
 
 @SuppressWarnings("serial")
 public class PostPanel extends JPanel{
@@ -366,6 +367,7 @@ public class PostPanel extends JPanel{
 		scroll.setViewportView(text);
 		
 		JScrollPane imageScroll = new JScrollPane();
+		imageScroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
 		imageScroll.setBounds(12, 175, 428, 115);
 		panel.add(imageScroll);
 

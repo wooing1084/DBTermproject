@@ -25,6 +25,7 @@ public class SQLMethods {
             connection = DriverManager.getConnection(url, user, passwd);
         }catch (ClassNotFoundException e){
             e.printStackTrace();
+    
         }
         catch (SQLException e){
             e.printStackTrace();

@@ -102,6 +102,7 @@ public class UserSearch extends JFrame {
 				System.out.println("Enter click");
 				User[] users = SQLMethods.GetUsers(SQLMethods.GetCon());
 				panel_1.invalidate();
+				scrollPane.invalidate();
 				panel_1.removeAll();
 				
 				for(int i =0;i < users.length; i++) {
@@ -116,6 +117,7 @@ public class UserSearch extends JFrame {
 				}
 				
 				panel_1.validate();
+				scrollPane.validate();
 			}
 		});
 		
