@@ -1,5 +1,6 @@
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
 import javax.swing.border.EmptyBorder;
 import java.awt.Color;
 import javax.swing.ImageIcon;
@@ -15,12 +16,13 @@ public class Login extends JFrame {
 
 	private JPanel contentPane;
 	private JTextField IDInput;
-	private JTextField PWInput;
+	private JPasswordField PWInput;
 	/**
 	 * Create the frame.
 	 */
 	public Login() {
 		setBounds(100, 100, 300, 480);
+		setLocationRelativeTo(null);
 		
 		setTitle("Login");
 		
@@ -50,7 +52,8 @@ public class Login extends JFrame {
 		contentPane.add(IDInput);
 		IDInput.setColumns(10);
 		
-		PWInput = new JTextField();
+		PWInput = new JPasswordField();
+		PWInput.setEchoChar('*');
 		PWInput.setBackground(new Color(236, 236, 236));
 		PWInput.setColumns(10);
 		PWInput.setBounds(65, 281, 206, 38);

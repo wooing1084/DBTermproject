@@ -2,6 +2,7 @@ import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
 import javax.swing.border.EmptyBorder;
 import java.awt.Color;
 import javax.swing.JLabel;
@@ -18,7 +19,7 @@ public class Signin extends JFrame {
 
 	private JPanel contentPane;
 	private JTextField IDTextField;
-	private JTextField PWTextField;
+	private JPasswordField PWTextField;
 	private JTextField NameTextField;
 	private JTextField EMailText;
 
@@ -27,6 +28,7 @@ public class Signin extends JFrame {
 	 */
 	public Signin() {
 		setBounds(150, 150, 300, 480);
+		setLocationRelativeTo(null);
 		setTitle("Sign in");
 		contentPane = new JPanel();
 		contentPane.setBackground(new Color(255, 255, 255));
@@ -51,8 +53,9 @@ public class Signin extends JFrame {
 		IDTextField.setBounds(65, 155, 206, 38);
 		contentPane.add(IDTextField);
 		
-		PWTextField = new JTextField();
+		PWTextField = new JPasswordField();
 		PWTextField.setColumns(10);
+		PWTextField.setEchoChar('*');
 		PWTextField.setBounds(65, 203, 206, 38);
 		contentPane.add(PWTextField);
 		
@@ -89,25 +92,43 @@ public class Signin extends JFrame {
 		SigninBtn.setBorder(null);
 		SigninBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				String id = IDTextField.getText();
-				String pw = PWTextField.getText();
-				String name = NameTextField.getText();
-				String email = EMailText.getText();
+				String id = null; 
+				String pw = null; 
+				String name = null; 
+				String email = null; 
 				
+				id = IDTextField.getText();
+				pw = PWTextField.getText();
+				name = NameTextField.getText();
+				email = EMailText.getText();
 				Connection con = SQLMethods.GetCon();
 				int result = SQLMethods.Signin(con,id,pw,name,email);
 				
-				if(result == 0)
-				{
-					new CustomDialog("Dialog", "ID is already exists!");
+				if(id == null || id.equals("")) {
+					new CustomDialog("Dialog", "Please Enter ID!");
 				}
-				else if(result == 1){
-					new CustomDialog("Dialog", "Sign in Success!");
-					dispose();					
+				else if(pw == null || pw.equals("")) {
+					new CustomDialog("Dialog", "Please Enter Password!");
 				}
-				else
-					new CustomDialog("Dialog", "Error!");
-				
+				else if(name == null || name.equals("")) {
+					new CustomDialog("Dialog", "Please Enter name!");
+				}
+				else if(email == null || email.equals("")) {
+					new CustomDialog("Dialog", "Please Enter email!");
+				}
+				else {
+					if(result == 0)
+					{
+						new CustomDialog("Dialog", "ID is already exists!");
+					}
+					else if(result == 1){
+						new CustomDialog("Dialog", "Sign in Success!");
+						dispose();					
+					}
+					else
+						new CustomDialog("Dialog", "Error!");
+					
+				}
 			}
 		});
 		
