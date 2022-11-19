@@ -7,16 +7,21 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import javax.swing.GroupLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
+import javax.swing.GroupLayout.Alignment;
+
 import java.awt.Font;
+import java.awt.Image;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 public class ChildCommentPanel extends JPanel {
+	JPanel panel;
 	private JTextField textField;
-	
+	private ImageAvatar imageAvatar;
 	public Dimension getMaximumSize() {
 		Dimension d = getPreferredSize();
 		d.width = Integer.MAX_VALUE;
@@ -34,24 +39,33 @@ public class ChildCommentPanel extends JPanel {
 		
 		
 		
-		JPanel panel = new JPanel();
+		panel = new JPanel();
+		panel.setBackground(new Color(255, 255, 255));
 		panel.setBounds(0, 0, 450, 60);
 		add(panel);
 		panel.setLayout(null);
 		
 		
 		ImageIcon pImage = ImageManager.GetUserProfile(comment.user_id, 41, 40);
+		
+		imageAvatar = initComponents(pImage);
+		imageAvatar.setBounds(45, 10, 41, 40);
+        imageAvatar.setBorderColor(new Color(255,255,255));
+        panel.add(imageAvatar);
+        /*
 		JLabel profileIcon = new JLabel(pImage);
 		profileIcon.setBounds(45, 10, 41, 40);
 		panel.add(profileIcon);
-		
+		*/
 		textField = new JTextField(comment.content);
+		textField.setBackground(new Color(255, 255, 255));
 		textField.setBounds(89, 20, 290, 35);
 		textField.setEditable(false);
 		panel.add(textField);
 		textField.setColumns(10);
 		
 		JPanel LikePanel = new JPanel();
+		LikePanel.setBackground(new Color(255, 255, 255));
 		FlowLayout flowLayout = (FlowLayout) LikePanel.getLayout();
 		flowLayout.setVgap(0);
 		flowLayout.setAlignment(FlowLayout.RIGHT);
@@ -127,6 +141,7 @@ public class ChildCommentPanel extends JPanel {
 		LikePanel.add(heart);
 		
 		JPanel panel_1 = new JPanel();
+		panel_1.setBackground(new Color(255, 255, 255));
 		panel_1.setBounds(89, 0, 290, 20);
 		panel.add(panel_1);
 		panel_1.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 5));
@@ -146,4 +161,40 @@ public class ChildCommentPanel extends JPanel {
 		
 
 	}
+	
+private ImageAvatar initComponents(ImageIcon icon) {
+		
+		ImageAvatar imageAvatar1 = new ImageAvatar();
+       
+
+        //
+        //ImageIcon profileIcon = ImageManager.GetImageUsingFileSystem("src/assets/profile_image.png",50,50);
+		
+        Image img = icon.getImage();
+		Image updateImg = img.getScaledInstance(100, 100, Image.SCALE_SMOOTH);
+		ImageIcon updateIcon = new ImageIcon(updateImg);
+		
+		
+        imageAvatar1.setImage(updateIcon); // NOI18N
+        GroupLayout layout = new javax.swing.GroupLayout(panel);
+        layout.setHorizontalGroup(
+        	layout.createParallelGroup(Alignment.LEADING)
+        		.addGroup(Alignment.TRAILING, layout.createSequentialGroup()
+        			.addComponent(imageAvatar1, GroupLayout.PREFERRED_SIZE, 156, GroupLayout.PREFERRED_SIZE)
+        			.addContainerGap(812, Short.MAX_VALUE))
+        );
+        layout.setVerticalGroup(
+        	layout.createParallelGroup(Alignment.LEADING)
+        		.addGroup(layout.createSequentialGroup()
+        			.addGap(142)
+        			.addComponent(imageAvatar1, GroupLayout.PREFERRED_SIZE, 120, GroupLayout.PREFERRED_SIZE)
+        			.addContainerGap(514, Short.MAX_VALUE))
+        );
+        //panel.setLayout(layout);
+
+       // pack();
+        setBounds(0, 0, 478, 763);
+        //setLocationRelativeTo(null);
+        return imageAvatar1;
+    }
 }

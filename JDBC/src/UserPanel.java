@@ -1,8 +1,13 @@
 import javax.swing.JPanel;
+import javax.swing.GroupLayout.Alignment;
+
 import java.awt.FlowLayout;
+import java.awt.Font;
+import java.awt.Image;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import javax.swing.GroupLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.border.LineBorder;
@@ -10,6 +15,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import javax.swing.SwingConstants;
 
 public class UserPanel extends JPanel {
 
@@ -29,7 +35,7 @@ public class UserPanel extends JPanel {
 		setBounds(0,0,464,75);
 		setLayout(null);
 		
-		JPanel panel = new JPanel();
+		panel = new JPanel();
 		panel.setBorder(new LineBorder(new Color(0, 0, 0)));
 		panel.setBackground(new Color(255, 255, 255));
 		panel.setBounds(0,0,464,75);
@@ -46,10 +52,16 @@ public class UserPanel extends JPanel {
 		
 		ImageIcon uIcon = ImageManager.GetUserProfile(user.user_id, 50, 50);
 		
+		imageAvatar = initComponents(uIcon);
+		imageAvatar.setBounds(0, 5, 60, 60);
+        imageAvatar.setBorderColor(new Color(255,255,255));
+        panel.add(imageAvatar);
+        /*
 		JLabel icon = new JLabel(uIcon);
 		
 		icon.setBounds(5, 10, 50, 50);
 		panel.add(icon);
+		*/
 		JPanel infoPanel = new JPanel();
 		infoPanel.setBounds(80, 15, 158, 40);
 		infoPanel.setBackground(new Color(255, 255, 255));
@@ -58,9 +70,15 @@ public class UserPanel extends JPanel {
 		infoPanel.setLayout(fl_infoPanel);
 		
 		JLabel userName = new JLabel(user.username);
+		userName.setFont(new Font("Thoma", Font.PLAIN, 20));
+		userName.setForeground(Color.BLACK);
 		infoPanel.add(userName);
 		
-		JLabel ID = new JLabel(user.user_id);
+		String gId = "@" + user.user_id;
+		JLabel ID = new JLabel(gId);
+		ID.setVerticalAlignment(SwingConstants.BOTTOM);
+		ID.setFont(new Font("Thoma", Font.PLAIN, 15));
+		ID.setForeground(Color.GRAY);
 		infoPanel.add(ID);
 		
 		String q1 = "select user_id from follow where follower_id = \"" + ClientInformation.Logined_id + "\" and user_id = \"" + user.user_id + "\";";
@@ -87,6 +105,11 @@ public class UserPanel extends JPanel {
 		
 		ImageIcon followIcon = ImageManager.GetImageUsingFileSystem(followUrl,116,32);
 		JLabel follow = new JLabel(followIcon);
+		if(user.user_id.equals(ClientInformation.Logined_id)) {
+			follow.setVisible(false);
+		}
+		else
+			follow.setVisible((true));
 		/*팔로우에 추가하기 (프로필)*/
 		follow.addMouseListener(new MouseAdapter() {
 			@Override
@@ -125,4 +148,39 @@ public class UserPanel extends JPanel {
 		follow.setBounds(336, 15, 116, 32);
 		panel.add(follow);
 	}
+private ImageAvatar initComponents(ImageIcon icon) {
+		
+		ImageAvatar imageAvatar1 = new ImageAvatar();
+       
+
+        //
+        //ImageIcon profileIcon = ImageManager.GetImageUsingFileSystem("src/assets/profile_image.png",50,50);
+		
+        Image img = icon.getImage();
+		Image updateImg = img.getScaledInstance(100, 100, Image.SCALE_SMOOTH);
+		ImageIcon updateIcon = new ImageIcon(updateImg);
+		
+		
+        imageAvatar1.setImage(updateIcon); // NOI18N
+        GroupLayout layout = new javax.swing.GroupLayout(panel);
+        layout.setHorizontalGroup(
+        	layout.createParallelGroup(Alignment.LEADING)
+        		.addGroup(Alignment.TRAILING, layout.createSequentialGroup()
+        			.addComponent(imageAvatar1, GroupLayout.PREFERRED_SIZE, 156, GroupLayout.PREFERRED_SIZE)
+        			.addContainerGap(812, Short.MAX_VALUE))
+        );
+        layout.setVerticalGroup(
+        	layout.createParallelGroup(Alignment.LEADING)
+        		.addGroup(layout.createSequentialGroup()
+        			.addGap(142)
+        			.addComponent(imageAvatar1, GroupLayout.PREFERRED_SIZE, 120, GroupLayout.PREFERRED_SIZE)
+        			.addContainerGap(514, Short.MAX_VALUE))
+        );
+        //panel.setLayout(layout);
+
+        //pack();
+        setBounds(0, 0, 478, 763);
+        //setLocationRelativeTo(null);
+        return imageAvatar1;
+    }
 }

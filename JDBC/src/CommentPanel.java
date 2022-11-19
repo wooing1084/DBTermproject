@@ -29,6 +29,7 @@ public class CommentPanel extends JPanel {
 	 */
 	public CommentPanel(Comment comment, JTextField textField) {
 		setLayout(null);
+		setBackground(new Color(255,255,255));
 		setPreferredSize(new Dimension(450,100));
 		setBounds(0, 0, 450, 100);
 		String q1 = "select profile_Image_dir from user where user_id = \"" + comment.user_id + "\";";
@@ -52,6 +53,7 @@ public class CommentPanel extends JPanel {
 		add(profileIcon);
 		
 		JPanel commentInfo = new JPanel();
+		commentInfo.setBackground(new Color(255, 255, 255));
 		commentInfo.setBounds(60, 5, 300, 20);
 		add(commentInfo);
 		commentInfo.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 5));
@@ -88,6 +90,7 @@ public class CommentPanel extends JPanel {
 		add(reply);
 		
 		JPanel panel = new JPanel();
+		panel.setBackground(new Color(255, 255, 255));
 		FlowLayout flowLayout = (FlowLayout) panel.getLayout();
 		flowLayout.setVgap(0);
 		flowLayout.setAlignment(FlowLayout.RIGHT);

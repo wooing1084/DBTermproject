@@ -13,6 +13,7 @@ import java.util.List;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
+import javax.swing.GroupLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -24,6 +25,8 @@ import javax.swing.JScrollPane;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
 import javax.swing.ScrollPaneConstants;
+import javax.swing.GroupLayout.Alignment;
+
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
@@ -40,7 +43,7 @@ import javax.swing.JScrollBar;
 public class Follower extends JFrame{
 	
 	private JPanel panel;
-	
+	private ImageAvatar imageAvatar;
 	public Follower(String follow_id) {
 		setBackground(new Color(255, 255, 255));
 		setBounds(100,100,480,800);
@@ -68,6 +71,7 @@ public class Follower extends JFrame{
 		Logo.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				new MainFeed();
 			}
 		});
 		Logo.setBounds(12, 5, 50, 50);

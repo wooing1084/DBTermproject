@@ -22,11 +22,14 @@ import javax.swing.ScrollPaneConstants;
 import java.awt.FlowLayout;
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.GridBagLayout;
 import javax.swing.BoxLayout;
+import javax.swing.GroupLayout;
 import javax.swing.SpringLayout;
+import javax.swing.GroupLayout.Alignment;
 import javax.swing.JLayeredPane;
 import java.awt.Component;
 import java.awt.event.MouseAdapter;
@@ -35,9 +38,8 @@ import java.awt.event.MouseEvent;
 public class MainFeed extends JFrame {
 
 	private JPanel contentPane;
-	/**
-	 * Create the frame.
-	 */
+	private JPanel appbar;
+	private ImageAvatar imageAvatar;
 	public MainFeed() {
 		setBackground(new Color(255, 255, 255));
 		setBounds(100, 100, 480, 800);
@@ -49,7 +51,7 @@ public class MainFeed extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 0));
 		
-		JPanel appbar = new JPanel();
+		appbar = new JPanel();
 		appbar.setBackground(new Color(255, 255, 255));
 		appbar.setPreferredSize(new Dimension(464,65));
 		appbar.setLayout(null);
@@ -86,7 +88,20 @@ public class MainFeed extends JFrame {
 		}
 		
 		
-		ImageIcon userImage = ImageManager.GetUserProfile(imgUrl, 50, 50);
+		ImageIcon userImage = ImageManager.GetUserProfile(ClientInformation.Logined_id, 50, 50);
+		
+		imageAvatar = initComponents(userImage);
+		imageAvatar.setBounds(7, 0, 60, 60);
+        imageAvatar.setBorderColor(new Color(255,255,255));
+        imageAvatar.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				new Profile(ClientInformation.Logined_id);
+				dispose();
+			}
+		});
+        appbar.add(imageAvatar);
+        /*
 		JLabel UserBtn = new JLabel(userImage);
 		UserBtn.setBounds(12, 5, 50, 50);
 		UserBtn.setBackground(new Color(255, 255,255));
@@ -97,9 +112,9 @@ public class MainFeed extends JFrame {
 				dispose();
 			}
 		});
-
+        */
 		
-		appbar.add(UserBtn);
+		//appbar.add(UserBtn);
 		
 		ImageIcon searchIcon = ImageManager.GetImageUsingFileSystem("src/assets/UI/search_2.png",30,30);
 		JLabel SearchBtn = new JLabel(searchIcon);
@@ -199,4 +214,40 @@ public class MainFeed extends JFrame {
 	
 		setVisible(true);
 	}
+	
+private ImageAvatar initComponents(ImageIcon icon) {
+		
+		ImageAvatar imageAvatar1 = new ImageAvatar();
+       
+
+        //
+        //ImageIcon profileIcon = ImageManager.GetImageUsingFileSystem("src/assets/profile_image.png",50,50);
+		
+        Image img = icon.getImage();
+		Image updateImg = img.getScaledInstance(100, 100, Image.SCALE_SMOOTH);
+		ImageIcon updateIcon = new ImageIcon(updateImg);
+		
+		
+        imageAvatar1.setImage(updateIcon); // NOI18N
+        GroupLayout layout = new javax.swing.GroupLayout(appbar);
+        layout.setHorizontalGroup(
+        	layout.createParallelGroup(Alignment.LEADING)
+        		.addGroup(Alignment.TRAILING, layout.createSequentialGroup()
+        			.addComponent(imageAvatar1, GroupLayout.PREFERRED_SIZE, 156, GroupLayout.PREFERRED_SIZE)
+        			.addContainerGap(812, Short.MAX_VALUE))
+        );
+        layout.setVerticalGroup(
+        	layout.createParallelGroup(Alignment.LEADING)
+        		.addGroup(layout.createSequentialGroup()
+        			.addGap(142)
+        			.addComponent(imageAvatar1, GroupLayout.PREFERRED_SIZE, 120, GroupLayout.PREFERRED_SIZE)
+        			.addContainerGap(514, Short.MAX_VALUE))
+        );
+        //panel.setLayout(layout);
+
+        pack();
+        setBounds(0, 0, 478, 763);
+        setLocationRelativeTo(null);
+        return imageAvatar1;
+    }
 }

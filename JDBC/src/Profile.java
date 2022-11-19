@@ -26,7 +26,7 @@ public class Profile extends JFrame {
 	private JPanel panel;
 	private Image backImg;
 	private ImageAvatar imageAvatar;
-	
+	private ImageAvatar imageAvatar2;
 	String nickname = null;
 	public Profile(String id){
 		try {
@@ -91,6 +91,19 @@ public class Profile extends JFrame {
         imageAvatar.setBorderColor(new Color(120, 186, 239));
         appbar.add(imageAvatar);
         */
+		
+		imageAvatar2 = initComponents(myImage);
+		imageAvatar2.setBounds(7, 0, 60, 60);
+        imageAvatar2.setBorderColor(new Color(255,255,255));
+        imageAvatar2.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				dispose();
+				new Profile(ClientInformation.Logined_id);
+			}
+		});
+        appbar.add(imageAvatar2);
+        /*
 		JLabel UserBtn = new JLabel(myImage);
 		UserBtn.setBounds(12, 5, 50, 50);
 		UserBtn.setBackground(new Color(255, 255,255));
@@ -101,9 +114,9 @@ public class Profile extends JFrame {
 				new Profile(ClientInformation.Logined_id);
 			}
 		});
-
+        */
 		
-		appbar.add(UserBtn);
+		//appbar.add(UserBtn);
 		
 		if(id.equals(ClientInformation.Logined_id)) {
 			ImageIcon settingIcon = ImageManager.GetImageUsingFileSystem("src/assets/UI/setting2.png",30,30);
@@ -190,7 +203,7 @@ public class Profile extends JFrame {
 		JLabel lblNewLabel_1 = new JLabel(fId);
 		lblNewLabel_1.setForeground(new Color(192, 192, 192));
 		lblNewLabel_1.setFont(new Font("Thoma", Font.PLAIN, 14));
-		lblNewLabel_1.setBounds(2, 18, 53, 16);
+		lblNewLabel_1.setBounds(2, 18, 100, 16);
 		panel_3.add(lblNewLabel_1);
 		
 		String introduce = null;

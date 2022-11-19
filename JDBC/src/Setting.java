@@ -118,7 +118,7 @@ public class Setting extends JFrame {
 		});
 		JTextArea txtrCheakProfile = new JTextArea();
 		txtrCheakProfile.setEditable(false);
-		txtrCheakProfile.setText("Cheak profile");
+		txtrCheakProfile.setText("Check profile");
 		txtrCheakProfile.setFont(new Font("Tahoma", Font.BOLD, 23));
 		txtrCheakProfile.setBackground(new Color(255, 255, 255));
 		txtrCheakProfile.setBounds(50, 561, 212, 31);
@@ -574,6 +574,24 @@ public class Setting extends JFrame {
 		getContentPane().add(panel_5);
 		panel_5.setLayout(null);
 		
+		JButton btnNewButton_5_1 = new JButton(img);
+		btnNewButton_5_1.setBounds(396, 10, 65, 62);
+		btnNewButton_5_1.setBorderPainted(false);
+		btnNewButton_5_1.setFocusPainted(false);
+		btnNewButton_5_1.setOpaque(false);
+		btnNewButton_5_1.setContentAreaFilled(false);
+		panel_5.add(btnNewButton_5_1);
+		btnNewButton_5_1.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				setBounds(0, 0, 478, 763);
+				setLocationRelativeTo(null);
+				panel.setVisible(true);
+				panel_5.setVisible(false);
+			}
+		});
+		
+		
 		JTextArea txtrSetting_5 = new JTextArea();
 		txtrSetting_5.setEditable(false);
 		txtrSetting_5.setText("Setting");
@@ -607,6 +625,8 @@ public class Setting extends JFrame {
 		txtrChangePassword.setBounds(12, 238, 220, 36);
 		panel_5.add(txtrChangePassword);
 		txtrChangePassword.setVisible(false);
+		
+		
 		
 		JPasswordField textInPassword = new JPasswordField();
 		textInPassword.setEchoChar('*');
