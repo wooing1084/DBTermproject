@@ -14,6 +14,7 @@ import java.awt.event.MouseEvent;
 public class UserPanel extends JPanel {
 
 	JPanel panel;
+	private ImageAvatar imageAvatar;
 	
 	public Dimension getMaximumSize() {
 		Dimension d = getPreferredSize();
@@ -30,6 +31,7 @@ public class UserPanel extends JPanel {
 		
 		JPanel panel = new JPanel();
 		panel.setBorder(new LineBorder(new Color(0, 0, 0)));
+		panel.setBackground(new Color(255, 255, 255));
 		panel.setBounds(0,0,464,75);
 		panel.setPreferredSize(new Dimension(464,75));
 		panel.setLayout(null);
@@ -38,21 +40,19 @@ public class UserPanel extends JPanel {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				new Profile(user.user_id);
-				
-				
 			}
 		});
 		add(panel);
 		
-		ImageIcon uIcon = ImageManager.GetUserProfile(user.profile_Image_Dir, 50, 50);
+		ImageIcon uIcon = ImageManager.GetUserProfile(user.user_id, 50, 50);
 		
 		JLabel icon = new JLabel(uIcon);
 		
 		icon.setBounds(5, 10, 50, 50);
 		panel.add(icon);
-		
 		JPanel infoPanel = new JPanel();
 		infoPanel.setBounds(80, 15, 158, 40);
+		infoPanel.setBackground(new Color(255, 255, 255));
 		panel.add(infoPanel);
 		FlowLayout fl_infoPanel = new FlowLayout(FlowLayout.LEFT, 5, 5);
 		infoPanel.setLayout(fl_infoPanel);

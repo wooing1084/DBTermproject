@@ -54,15 +54,15 @@ public class ImageManager {
     }
  
     public static ImageIcon GetUserProfile(String user_id, int w, int h) {
-    	String q1 = "select * from user where user_id = \"" + user_id + "\";";
+    	String q1 = "select profile_Image_dir from user where user_id = \"" + user_id + "\";";
 		ResultSet rs = SQLMethods.ExecuteQuery(SQLMethods.GetCon(), q1);
 		ImageIcon result = null;
 		try {
 			if(rs.next()) {
-				if(rs.getString(4).compareTo("") == 0)
+				if(rs.getString(1).compareTo("") == 0)
 					result = ImageManager.GetImageUsingFileSystem("src/assets/userImages/user.png", w, h);
 				else
-					result = ImageManager.GetImageUsingURL(rs.getString(4), w, h);			
+					result = ImageManager.GetImageUsingURL(rs.getString(1), w, h);			
 				
 			}
 			else {
@@ -80,15 +80,15 @@ public class ImageManager {
     }
     
     public static ImageIcon GetUserBackground(String user_id, int w, int h) {
-    	String q1 = "select * from user where user_id = \"" + user_id + "\";";
+    	String q1 = "select background_Image_dir from user where user_id = \"" + user_id + "\";";
 		ResultSet rs = SQLMethods.ExecuteQuery(SQLMethods.GetCon(), q1);
 		ImageIcon result = null;
 		try {
 			if(rs.next()) {
-				if(rs.getString(4).compareTo("") == 0)
+				if(rs.getString(1).compareTo("") == 0)
 					result = ImageManager.GetImageUsingFileSystem("src/assets/cloud.jpg", w, h);
 				else
-					result = ImageManager.GetImageUsingURL(rs.getString(4), w, h);			
+					result = ImageManager.GetImageUsingURL(rs.getString(1), w, h);			
 				
 			}
 			else {

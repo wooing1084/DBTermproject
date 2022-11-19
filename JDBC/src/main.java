@@ -9,12 +9,14 @@ public class main {
     public static void main(String[] args)
     {
     	SQLMethods.init();
-    	ClientInformation.Logined_id = "abcd";
+    	ClientInformation.Logined_id = "hihi";
  
     	//new UserSearch();
-    	//new posting();
-    	new Login();
-    	//new MainFeed();  	
+    	//new posting("hi");
+    	//new Login();
+    	//new MainFeed();
+    	//new Setting("hi");
+    	new Profile("hi");
     }
 
     

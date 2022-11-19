@@ -77,6 +77,7 @@ public class Follower extends JFrame{
 		
 		appbar.add(Logo);
 		
+		/*
 		String q1 = "select profile_Image_dir from user where user_id = \"" + ClientInformation.Logined_id + "\";";
 		ResultSet rs = SQLMethods.ExecuteQuery(SQLMethods.GetCon(), q1);
 		
@@ -85,45 +86,50 @@ public class Follower extends JFrame{
 			if(rs.next()) {
 				imgUrl = rs.getString(1);
 			}
-			if(imgUrl.compareTo("") == 0)  
-				imgUrl = "https://play-lh.googleusercontent.com/38AGKCqmbjZ9OuWx4YjssAz3Y0DTWbiM5HB0ove1pNBq_o9mtWfGszjZNxZdwt_vgHo";
+			//if(imgUrl.compareTo("") == 0)  
+				//imgUrl = "https://play-lh.googleusercontent.com/38AGKCqmbjZ9OuWx4YjssAz3Y0DTWbiM5HB0ove1pNBq_o9mtWfGszjZNxZdwt_vgHo";
 		} catch (SQLException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
+		*/
 		
-		
-		ImageIcon userImage = ImageManager.GetImageUsingURL(imgUrl, 50, 50);
-		JLabel UserBtn = new JLabel(userImage);
-		UserBtn.setBounds(12, 5, 50, 50);
-		UserBtn.setBackground(new Color(255, 255,255));
-		UserBtn.addMouseListener(new MouseAdapter() {
+		ImageIcon backImage = ImageManager.GetImageUsingFileSystem("src/assets/UI/back.png",50,50);
+		JLabel backBtn = new JLabel(backImage);
+		backBtn.setBounds(12, 5, 50, 50);
+		backBtn.setBackground(new Color(255, 255,255));
+		backBtn.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				dispose();
 			}
 		});
 
 		
-		appbar.add(UserBtn);
+		appbar.add(backBtn);
 		
 		//
 		
 		JLayeredPane layeredpanel = new JLayeredPane();
 		layeredpanel.setPreferredSize(new Dimension(470, 700));
+		layeredpanel.setBackground(new Color(255, 255, 255));
 		panel.add(layeredpanel);
 		
 		JPanel panel_3 = new JPanel();
 		panel_3.setPreferredSize(new Dimension(470, 700));
+		panel_3.setBackground(new Color(255, 255, 255));
 		panel_3.setLayout(new BoxLayout(panel_3, BoxLayout.Y_AXIS));
 			
 		JScrollPane scrollpane=new JScrollPane(panel_3);
 		scrollpane.setSize(470, 700);
+		scrollpane.setBackground(new Color(255, 255, 255));
 		scrollpane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 		scrollpane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
 			
 		for(int i=0;i<num_of_follow;i++) {
 			User u=new User(follower.get(i));
 			UserPanel p1=new UserPanel(u);
+			p1.setBackground(new Color(255, 255, 255));
 			panel_3.add(p1);
 		}			
 		

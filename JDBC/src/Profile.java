@@ -78,7 +78,7 @@ public class Profile extends JFrame {
 		//현재 로그인 되어있는 유저의 프로필 사진 스트링 얻어오기
 
 		//현재 로그인 되어있는 유저의 프로필 사진
-		ImageIcon myImage = ImageManager.GetUserProfile(myProfileImage, 50, 50);
+		ImageIcon myImage = ImageManager.GetUserProfile(ClientInformation.Logined_id, 50, 50);
 		/*
 		Image img = myImage.getImage();
 		Image updateMyImg = img.getScaledInstance(50, 50, Image.SCALE_SMOOTH);
@@ -128,8 +128,10 @@ public class Profile extends JFrame {
 		}catch(SQLException e) {
 			e.printStackTrace();
 		}
-		ImageIcon backIcon = ImageManager.GetUserBackground(userBackgroundImage,464,200);
+		ImageIcon backIcon = ImageManager.GetUserBackground(id,464,200);
+		ImageIcon profileIcon = ImageManager.GetUserProfile(id,100,200);
 		
+		/*
 		String userProfileImage = null;
 		try {
 			String q1 = "select profile_Image_dir from user where user_id = \"" + id + "\";";
@@ -140,8 +142,7 @@ public class Profile extends JFrame {
 		}catch(SQLException e) {
 			e.printStackTrace();
 		}
-		ImageIcon profileIcon = ImageManager.GetUserProfile(userProfileImage,100,200);
-		
+		*/
 		
 		
 		/*Image img = profileIcon.getImage();
@@ -175,19 +176,21 @@ public class Profile extends JFrame {
 		
 		//프로필 옆 배경
 		JPanel panel_3 = new JPanel();
-		panel_3.setBounds(12, 226, 311, 50);
+		panel_3.setBounds(12, 226, 466, 50);
 		panel_3.setBackground(Color.WHITE);
 		panel.add(panel_3);
 		panel_3.setLayout(null);
 		
 		JLabel lblNewLabel = new JLabel(nickname);
-		lblNewLabel.setFont(new Font("LG Smart UI Bold", Font.PLAIN, 23));
-		lblNewLabel.setBounds(0, -10, 299, 29);
+		lblNewLabel.setFont(new Font("Thoma", Font.PLAIN, 23));
+		lblNewLabel.setBounds(0, -7, 299, 29);
 		panel_3.add(lblNewLabel);
 		
 		String fId = "@" + id;
 		JLabel lblNewLabel_1 = new JLabel(fId);
-		lblNewLabel_1.setBounds(0, 17, 52, 15);
+		lblNewLabel_1.setForeground(new Color(192, 192, 192));
+		lblNewLabel_1.setFont(new Font("Thoma", Font.PLAIN, 14));
+		lblNewLabel_1.setBounds(2, 18, 53, 16);
 		panel_3.add(lblNewLabel_1);
 		
 		String introduce = null;
@@ -205,7 +208,8 @@ public class Profile extends JFrame {
 		}
 		
 		JLabel lblNewLabel_2 = new JLabel(introduce);
-		lblNewLabel_2.setBounds(0, 35, 52, 15);
+		lblNewLabel_2.setFont(new Font("Thoma", Font.PLAIN, 15));
+		lblNewLabel_2.setBounds(0, 36, 52, 15);
 		panel_3.add(lblNewLabel_2);
 
 		java.util.List<String> follower = SQLMethods.Followers(SQLMethods.GetCon(), id);
@@ -213,14 +217,32 @@ public class Profile extends JFrame {
 		java.util.List<String> followings = SQLMethods.Followings(SQLMethods.GetCon(), id);
 		int num_of_following = followings.size();
 		
-		String numOfFollow = "Follower:"+Integer.toString(num_of_follow)
-		+ "   Following: "+Integer.toString(num_of_following);
-		JTextArea txtFollow = new JTextArea(numOfFollow);
+		String numOfFollower = Integer.toString(num_of_follow)+ " Follower";
+		JTextArea txtFollower = new JTextArea(numOfFollower);
+		txtFollower.setFont(new Font("Thoma", Font.PLAIN, 13));
 		//txtFollow.setFont(new Font("Lucida Sans Unicode", Font.PLAIN, 15));
-		txtFollow.setEditable(false);
-		txtFollow.setBounds(150, 35, 300, 100);
-		panel_3.add(txtFollow);
+		txtFollower.setEditable(false);
+		txtFollower.setBounds(290, 28, 70, 100);
+		txtFollower.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				new Follower(id);
+			}
+		});
+		panel_3.add(txtFollower);
 		
+		String numOfFollowing = Integer.toString(num_of_following)+ " Following";
+		JTextArea txtFollowing = new JTextArea(numOfFollowing);
+		txtFollowing.setFont(new Font("Thoma", Font.PLAIN, 13));
+		txtFollowing.setEditable(false);
+		txtFollowing.setBounds(360, 28, 100, 100);
+		txtFollowing.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				new Following(id);
+			}
+		});
+		panel_3.add(txtFollowing);
 		
 		/*
 		String numOfFollowing = "Following:"+Integer.toString(num_of_following);
@@ -265,44 +287,50 @@ public class Profile extends JFrame {
 		panel.add(followButton);
 		panel.add(followingButton);
 		
-		Statement stmt = null;
-		ResultSet rs = null;
-		
-		String q1 = "select user_id from follow where user_id = \"" + id+ "\" and follower_id = \"" + ClientInformation.Logined_id + "\";";
-		try {
-			stmt = SQLMethods.GetCon().createStatement();
-			rs = stmt.executeQuery(q1);
+		if(id.equals(ClientInformation.Logined_id)) {
+			followButton.setVisible(false);
+			followingButton.setVisible(false);
+		}
+		else {
+			Statement stmt = null;
+			ResultSet rs = null;
 			
-			if(rs.next()) {
-				followingButton.setVisible(true);
-				followButton.setVisible(false);
-			}
-			else {
-				followingButton.setVisible(false);
-				followButton.setVisible(true);
-			}
-		}catch (SQLException e){
-            e.printStackTrace();
-        }
-
-		followButton.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				System.out.println("클릭됨!");
-				SQLMethods.Follow(SQLMethods.GetCon(), ClientInformation.Logined_id, id);
-				followingButton.setVisible(true);
-				followButton.setVisible(false);
-			}
-		});
-		followingButton.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				System.out.println("언팔 클릭됨!");
-				SQLMethods.Follow(SQLMethods.GetCon(), ClientInformation.Logined_id, id);
-				followingButton.setVisible(false);
-				followButton.setVisible(true);
-			}
-		});
+			String q1 = "select user_id from follow where user_id = \"" + id+ "\" and follower_id = \"" + ClientInformation.Logined_id + "\";";
+			try {
+				stmt = SQLMethods.GetCon().createStatement();
+				rs = stmt.executeQuery(q1);
+				
+				if(rs.next()) {
+					followingButton.setVisible(true);
+					followButton.setVisible(false);
+				}
+				else {
+					followingButton.setVisible(false);
+					followButton.setVisible(true);
+				}
+			}catch (SQLException e){
+	            e.printStackTrace();
+	        }
+	
+			followButton.addMouseListener(new MouseAdapter() {
+				@Override
+				public void mouseClicked(MouseEvent e) {
+					System.out.println("클릭됨!");
+					SQLMethods.Follow(SQLMethods.GetCon(), ClientInformation.Logined_id, id);
+					followingButton.setVisible(true);
+					followButton.setVisible(false);
+				}
+			});
+			followingButton.addMouseListener(new MouseAdapter() {
+				@Override
+				public void mouseClicked(MouseEvent e) {
+					System.out.println("언팔 클릭됨!");
+					SQLMethods.Follow(SQLMethods.GetCon(), ClientInformation.Logined_id, id);
+					followingButton.setVisible(false);
+					followButton.setVisible(true);
+				}
+			});
+		}
 		panel_2.setLayout(null);
 		
 		JLayeredPane layeredPane = new JLayeredPane();
@@ -377,7 +405,7 @@ public class Profile extends JFrame {
 		panel_3.setVisible(true);
 		panel.setVisible(true);
 		setVisible(true);
-		
+		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 	}
 	
 	//불러서 사용방법

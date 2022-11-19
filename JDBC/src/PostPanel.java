@@ -9,14 +9,18 @@ import javax.swing.JPanel;
 import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 import javax.swing.BorderFactory;
+import javax.swing.GroupLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JScrollBar;
 import javax.swing.JProgressBar;
 import javax.swing.border.LineBorder;
+import javax.swing.border.TitledBorder;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.JTextPane;
+import javax.swing.GroupLayout.Alignment;
+
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -26,12 +30,13 @@ import java.awt.event.MouseListener;
 import java.io.Serializable;
 import javax.swing.JButton;
 import java.awt.Font;
+import java.awt.Image;
 
 @SuppressWarnings("serial")
 public class PostPanel extends JPanel{
 	User user;
 	JPanel panel;
-	
+	private ImageAvatar imageAvatar;
 	public Dimension getMaximumSize() {
 		Dimension d = getPreferredSize();
 		d.width = Integer.MAX_VALUE;
@@ -65,7 +70,18 @@ public class PostPanel extends JPanel{
 			e3.printStackTrace();
 		}
 		
-		ImageIcon userImage = ImageManager.GetUserProfile(user.profile_Image_Dir, 50, 50);
+		ImageIcon userImage = ImageManager.GetUserProfile(user.user_id, 50, 50);
+		imageAvatar = initComponents(userImage);
+		imageAvatar.setBounds(5, 0, 60, 60);
+		imageAvatar.setBorderColor(new Color(255,255,255));
+		imageAvatar.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				new Profile(post.user_id);
+			}
+		});
+		panel.add(imageAvatar);
+		/*
 		JLabel UserIcon = new JLabel(userImage);
 		UserIcon.setBackground(new Color(255, 255, 255));
 		UserIcon.setBounds(12, 5, 50, 50);
@@ -78,7 +94,7 @@ public class PostPanel extends JPanel{
 		});
 		
 		panel.add(UserIcon);
-		
+		*/
 		JPanel postInfo = new JPanel();
 		postInfo.setBounds(61, 5, 282, 20);
 		postInfo.setBackground(new Color(255, 255, 255));
@@ -227,12 +243,23 @@ public class PostPanel extends JPanel{
 		
 		panel = new JPanel();
 		panel.setBackground(new Color(255, 255, 255));
-		panel.setBorder(null);
+		panel.setBorder(new TitledBorder(new LineBorder(Color.WHITE, 0), ""));
 		panel.setBounds(0, 0, 464, 300);
 		panel.setLayout(null);
 		add(panel);
 		
-		ImageIcon userImage = ImageManager.GetUserProfile(user.profile_Image_Dir, 50, 50);
+		ImageIcon userImage = ImageManager.GetUserProfile(user.user_id, 50, 50);
+		imageAvatar = initComponents(userImage);
+		imageAvatar.setBounds(5, 0, 60, 60);
+		imageAvatar.setBorderColor(new Color(255,255,255));
+		imageAvatar.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				new Profile(post.user_id);
+			}
+		});
+		panel.add(imageAvatar);
+		/*
 		JLabel UserIcon = new JLabel(userImage);
 		UserIcon.addMouseListener(new MouseAdapter() {
 			@Override
@@ -243,7 +270,7 @@ public class PostPanel extends JPanel{
 		UserIcon.setBackground(new Color(255, 255, 255));
 		UserIcon.setBounds(12, 5, 50, 50);
 		panel.add(UserIcon);
-		
+		*/
 		JPanel postInfo = new JPanel();
 		postInfo.setBounds(61, 5, 282, 20);
 		postInfo.setBackground(new Color(255, 255, 255));
@@ -396,4 +423,39 @@ public class PostPanel extends JPanel{
 			}
 		});
 	}
+private ImageAvatar initComponents(ImageIcon icon) {
+		
+		ImageAvatar imageAvatar1 = new ImageAvatar();
+       
+
+        //
+        //ImageIcon profileIcon = ImageManager.GetImageUsingFileSystem("src/assets/profile_image.png",50,50);
+		
+        Image img = icon.getImage();
+		Image updateImg = img.getScaledInstance(100, 100, Image.SCALE_SMOOTH);
+		ImageIcon updateIcon = new ImageIcon(updateImg);
+		
+		
+        imageAvatar1.setImage(updateIcon); // NOI18N
+        GroupLayout layout = new javax.swing.GroupLayout(panel);
+        layout.setHorizontalGroup(
+        	layout.createParallelGroup(Alignment.LEADING)
+        		.addGroup(Alignment.TRAILING, layout.createSequentialGroup()
+        			.addComponent(imageAvatar1, GroupLayout.PREFERRED_SIZE, 156, GroupLayout.PREFERRED_SIZE)
+        			.addContainerGap(812, Short.MAX_VALUE))
+        );
+        layout.setVerticalGroup(
+        	layout.createParallelGroup(Alignment.LEADING)
+        		.addGroup(layout.createSequentialGroup()
+        			.addGap(142)
+        			.addComponent(imageAvatar1, GroupLayout.PREFERRED_SIZE, 120, GroupLayout.PREFERRED_SIZE)
+        			.addContainerGap(514, Short.MAX_VALUE))
+        );
+        //panel.setLayout(layout);
+
+        //pack();
+        setBounds(0, 0, 478, 763);
+        //setLocationRelativeTo(null);
+        return imageAvatar1;
+    }
 }

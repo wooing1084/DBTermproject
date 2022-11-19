@@ -74,7 +74,8 @@ public class ViewComment extends JFrame {
 
 		
 		appbar.add(Logo);
-				
+		
+		/*
 		String imgUrl = "";
 		String q1 = "select profile_Image_dir from user where user_id = \"" + ClientInformation.Logined_id + "\";";
 		ResultSet rs = SQLMethods.ExecuteQuery(SQLMethods.GetCon(), q1);
@@ -89,9 +90,10 @@ public class ViewComment extends JFrame {
 			// TODO Auto-generated catch block
 			e2.printStackTrace();
 		}
+		*/
 		
 		
-		ImageIcon userImage = ImageManager.GetImageUsingURL(imgUrl, 50, 50);
+		ImageIcon userImage = ImageManager.GetUserProfile(ClientInformation.Logined_id, 50, 50);
 		JLabel UserBtn = new JLabel(userImage);
 		UserBtn.setBounds(12, 5, 50, 50);
 		UserBtn.setBackground(new Color(255, 255,255));
@@ -129,7 +131,7 @@ public class ViewComment extends JFrame {
 		
 		List<ChildComment> list = SQLMethods.ChildComments(SQLMethods.GetCon(), c_id);
 
-		//comment °´Ã¼ »ý¼º ÈÄ Ãß°¡(¸ÞÀÎÇÇµå¿Í ºñ½ÁÇÔ)
+		//comment ï¿½ï¿½Ã¼ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ß°ï¿½(ï¿½ï¿½ï¿½ï¿½ï¿½Çµï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½)
 		JPanel comments = new JPanel();
 		comments.setBackground(new Color(255, 255, 255));
 		comments.setLayout(new BoxLayout(comments, BoxLayout.Y_AXIS));
@@ -156,9 +158,13 @@ public class ViewComment extends JFrame {
 		panel.add(commentText);
 		
 		
-		
-		JButton enterBtn = new JButton("Enter");
+		ImageIcon enter = ImageManager.GetImageUsingFileSystem("src/assets/UI/enter button.png",82,32);
+		JButton enterBtn = new JButton(enter);
 		enterBtn.setBounds(391, 10, 61, 48);
+		enterBtn.setBorderPainted(false);
+		enterBtn.setFocusPainted(false);
+		enterBtn.setOpaque(false);
+		enterBtn.setContentAreaFilled(false);
 		enterBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String text = commentText.getText();

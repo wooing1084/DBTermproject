@@ -233,8 +233,13 @@ public class ViewPost extends JFrame {
 		
 		panel.add(commentText);
 		
-		JButton enterBtn = new JButton("Enter");
+		ImageIcon enter = ImageManager.GetImageUsingFileSystem("src/assets/UI/enter button.png",82,32);
+		JButton enterBtn = new JButton(enter);
 		enterBtn.setBounds(391, 10, 61, 48);
+		enterBtn.setBorderPainted(false);
+		enterBtn.setFocusPainted(false);
+		enterBtn.setOpaque(false);
+		enterBtn.setContentAreaFilled(false);
 		enterBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String text = commentText.getText();

@@ -18,7 +18,7 @@ public class CustomDialog extends JFrame {
 	 * @wbp.parser.constructor
 	 */
 	
-	//Å¸ÀÌÆ²°ú ³»¿ëÀÌ Ä¿½ºÅÒ °¡´ÉÇÑ ´ÙÀÌ¾ó·Î±×(¾Ë¸²Ã¢)
+	//Å¸ï¿½ï¿½Æ²ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Ä¿ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ì¾ï¿½Î±ï¿½(ï¿½Ë¸ï¿½Ã¢)
 	public CustomDialog(String dialogTitle,String content) {
 		int x = 100;
 		int y = 100;
@@ -26,6 +26,7 @@ public class CustomDialog extends JFrame {
 		int h = 180;
 	
 		setBounds(x, y, w, h);
+		setLocationRelativeTo(null);
 		setTitle(dialogTitle);
 		
 		contentPane = new JPanel();
