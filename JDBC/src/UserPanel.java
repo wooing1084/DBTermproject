@@ -179,7 +179,7 @@ private ImageAvatar initComponents(ImageIcon icon) {
         //panel.setLayout(layout);
 
         //pack();
-        setBounds(0, 0, 478, 763);
+        setBounds(0, 0, 464, 75);
         //setLocationRelativeTo(null);
         return imageAvatar1;
     }

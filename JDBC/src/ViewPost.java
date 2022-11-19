@@ -62,6 +62,7 @@ public class ViewPost extends JFrame {
 		contentPane.add(bottom, BorderLayout.SOUTH);
 				
 		appbar = new JPanel();
+		appbar.setBorder(new LineBorder(new Color(0, 0, 0)));
 		appbar.setBackground(new Color(255, 255, 255));
 		appbar.setPreferredSize(new Dimension(464,65));
 		appbar.setLayout(null);
@@ -337,7 +338,7 @@ private ImageAvatar initComponents(ImageIcon icon) {
         //panel.setLayout(layout);
 
         pack();
-        setBounds(0, 0, 478, 763);
+        setBounds(0, 0, 480, 800);
         setLocationRelativeTo(null);
         return imageAvatar1;
     }

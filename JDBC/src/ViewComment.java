@@ -45,6 +45,7 @@ public class ViewComment extends JFrame {
 		contentPane.add(top, BorderLayout.NORTH);
 		
 		JPanel center = new JPanel();
+		center.setBackground(new Color(255, 255, 255));
 		FlowLayout flowLayout_1 = (FlowLayout) center.getLayout();
 		flowLayout_1.setVgap(0);
 		flowLayout_1.setHgap(0);
@@ -54,6 +55,7 @@ public class ViewComment extends JFrame {
 		contentPane.add(bottom, BorderLayout.SOUTH);
 				
 		JPanel appbar = new JPanel();
+		appbar.setBorder(new LineBorder(new Color(0, 0, 0)));
 		appbar.setBackground(new Color(255, 255, 255));
 		appbar.setPreferredSize(new Dimension(464,65));
 		appbar.setLayout(null);

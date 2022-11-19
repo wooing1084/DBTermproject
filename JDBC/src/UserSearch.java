@@ -77,6 +77,7 @@ public class UserSearch extends JFrame {
 		panel.add(backBtn);
 		
 		JPanel panel_1 = new JPanel();
+		panel_1.setBackground(new Color(255, 255, 255));
 		panel_1.setBorder(new LineBorder(new Color(0, 0, 0)));
 		panel_1.setLayout(new BoxLayout(panel_1, BoxLayout.Y_AXIS));
 		
@@ -102,8 +103,9 @@ public class UserSearch extends JFrame {
 				System.out.println("Enter click");
 				User[] users = SQLMethods.GetUsers(SQLMethods.GetCon());
 				panel_1.invalidate();
-				scrollPane.invalidate();
 				panel_1.removeAll();
+				panel_1.revalidate();
+				
 				
 				for(int i =0;i < users.length; i++) {
 					if(!users[i].user_id.contains(textField.getText()))
@@ -116,8 +118,7 @@ public class UserSearch extends JFrame {
 					panel_1.add(up);
 				}
 				
-				panel_1.validate();
-				scrollPane.validate();
+				panel_1.repaint();
 			}
 		});
 		
