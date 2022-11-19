@@ -334,7 +334,7 @@ public class Profile extends JFrame {
 		panel_2.setLayout(null);
 		
 		JLayeredPane layeredPane = new JLayeredPane();
-		layeredPane.setBounds(1, 5, 464, 695);
+		layeredPane.setBounds(1, 0, 464, 695);
 		layeredPane.setPreferredSize(new Dimension(464, 695));
 		panel_2.add(layeredPane);
 		
