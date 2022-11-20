@@ -3,6 +3,7 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -148,7 +149,7 @@ public class SQLMethods {
     	List<Post> list = new ArrayList<Post>();
     	List<String> taggedList = new ArrayList<String>();    
     	
-    	String q1 = "select posts_id from hashtag where user_user_id = \"" + user_id +"\";";
+    	String q1 = "select post_id from mention where user_id = \"" + user_id +"\";";
     	ResultSet rs = SQLMethods.ExecuteQuery(con, q1);
     	
     	try {
@@ -199,13 +200,11 @@ public class SQLMethods {
     
 
     public static List<Post> GetPosts(List<String> userList){
-    	if(userList.size() == 0)
-    		return null;
     	
     	List<String> pIdList = new ArrayList<String>();
     	List<String> taggedList = new ArrayList<String>();    	
     	
-    	String q1 = "select posts_id from hashtag where user_user_id = \"" + ClientInformation.Logined_id +"\";";
+    	String q1 = "select post_id from mention where user_id = \"" + ClientInformation.Logined_id +"\";";
     	ResultSet rs = SQLMethods.ExecuteQuery(con, q1);
     	
     	try {
@@ -223,23 +222,41 @@ public class SQLMethods {
 			e.printStackTrace();
 		}
     	
+    	if(userList.size() == 0 && taggedList.size() == 0)
+    		return null;
     	
-    	q1 = "select post_id from posts where user_id in (\"" + userList.get(0)+"\"";
     	
-    	for(int i =1;i<userList.size();i++) {
-    		q1 += ", \""+ userList.get(i) + "\"";
+    	if(userList.size() > 0)
+    	{
+    		q1 = "select post_id from posts where user_id in (\"" + userList.get(0)+"\"";
+    	
+    		for(int i =1;i<userList.size();i++) {
+    			q1 += ", \""+ userList.get(i) + "\"";
+    		}
+    		q1 += ")";
+    	}
+    	else {
+    		q1 = "select post_id from posts where ";
     	}
     	
     	if(taggedList.size() > 0) {
-    		q1 += ") or post_id in(\"" + taggedList.get(0) + "\"";
+    		if(userList.size() > 0)
+    			q1 += " or ";
+    		
+    		q1 += "post_id in(\"" + taggedList.get(0) + "\"";
     		
     		for(int i =1; i<taggedList.size(); i++) {
     			q1 += ", \"" + taggedList.get(i) + "\"";
     		}
     		
+    		q1+= ")";
+    		
     	}
     		
-    	q1 += ") order by date desc;";
+    	q1 += " order by date desc;";
+    	
+    	
+    	
     	
     	rs = SQLMethods.ExecuteQuery(con, q1);
     	
@@ -284,13 +301,8 @@ public class SQLMethods {
             if(!rs.next())
                 return;
 
-            String temp =  rs.getString(1);
 
-            Date date = new Date();
-            java.sql.Date sqlDate = new java.sql.Date(date.getTime());
-            
-
-            q1 = "insert into posts values(null, \"" + content + "\", \"" + user_id + "\", Date(\"" +sqlDate+"\"));";
+            q1 = "insert into posts values(null, \"" + content + "\", \"" + user_id + "\", now());";
             stmt.executeUpdate(q1);
 
             int imgCount = imgs.length;
@@ -329,7 +341,7 @@ public class SQLMethods {
                     if(rs2.next())
                     	id = rs2.getInt(1);
                     
-                    q2 = "insert into hashtag values(\"" + id + "\", \"" + tags[tagCount]+ "\");";
+                    q2 = "insert into mention values(\"" + id + "\", \"" + tags[tagCount]+ "\");";
                     stmt.executeUpdate(q2);
                                        
             	}
@@ -519,7 +531,7 @@ public class SQLMethods {
             Date date = new Date();
             java.sql.Date sqlDate = new java.sql.Date(date.getTime());
 
-            q1 = "insert into comment values(null, \"" + content + "\", \"" + user_id + "\", \"" + post_id + "\", Date(\"" +sqlDate+"\"));";
+            q1 = "insert into comment values(null, \"" + content + "\", \"" + user_id + "\", \"" + post_id + "\", now());";
            
             
             stmt.executeUpdate(q1);
@@ -551,10 +563,8 @@ public class SQLMethods {
                 return 0;
             }
 
-            Date date = new Date();
-            java.sql.Date sqlDate = new java.sql.Date(date.getTime());
 
-            q1 = "insert into childcomment values(null, \"" + user_id + "\", \"" + parent_id + "\", \""+ content+ "\", Date(\"" +sqlDate+"\"));";
+            q1 = "insert into childcomment values(null, \"" + user_id + "\", \"" + parent_id + "\", \""+ content+ "\", now());";
            
             
             stmt.executeUpdate(q1);

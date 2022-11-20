@@ -1,5 +1,6 @@
 import javax.swing.JPanel;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JLabel;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -27,7 +28,7 @@ public class CommentPanel extends JPanel {
 	/**
 	 * Create the panel.
 	 */
-	public CommentPanel(Comment comment, JTextField textField) {
+	public CommentPanel(Comment comment) {
 		setLayout(null);
 		setBackground(new Color(255,255,255));
 		setPreferredSize(new Dimension(450,100));
@@ -78,16 +79,6 @@ public class CommentPanel extends JPanel {
 		commentContent.setEditable(false);
 		scrollPane.setViewportView(commentContent);
 		
-		JLabel reply = new JLabel("Reply");
-		reply.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				String text = textField.getText();
-				SQLMethods.WriteChildComment(SQLMethods.GetCon(), ClientInformation.Logined_id, comment.comment_id,text);
-			}
-		});
-		reply.setBounds(5, 75, 57, 15);
-		add(reply);
 		
 		JPanel panel = new JPanel();
 		panel.setBackground(new Color(255, 255, 255));

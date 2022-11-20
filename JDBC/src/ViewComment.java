@@ -126,7 +126,7 @@ public class ViewComment extends JFrame {
 		
 		
 		Comment p = new Comment(c_id);
-		CommentPanel comment = new CommentPanel(p,commentText);
+		CommentPanel comment = new CommentPanel(p);
 		center.add(comment);
 		
 

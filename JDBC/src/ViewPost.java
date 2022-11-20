@@ -218,7 +218,7 @@ public class ViewPost extends JFrame {
 		comments.setLayout(new BoxLayout(comments, BoxLayout.Y_AXIS));
 		
 		for(int i =0;i<list.size();i++) {
-			CommentPanel c = new CommentPanel(list.get(i), this.commentText);
+			CommentPanel c = new CommentPanel(list.get(i));
 			c.setBackground(new Color(255, 255, 255));
 			Comment temp = list.get(i);
 			
@@ -289,11 +289,11 @@ public class ViewPost extends JFrame {
 				}
 				
 				Comment c1 = new Comment(c_id);
-				CommentPanel cP1 = new CommentPanel(c1, commentText );
+				CommentPanel cP1 = new CommentPanel(c1);
 				cP1.setBackground(new Color(255, 255, 255));
 				comments.add(cP1);
 				
-				commentCnt.setText("" + Integer.parseInt(commentCnt.getText() + 1));
+				commentCnt.setText("" + (Integer.parseInt(commentCnt.getText())+ 1));
 				
 				comments.validate();
 				commentStatus.validate();
